@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ivory text-charcoal-600 font-sans antialiased;
+    font-feature-settings: "liga" 1, "kern" 1;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+  ::selection {
+    @apply bg-agarwood-400/30 text-agarwood-800;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-agarwood-400 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-agarwood-800 text-cream hover:bg-agarwood-700 active:bg-agarwood-900;
+  }
+  .btn-secondary {
+    @apply btn bg-moss-400 text-cream hover:bg-moss-500 active:bg-moss-600;
+  }
+  .btn-accent {
+    @apply btn bg-agarwood-400 text-white hover:bg-agarwood-500 active:bg-agarwood-600;
+  }
+  .btn-outline {
+    @apply btn border border-agarwood-300 text-agarwood-800 hover:bg-agarwood-50 active:bg-agarwood-100;
+  }
+  .btn-ghost {
+    @apply btn text-charcoal-400 hover:bg-agarwood-50 hover:text-agarwood-800;
+  }
+  .btn-danger {
+    @apply btn bg-error text-white hover:bg-error-dark active:bg-error-dark;
+  }
+  .input-base {
+    @apply w-full rounded-lg border border-agarwood-200 bg-white px-4 py-2.5 text-sm text-charcoal-600 placeholder:text-charcoal-200 transition-colors focus:border-agarwood-400 focus:outline-none focus:ring-1 focus:ring-agarwood-400;
+  }
+  .label-base {
+    @apply mb-1.5 block text-sm font-medium text-charcoal-500;
+  }
+  .card {
+    @apply rounded-xl border border-agarwood-100 bg-white shadow-sm;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .skeleton {
+    @apply animate-shimmer rounded bg-agarwood-100/60;
+    background-image: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    background-size: 200% 100%;
+  }
+  .container-content {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
