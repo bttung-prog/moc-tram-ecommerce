@@ -1,12 +1,13 @@
 import os
 import uvicorn
 from dotenv import load_dotenv
+from constants.path import ENV_FILE
 
-load_dotenv()
+load_dotenv(ENV_FILE)
 
 from configs.db_connection import check_db_connection
 
-if __name__ == "__main__":
+def start_server():
     check_db_connection()
     uvicorn.run(
         "app:app",
@@ -14,3 +15,6 @@ if __name__ == "__main__":
         port=int(os.getenv("PORT")),
         reload=True,
     )
+
+if __name__ == "__main__":
+    start_server()
