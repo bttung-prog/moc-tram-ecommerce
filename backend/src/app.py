@@ -1,6 +1,8 @@
 import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from index import index_router
 
 app = FastAPI()

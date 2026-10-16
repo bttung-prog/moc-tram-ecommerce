@@ -1,4 +1,5 @@
 import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -16,9 +17,9 @@ SessionLocal = sessionmaker(
 
 def check_db_connection():
     try:
-        with engine.connect() as connection:
+        with engine.connect():
             print("Connect db successfully!")
-    except Exception as e:
+    except Exception as e: # noqa: BLE001
         print("Error connecting to database: ", e)
 
 def get_db():

@@ -1,11 +1,13 @@
 import os
+
 import uvicorn
 from dotenv import load_dotenv
-from constants.path import ENV_FILE
+
+from constants.paths import ENV_FILE
 
 load_dotenv(ENV_FILE)
 
-from configs.db_connection import check_db_connection
+from configs.db_connection import check_db_connection # noqa: I001
 
 def start_server():
     check_db_connection()
