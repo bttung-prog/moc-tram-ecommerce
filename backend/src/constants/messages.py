@@ -1,0 +1,15 @@
+COMMON_MESSAGES = {
+  "SUCCESS": "Thành công",
+  "CREATED": "Tạo thành công",
+  "UPDATED": "Cập nhật thành công",
+  "DELETED": "Xóa thành công",
+  "RESTORED": "Khôi phục thành công",
+  "ERROR": "Đã xảy ra lỗi",
+  "SERVER_ERROR": "Lỗi máy chủ nội bộ",
+  "UNAUTHORIZED": "Chưa được xác thực",
+  "FORBIDDEN": "Bạn không có quyền thực hiện thao tác này",
+  "FORBIDDEN_DEFAULT": "Truy cập bị từ chối",
+  "VALIDATION_ERROR": "Dữ liệu không hợp lệ",
+  "NOT_FOUND": "Không tìm thấy dữ liệu",
+  "ALL_FIELDS_REQUIRED": "Vui lòng cung cấp đầy đủ thông tin các trường bắt buộc",
+}
