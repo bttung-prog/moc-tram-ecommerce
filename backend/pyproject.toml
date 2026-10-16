@@ -5,8 +5,10 @@ description = "Backend API for Moc Tram Ecommerce"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "bcrypt>=5.0.0",
     "fastapi>=0.143.0",
     "pydantic>=2.14.1",
+    "pyjwt>=2.15.1",
     "pymysql>=1.2.3",
     "python-dotenv>=1.2.4",
     "sqlalchemy>=2.1.4",
@@ -15,3 +17,8 @@ dependencies = [
 
 [tool.uv]
 package = false
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.1",
+]
