@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🪔 Tĩnh Tâm Các - Hệ Thống Quản Lý Đơn Hàng Trực Tuyến (Zen Agarwood OMS)
 > **Backend Developer (Business Modules & Integration)**  
 > Dự án Kinh doanh Trầm Hương Tự Nhiên & Dụng Cụ Thiền Định
@@ -179,3 +180,6 @@ Trong thư mục `docs/`, có sẵn file `Postman_Collection.json`.
 1. Mở phần mềm **Postman**.
 2. Chọn **Import** -> Kéo thả file `docs/Postman_Collection.json`.
 3. Bộ sưu tập đã được tổ chức theo 7 thư mục nghiệp vụ có sẵn mẫu Request, Headers và Body để demo trực tiếp!
+=======
+Mộc Trầm Shop
+>>>>>>> 17f2749c29e6d10a58aa6343ec484af5d8c2e5ec
