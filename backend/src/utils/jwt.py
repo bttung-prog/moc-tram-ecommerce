@@ -13,6 +13,7 @@ def generate_access_token(payload: dict) -> str:
         algorithm="HS256"
     )
 
+
 def generate_refresh_token(payload: dict) -> str:
     payload = payload.copy()
     payload["exp"] = datetime.now(UTC) + timedelta(days=int(os.getenv("REFRESH_TOKEN_EXPIRES")))
@@ -22,14 +23,16 @@ def generate_refresh_token(payload: dict) -> str:
         algorithm="HS256"
     )
 
-def verify_access_token(token: str):
+
+def verify_access_token(token: str) -> dict:
     return jwt.decode(
         token,
         key=os.getenv("JWT_ACCESS_SECRET"),
         algorithms=["HS256"]
     )
 
-def verify_refresh_token(token: str):
+
+def verify_refresh_token(token: str) -> dict:
     return jwt.decode(
         token,
         key=os.getenv("JWT_REFRESH_SECRET"),
