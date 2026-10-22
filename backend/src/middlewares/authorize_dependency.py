@@ -4,15 +4,17 @@ from constants.messages import COMMON_MESSAGES
 
 from utils.api_error import ApiError
 
-def authorize(*allowed_roles: tuple[str]):
+def authorize(*allowed_roles: str):
     def dependency(request: Request):
-        if (not request.state.user or 
-            not request.state.user.user_id or 
-            not request.state.user.role):
-            raise ApiError(403, COMMON_MESSAGES.FORBIDDEN_DEFAULT)
+        user: dict = request.state.user
 
-        user_role = request.state.user.role
+        if (not user or 
+            not user.get("user_id") or 
+            not user.get("role")):
+            raise ApiError(403, COMMON_MESSAGES["FORBIDDEN_DEFAULT"])
+
+        user_role = user["role"]
         if user_role not in allowed_roles:
-            raise ApiError(403, COMMON_MESSAGES.FORBIDDEN)
+            raise ApiError(403, COMMON_MESSAGES["FORBIDDEN"])
 
     return dependency

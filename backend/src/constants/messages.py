@@ -14,6 +14,7 @@ COMMON_MESSAGES = {
   "ALL_FIELDS_REQUIRED": "Vui lòng cung cấp đầy đủ thông tin các trường bắt buộc",
 }
 
+
 AUTH_MESSAGES = {
   "REGISTER_SUCCESS": "Đăng ký tài khoản thành công",
   "LOGIN_SUCCESS": "Đăng nhập thành công",
@@ -24,4 +25,16 @@ AUTH_MESSAGES = {
   "TOKEN_EXPIRED": "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
   "INVALID_ACCESS_TOKEN": "Mã truy cập không hợp lệ",
   "USER_NOT_FOUND": "Không tìm thấy người dùng",
+  "ACCOUNT_INACTIVE_OR_LOCKED": "Tài khoản không hoạt động hoặc đã bị khóa",
+}
+
+
+USER_MESSAGES = {
+  "GET_PROFILE_SUCCESS": "Lấy thông tin người dùng thành công",
+  "UPDATE_PROFILE_SUCCESS": "Cập nhật thông tin người dùng thành công",
+  "CHANGE_PASSWORD_SUCCESS": "Đổi mật khẩu thành công",
+  "EMAIL_EXISTS": "Email đã tồn tại",
+  "PHONE_EXISTS": "Số điện thoại đã tồn tại",
+  "NOT_FOUND": "Không tìm thấy người dùng",
+  "OLD_PASSWORD_INCORRECT": "Mật khẩu cũ không chính xác",
 }
