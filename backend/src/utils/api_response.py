@@ -24,6 +24,7 @@ class ApiResponse:
             content = jsonable_encoder(content)
         )
 
+
     @staticmethod
     def created(
         data = None,
@@ -40,9 +41,11 @@ class ApiResponse:
             content = jsonable_encoder(content)
         )
 
+
     @staticmethod
     def no_content():
         return Response(status_code = 204)
+
 
     @staticmethod
     def error(
