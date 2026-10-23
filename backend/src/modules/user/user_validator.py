@@ -21,13 +21,3 @@ class UpdateMeSchema(BaseModel):
         if not self.phone and not self.full_name:
             raise ApiError(400, "Vui lòng cung cấp ít nhất một trường để cập nhật")
         return self
-
-
-class ChangePasswordSchema(BaseModel):
-    old_password: str = Field(..., min_length=1, description="Old password is required")
-    new_password: str = Field(
-        ...,
-        min_length=6,
-        max_length=24,
-        description="Password must be between 6 and 24 characters",
-    )

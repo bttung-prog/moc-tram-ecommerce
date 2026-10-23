@@ -24,11 +24,3 @@ user_router.add_api_route(
     methods=["PATCH"],
     dependencies=[Depends(authorize(*ALL_ROLES))],
 )
-
-
-user_router.add_api_route(
-    "/me/change-password",
-    user_controller.change_password,
-    methods=["PATCH"],
-    dependencies=[Depends(authorize(*ALL_ROLES))],
-)

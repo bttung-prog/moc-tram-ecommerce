@@ -6,11 +6,10 @@ from sqlalchemy.orm import Session
 
 from constants.messages import COMMON_MESSAGES, USER_MESSAGES
 from constants.roles import ROLES
-from modules.auth import auth_service
 from modules.user import user_repository
 from modules.user.user import User
 from utils.api_error import ApiError
-from utils.password import compare_password, hash_password
+from utils.password import hash_password
 
 
 def create(
@@ -106,31 +105,22 @@ def update_me(
     return user
 
 
-def change_password(
-    db: Session,
-    user_id: UUID,
-    old_password: str,
-    new_password: str,
-) -> User:
+def get_password_by_id(db: Session, user_id: UUID) -> str:
     current_hashed_password = user_repository.find_password_by_id(db, user_id)
 
     if not current_hashed_password:
         raise ApiError(404, USER_MESSAGES["NOT_FOUND"])
 
-    is_match_password = compare_password(old_password, current_hashed_password)
+    return current_hashed_password
 
-    if not is_match_password:
-        raise ApiError(401, USER_MESSAGES["OLD_PASSWORD_INCORRECT"])
 
-    new_hashed_password = hash_password(new_password)
+def update_password(db: Session, user_id: UUID, new_hashed_password: str) -> User:
+    user = user_repository.update_by_id(db, user_id, {"password": new_hashed_password})
 
-    updated_user = user_repository.update_by_id(
-        db, user_id, {"password": new_hashed_password}
-    )
+    if not user:
+        raise ApiError(404, USER_MESSAGES["NOT_FOUND"])
 
-    auth_service.revoke_refresh_token_by_user_id(db, user_id)
-
-    return updated_user
+    return user
 
 
 def update_last_login(db: Session, user_id: UUID) -> User:

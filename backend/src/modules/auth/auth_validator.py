@@ -54,3 +54,56 @@ class RefreshTokenSchema(BaseModel):
     refresh_token: str = Field(
         ..., min_length=1, description="Refresh token is required"
     )
+
+
+class ForgotPasswordSchema(BaseModel):
+    email: str = Field(
+        ...,
+        pattern=EMAIL_REGEX,
+        max_length=255,
+        description="Email address of the user",
+    )
+
+
+class VerifyOtpSchema(BaseModel):
+    email: str = Field(
+        ...,
+        pattern=EMAIL_REGEX,
+        max_length=255,
+        description="Email address of the user",
+    )
+    otp: str = Field(
+        ...,
+        pattern=r"^\d{8}$",
+        description="8-digit OTP code",
+    )
+
+
+class ResetPasswordSchema(BaseModel):
+    email: str = Field(
+        ...,
+        pattern=EMAIL_REGEX,
+        max_length=255,
+        description="Email address of the user",
+    )
+    otp: str = Field(
+        ...,
+        pattern=r"^\d{8}$",
+        description="8-digit OTP code",
+    )
+    new_password: str = Field(
+        ...,
+        min_length=6,
+        max_length=24,
+        description="Password must be between 6 and 24 characters",
+    )
+
+
+class ChangePasswordSchema(BaseModel):
+    old_password: str = Field(..., min_length=1, description="Old password is required")
+    new_password: str = Field(
+        ...,
+        min_length=6,
+        max_length=24,
+        description="Password must be between 6 and 24 characters",
+    )

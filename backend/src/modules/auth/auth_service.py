@@ -1,6 +1,9 @@
+import secrets
+from datetime import UTC, datetime, timedelta
 from uuid import UUID
 
 import jwt
+from fastapi import BackgroundTasks
 from sqlalchemy.orm import Session
 
 from constants.messages import AUTH_MESSAGES
@@ -9,12 +12,13 @@ from constants.user_statuses import USER_STATUSES
 from modules.auth import auth_repository
 from modules.user import user_service
 from utils.api_error import ApiError
+from utils.email import send_otp_email
 from utils.jwt import (
     generate_access_token,
     generate_refresh_token,
     verify_refresh_token,
 )
-from utils.password import compare_password
+from utils.password import compare_password, hash_password
 
 
 def register(
@@ -147,3 +151,153 @@ def logout(
 def revoke_refresh_token_by_user_id(db: Session, user_id: UUID) -> bool:
     result = auth_repository.delete_refresh_token_by_user_id(db, user_id)
     return result
+
+
+def forgot_password(
+    db: Session,
+    email: str,
+    background_tasks: BackgroundTasks | None = None,
+) -> dict:
+    clean_email = email.strip().lower()
+
+    user = user_service.get_by_email(db, clean_email)
+    if not user:
+        raise ApiError(404, AUTH_MESSAGES["EMAIL_NOT_FOUND"])
+
+    if user.status != USER_STATUSES.ACTIVE.value:
+        raise ApiError(403, AUTH_MESSAGES["ACCOUNT_INACTIVE_OR_LOCKED"])
+
+    existing_otp = auth_repository.find_latest_password_reset_otp(db, clean_email)
+    if existing_otp:
+        created_at = existing_otp.created_at
+        if created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=UTC)
+
+        time_diff = (datetime.now(UTC) - created_at).total_seconds()
+        if time_diff < 60:
+            raise ApiError(429, AUTH_MESSAGES["OTP_RESEND_COOLDOWN"])
+
+    otp = f"{secrets.randbelow(90_000_000) + 10_000_000}"
+    expires_at = datetime.now(UTC) + timedelta(minutes=5)
+
+    auth_repository.create_password_reset_otp(
+        db=db,
+        email=clean_email,
+        otp=otp,
+        expires_at=expires_at,
+    )
+
+    if background_tasks:
+        background_tasks.add_task(send_otp_email, to_email=clean_email, otp=otp)
+    else:
+        send_otp_email(to_email=clean_email, otp=otp)
+
+    return {"email": clean_email}
+
+
+def verify_otp(db: Session, email: str, otp: str) -> bool:
+    clean_email = email.strip().lower()
+    clean_otp = otp.strip()
+
+    user = user_service.get_by_email(db, clean_email)
+    if not user:
+        raise ApiError(404, AUTH_MESSAGES["EMAIL_NOT_FOUND"])
+
+    otp_record = auth_repository.find_latest_password_reset_otp(db, clean_email)
+    if not otp_record:
+        raise ApiError(400, AUTH_MESSAGES["OTP_NOT_FOUND"])
+
+    if otp_record.attempts >= 5:
+        auth_repository.delete_password_reset_otp_by_email(db, clean_email)
+        raise ApiError(400, AUTH_MESSAGES["OTP_MAX_ATTEMPTS"])
+
+    expires_at = otp_record.expires_at
+    if expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=UTC)
+
+    if datetime.now(UTC) > expires_at:
+        auth_repository.delete_password_reset_otp_by_email(db, clean_email)
+        raise ApiError(400, AUTH_MESSAGES["OTP_EXPIRED"])
+
+    if otp_record.otp != clean_otp:
+        new_attempts = auth_repository.increment_otp_attempts(db, otp_record)
+        remaining = 5 - new_attempts
+        if remaining <= 0:
+            auth_repository.delete_password_reset_otp_by_email(db, clean_email)
+            raise ApiError(400, AUTH_MESSAGES["OTP_MAX_ATTEMPTS"])
+        raise ApiError(
+            400, f"{AUTH_MESSAGES['OTP_INVALID']}. Bạn còn {remaining} lần thử."
+        )
+
+    return True
+
+
+def reset_password(
+    db: Session,
+    email: str,
+    otp: str,
+    new_password: str,
+) -> bool:
+    clean_email = email.strip().lower()
+    clean_otp = otp.strip()
+    clean_password = new_password.strip()
+
+    user = user_service.get_by_email(db, clean_email)
+    if not user:
+        raise ApiError(404, AUTH_MESSAGES["EMAIL_NOT_FOUND"])
+
+    if user.status != USER_STATUSES.ACTIVE.value:
+        raise ApiError(403, AUTH_MESSAGES["ACCOUNT_INACTIVE_OR_LOCKED"])
+
+    verify_otp(db=db, email=clean_email, otp=clean_otp)
+
+    if compare_password(clean_password, user.password):
+        raise ApiError(400, AUTH_MESSAGES["NEW_PASSWORD_SAME_AS_OLD"])
+
+    new_hashed_password = hash_password(clean_password)
+
+    user_service.update_password(
+        db=db, user_id=user.id, new_hashed_password=new_hashed_password
+    )
+
+    auth_repository.delete_password_reset_otp_by_email(db, clean_email)
+    auth_repository.delete_refresh_token_by_user_id(db, user.id)
+
+    return True
+
+
+def change_password(
+    db: Session,
+    user_id: UUID,
+    old_password: str,
+    new_password: str,
+) -> dict:
+    user = user_service.get_by_id(db, user_id)
+    if not user:
+        raise ApiError(404, AUTH_MESSAGES["USER_NOT_FOUND"])
+
+    if user.status != USER_STATUSES.ACTIVE.value:
+        raise ApiError(403, AUTH_MESSAGES["ACCOUNT_INACTIVE_OR_LOCKED"])
+
+    current_hashed_password = user_service.get_password_by_id(db, user_id)
+
+    if not compare_password(old_password, current_hashed_password):
+        raise ApiError(401, AUTH_MESSAGES["OLD_PASSWORD_INCORRECT"])
+
+    if compare_password(new_password, current_hashed_password):
+        raise ApiError(400, AUTH_MESSAGES["NEW_PASSWORD_SAME_AS_OLD"])
+
+    new_hashed_password = hash_password(new_password)
+
+    updated_user = user_service.update_password(db, user_id, new_hashed_password)
+
+    auth_repository.delete_refresh_token_by_user_id(db, user_id)
+
+    return {
+        "id": updated_user.id,
+        "email": updated_user.email,
+        "full_name": updated_user.full_name,
+        "phone": updated_user.phone,
+        "role": updated_user.role,
+        "status": updated_user.status,
+    }
