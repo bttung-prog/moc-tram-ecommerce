@@ -1,19 +1,20 @@
 from uuid import UUID
-import jwt
 
+import jwt
 from sqlalchemy.orm import Session
 
-from utils.api_error import ApiError
-from utils.password import compare_password
-from utils.jwt import generate_access_token, generate_refresh_token, verify_refresh_token
-
-from constants.roles import ROLES
 from constants.messages import AUTH_MESSAGES
+from constants.roles import ROLES
 from constants.user_statuses import USER_STATUSES
-
-from modules.user import user_service
-
 from modules.auth import auth_repository
+from modules.user import user_service
+from utils.api_error import ApiError
+from utils.jwt import (
+    generate_access_token,
+    generate_refresh_token,
+    verify_refresh_token,
+)
+from utils.password import compare_password
 
 
 def register(
@@ -31,7 +32,7 @@ def register(
         password=password,
         full_name=full_name,
         phone=phone,
-        role=role
+        role=role,
     )
 
     return {
@@ -40,16 +41,11 @@ def register(
         "full_name": new_user.full_name,
         "phone": new_user.phone,
         "role": new_user.role,
-        "status": new_user.status
+        "status": new_user.status,
     }
 
 
-def login(
-    db: Session,
-    email: str,
-    phone: str,
-    password: str
-):
+def login(db: Session, email: str, phone: str, password: str):
     user = None
     if email:
         user = user_service.get_by_email(db, email)
@@ -66,37 +62,32 @@ def login(
     if not is_password_valid:
         raise ApiError(401, AUTH_MESSAGES["INVALID_CREDENTIALS"])
 
-    payload = {
-        "user_id": str(user.id),
-        "role": user.role
-    }
+    payload = {"user_id": str(user.id), "role": user.role}
 
     access_token = generate_access_token(payload)
     refresh_token = generate_refresh_token(payload)
 
     auth_repository.delete_refresh_token_by_user_id(db=db, user_id=user.id)
     auth_repository.create_refresh_token(
-        db=db,
-        user_id=user.id,
-        refresh_token=refresh_token
+        db=db, user_id=user.id, refresh_token=refresh_token
     )
 
     user_service.update_last_login(db=db, user_id=user.id)
 
     return {
-    "user": {
-      "id": user.id,
-      "email": user.email,
-      "full_name": user.full_name,
-      "phone": user.phone,
-      "role": user.role,
-      "status": user.status,
-    },
-    "tokens": {
-      "access_token": access_token,
-      "refresh_token": refresh_token,
-    },
-  }
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "full_name": user.full_name,
+            "phone": user.phone,
+            "role": user.role,
+            "status": user.status,
+        },
+        "tokens": {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+        },
+    }
 
 
 def refresh_access_token(
@@ -109,7 +100,7 @@ def refresh_access_token(
     try:
         payload = verify_refresh_token(refresh_token)
     except (jwt.ExpiredSignatureError, jwt.InvalidTokenError, jwt.PyJWTError):
-        raise ApiError(401, AUTH_MESSAGES["INVALID_OR_EXPIRED_REFRESH_TOKEN"])
+        raise ApiError(401, AUTH_MESSAGES["INVALID_OR_EXPIRED_REFRESH_TOKEN"]) from None
 
     user_id: str = payload.get("user_id")
     if not user_id:
@@ -153,9 +144,6 @@ def logout(
     return auth_repository.delete_refresh_token(db, refresh_token)
 
 
-def revoke_refresh_token_by_user_id(
-    db: Session,
-    user_id: UUID
-) -> bool:
+def revoke_refresh_token_by_user_id(db: Session, user_id: UUID) -> bool:
     result = auth_repository.delete_refresh_token_by_user_id(db, user_id)
     return result

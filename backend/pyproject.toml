@@ -22,3 +22,47 @@ package = false
 dev = [
     "ruff>=0.17.1",
 ]
+
+[tool.ruff]
+# Line length and target Python version
+line-length = 88
+target-version = "py313"
+src = ["src"]
+
+[tool.ruff.lint]
+# Commonly used and effective linter rule sets
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes (unused imports, undefined variables, etc.)
+    "I",      # isort (automatically group and sort imports)
+    "B",      # flake8-bugbear (common bugs and design issues)
+    "C4",     # flake8-comprehensions (better list/set/dict comprehensions)
+    "UP",     # pyupgrade (modernize Python syntax for Python 3.13)
+]
+ignore = [
+    "E501",   # Ignore line-length violations (delegated to ruff format)
+]
+
+[tool.ruff.lint.flake8-bugbear]
+# Allow FastAPI Dependency Injection in default function arguments without triggering B008
+extend-immutable-calls = [
+    "fastapi.Depends",
+    "fastapi.params.Depends",
+    "fastapi.Query",
+    "fastapi.params.Query",
+    "fastapi.Path",
+    "fastapi.params.Path",
+    "fastapi.Body",
+    "fastapi.params.Body",
+    "fastapi.Header",
+    "fastapi.params.Header",
+    "fastapi.Security",
+    "fastapi.params.Security",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+

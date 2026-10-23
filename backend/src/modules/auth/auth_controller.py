@@ -1,19 +1,15 @@
 from fastapi import Depends
-
 from sqlalchemy.orm import Session
 
 from configs.db_connection import get_db
-
 from constants.messages import AUTH_MESSAGES
-
-from utils.api_response import ApiResponse
-
 from modules.auth import auth_service
 from modules.auth.auth_validator import (
     LoginSchema,
     RefreshTokenSchema,
     RegisterSchema,
 )
+from utils.api_response import ApiResponse
 
 
 def register(
