@@ -7,7 +7,8 @@ from constants.paths import ENV_FILE
 
 load_dotenv(ENV_FILE)
 
-from configs.db_connection import check_db_connection # noqa: I001
+from configs.db_connection import check_db_connection  # noqa: E402, I001
+
 
 def start_server():
     check_db_connection()
@@ -17,6 +18,7 @@ def start_server():
         port=int(os.getenv("PORT")),
         reload=True,
     )
+
 
 if __name__ == "__main__":
     start_server()

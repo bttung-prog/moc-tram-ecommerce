@@ -7,13 +7,13 @@ class UpdateMeSchema(BaseModel):
     phone: str | None = Field(
         default=None,
         pattern=r"^\d{10}$",
-        description="Phone number must be exactly 10 digits"
+        description="Phone number must be exactly 10 digits",
     )
     full_name: str | None = Field(
         default=None,
         min_length=3,
         max_length=100,
-        description="Full name must be between 3 and 100 characters"
+        description="Full name must be between 3 and 100 characters",
     )
 
     @model_validator(mode="after")
@@ -24,14 +24,10 @@ class UpdateMeSchema(BaseModel):
 
 
 class ChangePasswordSchema(BaseModel):
-    old_password: str = Field(
-        ...,
-        min_length=1,
-        description="Old password is required"
-    )
+    old_password: str = Field(..., min_length=1, description="Old password is required")
     new_password: str = Field(
         ...,
         min_length=6,
         max_length=24,
-        description="Password must be between 6 and 24 characters"
+        description="Password must be between 6 and 24 characters",
     )

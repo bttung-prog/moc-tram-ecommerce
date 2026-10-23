@@ -1,11 +1,8 @@
 from fastapi import APIRouter, Depends
 
-from middlewares.authorize_dependency import authorize
-
 from constants.roles import ROLES
-
+from middlewares.authorize_dependency import authorize
 from modules.user import user_controller
-
 
 ALL_ROLES = [role.value for role in ROLES]
 

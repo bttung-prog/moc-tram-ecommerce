@@ -4,13 +4,10 @@ from fastapi import Depends, Request
 from sqlalchemy.orm import Session
 
 from configs.db_connection import get_db
-
 from constants.messages import USER_MESSAGES
-
-from utils.api_response import ApiResponse
-
 from modules.user import user_service
-from modules.user.user_validator import UpdateMeSchema, ChangePasswordSchema
+from modules.user.user_validator import ChangePasswordSchema, UpdateMeSchema
+from utils.api_response import ApiResponse
 
 
 def get_me(
