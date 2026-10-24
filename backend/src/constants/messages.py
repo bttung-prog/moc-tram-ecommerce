@@ -48,3 +48,19 @@ USER_MESSAGES = {
     "PHONE_EXISTS": "Số điện thoại đã tồn tại",
     "NOT_FOUND": "Không tìm thấy người dùng",
 }
+
+COUPON_MESSAGES = {
+    "CREATED": "Tạo mã giảm giá thành công",
+    "UPDATED": "Cập nhật mã giảm giá thành công",
+    "DELETED": "Xóa mã giảm giá thành công",
+    "RESTORED": "Khôi phục mã giảm giá thành công",
+    "NOT_FOUND": "Không tìm thấy mã giảm giá",
+    "CODE_EXISTS": "Mã giảm giá đã tồn tại",
+    "INVALID_DISCOUNT_TYPE": "Loại giảm giá không hợp lệ",
+    "INVALID_DISCOUNT_VALUE": "Giá trị giảm giá không hợp lệ",
+    "MISSING_REQUIRED_FIELDS": "Thiếu thông tin trường bắt buộc",
+    "INVALID_MAX_DISCOUNT_AMOUNT": "Giá trị giảm giá tối đa không được âm",
+    "INVALID_MIN_ORDER_AMOUNT": "Giá trị đơn hàng tối thiểu không được âm",
+    "INVALID_DATE_RANGE": "Thời gian kết thúc không được trước thời gian bắt đầu",
+    "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
+}
