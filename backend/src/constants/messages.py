@@ -64,3 +64,31 @@ COUPON_MESSAGES = {
     "INVALID_DATE_RANGE": "Thời gian kết thúc không được trước thời gian bắt đầu",
     "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
 }
+
+CATEGORY_MESSAGES = {
+    "CREATED": "Tạo danh mục thành công",
+    "UPDATED": "Cập nhật danh mục thành công",
+    "DELETED": "Xóa danh mục thành công",
+    "NOT_FOUND": "Không tìm thấy danh mục",
+    "NAME_EXISTS": "Tên danh mục đã tồn tại",
+    "NAME_REQUIRED": "Tên danh mục không được để trống",
+    "HAS_PRODUCTS": "Không thể xóa danh mục đang có sản phẩm liên kết",
+    "STATUS_UPDATED": "Cập nhật trạng thái danh mục thành công",
+    "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
+}
+
+PRODUCT_MESSAGES = {
+    "CREATED": "Tạo sản phẩm thành công",
+    "UPDATED": "Cập nhật sản phẩm thành công",
+    "DELETED": "Xóa sản phẩm thành công",
+    "NOT_FOUND": "Không tìm thấy sản phẩm",
+    "NAME_EXISTS": "Tên sản phẩm đã tồn tại",
+    "NAME_REQUIRED": "Tên sản phẩm không được để trống",
+    "CATEGORY_NOT_FOUND": "Danh mục sản phẩm không tồn tại",
+    "CATEGORY_INACTIVE": "Danh mục sản phẩm đang bị vô hiệu hóa",
+    "INVALID_PRICE": "Giá sản phẩm phải lớn hơn 0",
+    "STATUS_UPDATED": "Cập nhật trạng thái sản phẩm thành công",
+    "DISCONTINUED": "Ngừng kinh doanh sản phẩm thành công",
+    "INVALID_STATUS": "Trạng thái sản phẩm không hợp lệ",
+    "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
+}
