@@ -92,3 +92,18 @@ PRODUCT_MESSAGES = {
     "INVALID_STATUS": "Trạng thái sản phẩm không hợp lệ",
     "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
 }
+
+WAREHOUSE_MESSAGES = {
+    "CREATED": "Tạo kho hàng thành công",
+    "UPDATED": "Cập nhật kho hàng thành công",
+    "DELETED": "Xóa kho hàng thành công",
+    "RESTORED": "Khôi phục kho hàng thành công",
+    "NOT_FOUND": "Không tìm thấy kho hàng",
+    "INACTIVE": "Kho hàng hiện không hoạt động",
+    "NAME_EXISTS": "Tên kho hàng đã tồn tại",
+    "NAME_REQUIRED": "Tên kho hàng không được để trống",
+    "ADDRESS_REQUIRED": "Địa chỉ kho hàng không được để trống",
+    "INVALID_STATUS": "Trạng thái kho hàng không hợp lệ",
+    "STATUS_UPDATED": "Cập nhật trạng thái kho hàng thành công",
+    "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
+}

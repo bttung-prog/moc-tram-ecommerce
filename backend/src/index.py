@@ -6,6 +6,7 @@ from modules.category.category_routes import category_router
 from modules.coupon.coupon_routes import coupon_router
 from modules.product.product_routes import product_router
 from modules.user.user_routes import user_router
+from modules.warehouse.warehouse_routes import warehouse_router
 
 index_router = APIRouter()
 
@@ -13,12 +14,12 @@ public_router = APIRouter()
 
 protected_router = APIRouter(dependencies=[Depends(auth_dependency)])
 
-# mount api here
 public_router.include_router(auth_router, prefix="/auth")
 public_router.include_router(category_router, prefix="/categories")
 public_router.include_router(product_router, prefix="/products")
 protected_router.include_router(user_router, prefix="/users")
 protected_router.include_router(coupon_router, prefix="/coupons")
+protected_router.include_router(warehouse_router, prefix="/warehouses")
 
 index_router.include_router(public_router)
 index_router.include_router(protected_router)
