@@ -107,3 +107,26 @@ class ChangePasswordSchema(BaseModel):
         max_length=24,
         description="Password must be between 6 and 24 characters",
     )
+
+
+class ResendRegisterOtpSchema(BaseModel):
+    email: str = Field(
+        ...,
+        pattern=EMAIL_REGEX,
+        max_length=255,
+        description="Email address of the user",
+    )
+
+
+class VerifyRegisterOtpSchema(BaseModel):
+    email: str = Field(
+        ...,
+        pattern=EMAIL_REGEX,
+        max_length=255,
+        description="Email address of the user",
+    )
+    otp: str = Field(
+        ...,
+        pattern=r"^\d{8}$",
+        description="8-digit OTP code",
+    )

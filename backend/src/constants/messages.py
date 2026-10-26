@@ -38,6 +38,10 @@ AUTH_MESSAGES = {
     "NEW_PASSWORD_SAME_AS_OLD": "Mật khẩu mới không được trùng với mật khẩu cũ",
     "CHANGE_PASSWORD_SUCCESS": "Đổi mật khẩu thành công",
     "OLD_PASSWORD_INCORRECT": "Mật khẩu cũ không chính xác",
+    "REGISTER_SUCCESS_WITH_OTP": "Đăng ký tài khoản thành công. Mã xác thực OTP đã được gửi về email của bạn.",
+    "ACCOUNT_ACTIVATED_SUCCESS": "Kích hoạt tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.",
+    "ACCOUNT_ALREADY_ACTIVE": "Tài khoản này đã được kích hoạt trước đó",
+    "ACCOUNT_NOT_ACTIVATED": "Tài khoản đã được đăng ký nhưng chưa kích hoạt. Vui lòng xác thực mã OTP.",
 }
 
 
@@ -122,4 +126,31 @@ INVENTORY_MESSAGES = {
     "INSUFFICIENT_STOCK": "Số lượng hàng trong kho không đủ",
     "CANNOT_DELETE_NON_ZERO": "Chỉ có thể xóa bản ghi tồn kho khi số lượng hàng bằng 0",
     "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
+}
+
+ISSUE_MESSAGES = {
+    "CREATED": "Tạo phiếu xuất kho thành công",
+    "UPDATED": "Cập nhật phiếu xuất kho thành công",
+    "CANCELLED": "Hủy phiếu xuất kho thành công",
+    "NOT_FOUND": "Không tìm thấy phiếu xuất kho",
+    "ALREADY_CANCELLED": "Phiếu xuất kho này đã bị hủy trước đó",
+    "INVALID_QUANTITY": "Số lượng xuất kho phải lớn hơn 0",
+    "INSUFFICIENT_STOCK": "Số lượng hàng trong kho không đủ để xuất",
+    "WAREHOUSE_NOT_FOUND": "Kho hàng không tồn tại",
+    "PRODUCT_NOT_FOUND": "Sản phẩm không tồn tại",
+    "ORDER_NOT_FOUND": "Đơn hàng không tồn tại",
+    "CANNOT_UPDATE_CANCELLED": "Không thể chỉnh sửa phiếu xuất kho đã hủy",
+}
+
+RECEIPT_MESSAGES = {
+    "CREATED": "Tạo phiếu nhập kho thành công",
+    "UPDATED": "Cập nhật phiếu nhập kho thành công",
+    "CANCELLED": "Hủy phiếu nhập kho thành công",
+    "NOT_FOUND": "Không tìm thấy phiếu nhập kho",
+    "ALREADY_CANCELLED": "Phiếu nhập kho này đã bị hủy trước đó",
+    "INVALID_QUANTITY": "Số lượng nhập kho phải lớn hơn 0",
+    "INSUFFICIENT_STOCK_TO_CANCEL": "Số lượng tồn kho hiện tại không đủ để hoàn tác phiếu nhập này",
+    "WAREHOUSE_NOT_FOUND": "Kho hàng không tồn tại",
+    "PRODUCT_NOT_FOUND": "Sản phẩm không tồn tại",
+    "CANNOT_UPDATE_CANCELLED": "Không thể chỉnh sửa phiếu nhập kho đã hủy",
 }
