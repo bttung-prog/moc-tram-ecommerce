@@ -51,20 +51,6 @@ inventory_router.add_api_route(
 )
 
 inventory_router.add_api_route(
-    "/product/{product_id}/adjust",
-    inventory_controller.adjust_stock,
-    methods=["PATCH"],
-    dependencies=[
-        Depends(
-            authorize(
-                ROLES.ADMIN,
-                ROLES.WAREHOUSE_STAFF,
-            )
-        )
-    ],
-)
-
-inventory_router.add_api_route(
     "/{inventory_id}",
     inventory_controller.get_by_id,
     methods=["GET"],
