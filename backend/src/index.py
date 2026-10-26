@@ -4,6 +4,7 @@ from middlewares.auth_dependency import auth_dependency
 from modules.auth.auth_routes import auth_router
 from modules.category.category_routes import category_router
 from modules.coupon.coupon_routes import coupon_router
+from modules.inventory.inventory_routes import inventory_router
 from modules.product.product_routes import product_router
 from modules.user.user_routes import user_router
 from modules.warehouse.warehouse_routes import warehouse_router
@@ -20,6 +21,7 @@ public_router.include_router(product_router, prefix="/products")
 protected_router.include_router(user_router, prefix="/users")
 protected_router.include_router(coupon_router, prefix="/coupons")
 protected_router.include_router(warehouse_router, prefix="/warehouses")
+protected_router.include_router(inventory_router, prefix="/inventories")
 
 index_router.include_router(public_router)
 index_router.include_router(protected_router)

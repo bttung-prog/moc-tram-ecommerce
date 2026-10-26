@@ -107,3 +107,19 @@ WAREHOUSE_MESSAGES = {
     "STATUS_UPDATED": "Cập nhật trạng thái kho hàng thành công",
     "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
 }
+
+INVENTORY_MESSAGES = {
+    "CREATED": "Tạo bản ghi tồn kho thành công",
+    "UPDATED": "Cập nhật tồn kho thành công",
+    "DELETED": "Xóa bản ghi tồn kho thành công",
+    "NOT_FOUND": "Không tìm thấy thông tin tồn kho",
+    "PRODUCT_NOT_FOUND": "Sản phẩm không tồn tại",
+    "WAREHOUSE_NOT_FOUND": "Kho hàng không tồn tại",
+    "WAREHOUSE_INACTIVE": "Kho hàng hiện không hoạt động",
+    "PRODUCT_ALREADY_EXISTS": "Sản phẩm này đã có bản ghi tồn kho",
+    "INVALID_QUANTITY": "Số lượng tồn kho không được âm",
+    "INVALID_LOCATION": "Vị trí lưu kho không được để trống",
+    "INSUFFICIENT_STOCK": "Số lượng hàng trong kho không đủ",
+    "CANNOT_DELETE_NON_ZERO": "Chỉ có thể xóa bản ghi tồn kho khi số lượng hàng bằng 0",
+    "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
+}
