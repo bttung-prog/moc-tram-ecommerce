@@ -1,10 +1,10 @@
-# 🪔 Mộc Trầm — Hệ Thống Quản Lý Đơn Hàng Trực Tuyến (OMS)
+# Mộc Trầm — Hệ Thống Quản Lý Đơn Hàng Trực Tuyến (OMS)
 > **Backend Developer (Business Modules & Integration)**<br>
 > Dự án Kinh doanh Trầm Hương Tự Nhiên & Dụng Cụ Thiền Định
 
 ---
 
-## 📌 1. Giới Thiệu Dự Án
+## 1. Giới Thiệu Dự Án
 
 Hệ thống Backend phục vụ quản lý đơn hàng trực tuyến chuyên biệt cho thương hiệu **Mộc Trầm - Trầm Hương Thiền An**, kinh doanh các sản phẩm thiền định cao cấp:
 - **Trầm Hương Tự Nhiên**: Chuỗi vòng 108 hạt chìm nước, tinh dầu trầm kỳ nam, trầm miếng xông hương.
@@ -15,7 +15,7 @@ Hệ thống Backend phục vụ quản lý đơn hàng trực tuyến chuyên b
 
 ---
 
-## 🚀 2. Các Module Nghiệp Vụ Cốt Lõi (Business Modules)
+## 2. Các Module Nghiệp Vụ Cốt Lõi (Business Modules)
 
 1. **Order Management & Checkout Flow**:
    - Quản lý vòng đời đơn hàng qua **State Machine** chuẩn mực (`PENDING`, `AWAITING_PAYMENT`, `CONFIRMED`, `PROCESSING`, `SHIPPING`, `DELIVERED`, `COMPLETED`, `CANCELLED`, `RETURN_REQUESTED`, `RETURNED`, `REFUNDED`).
@@ -59,7 +59,7 @@ Hệ thống Backend phục vụ quản lý đơn hàng trực tuyến chuyên b
 
 ---
 
-## 🛠️ 3. Công Nghệ Sử Dụng
+## 3. Công Nghệ Sử Dụng
 
 - **Ngôn ngữ**: Python 3.14 / 3.12+
 - **Framework**: FastAPI (Asynchronous, High Performance)
@@ -73,12 +73,12 @@ Hệ thống Backend phục vụ quản lý đơn hàng trực tuyến chuyên b
 
 ---
 
-## 📦 4. Cấu Trúc Thư Mục Dự Án
+## 4. Cấu Trúc Thư Mục Dự Án
 
 ```
 moc-tram-ecommerce/
 │
-├── app/                              # ✅ Business API (FastAPI — đã hoàn thành)
+├── app/                              # Business API (FastAPI — đã hoàn thành)
 │   ├── api/v1/
 │   │   ├── orders.py                 # POST/GET /orders — Checkout & State Machine
 │   │   ├── payments.py               # VietQR, PayPal, SePAY Webhook
@@ -123,7 +123,7 @@ moc-tram-ecommerce/
 │   ├── config.py                     # Pydantic BaseSettings (.env)
 │   └── main.py                       # FastAPI App Entry + Lifespan
 │
-├── backend/                          # 🔄 Backend v2 — Auth & User (đang phát triển)
+├── backend/                          # Backend v2 — Auth & User (đang phát triển)
 │   └── src/
 │       ├── app.py                    # FastAPI instance + CORS middleware
 │       ├── index.py                  # Mounting public & protected routers
@@ -140,7 +140,7 @@ moc-tram-ecommerce/
 │       │   ├── authorize_dependency.py # RBAC: authorize(*roles) dependency
 │       │   └── error_dependency.py   # ApiError handler & Global exception handler
 │       ├── modules/
-│       │   ├── auth/                 # 🔐 Module xác thực
+│       │   ├── auth/                 # Module xác thực
 │       │   │   ├── auth_controller.py    # Request handlers (register, login, OTP...)
 │       │   │   ├── auth_repository.py    # Truy vấn DB cho Auth (token, OTP)
 │       │   │   ├── auth_routes.py        # Router: /register /login /logout /refresh-token
@@ -153,7 +153,7 @@ moc-tram-ecommerce/
 │       │   │   │                         #   ChangePasswordSchema
 │       │   │   ├── password_reset_otp.py # Model OTP đặt lại mật khẩu (expires_at, attempts)
 │       │   │   └── refresh_token.py      # Model Refresh Token (user_id, token, expires_at)
-│       │   └── user/                 # 👤 Module quản lý người dùng
+│       │   └── user/                 # Module quản lý người dùng
 │       │       ├── user.py               # Model User (id, email, password, phone, role, status)
 │       │       ├── user_controller.py    # GET /me, PATCH /me
 │       │       ├── user_repository.py    # CRUD: find_by_id/email/phone, create, update
@@ -167,7 +167,7 @@ moc-tram-ecommerce/
 │           ├── jwt.py                # create_access_token, create_refresh_token, verify_*
 │           └── password.py           # hash_password, verify_password (bcrypt)
 │
-├── frontend/                         # 🎨 React + TypeScript Frontend
+├── frontend/                         # React + TypeScript Frontend
 │   └── src/
 │       ├── App.tsx                   # Tất cả Pages + React Router (1183 dòng)
 │       ├── index.css                 # Global styles (TailwindCSS)
@@ -225,7 +225,7 @@ moc-tram-ecommerce/
 
 ---
 
-## ⚡ 5. Hướng Dẫn Cài Đặt & Chạy Ứng Dụng
+## 5. Hướng Dẫn Cài Đặt & Chạy Ứng Dụng
 
 ### Bước 1: Kích hoạt môi trường ảo Python
 ```powershell
@@ -255,7 +255,7 @@ Truy cập ngay trên trình duyệt:
 
 ---
 
-## 🧪 6. Chạy Test Suite Tự Động
+## 6. Chạy Test Suite Tự Động
 
 Chạy bộ kiểm thử toàn diện với Pytest:
 ```powershell
@@ -263,18 +263,17 @@ Chạy bộ kiểm thử toàn diện với Pytest:
 ```
 
 Kết quả: **18/18 test cases PASSED (100%)** bao gồm:
-- ✅ Xác thực mã giảm giá, giới hạn trần % và đơn hàng tối thiểu
-- ✅ Quy trình giữ kho nguyên tử (Stock Reservation), chống oversell và nhả kho khi hủy
-- ✅ Worker tự động giải phóng tồn kho khi hết hạn TTL 15 phút
-- ✅ Đặt hàng COD, VietQR và PayPal v2
-- ✅ Kiểm soát máy trạng thái đơn hàng (Order State Machine)
-- ✅ Webhook SePAY/VietQR nhận tiền và chống lặp (Idempotency)
-- ✅ Tính cước giao hàng, tạo vận đơn GHN và Webhook đồng bộ lộ trình
-- ✅ Quy trình đổi trả hàng: duyệt đơn, nhập kho lại (Restock) và hoàn tiền
+- Xác thực mã giảm giá, giới hạn trần % và đơn hàng tối thiểu
+- Quy trình giữ kho nguyên tử (Stock Reservation), chống oversell và nhả kho khi hủy
+- Worker tự động giải phóng tồn kho khi hết hạn TTL 15 phút
+- Đặt hàng COD, VietQR và PayPal v2
+- Kiểm soát máy trạng thái đơn hàng (Order State Machine)
+- Webhook SePAY/VietQR nhận tiền và chống lặp (Idempotency)
+- Tính cước giao hàng, tạo vận đơn GHN và Webhook đồng bộ lộ trình
+- Quy trình đổi trả hàng: duyệt đơn, nhập kho lại (Restock) và hoàn tiền
 
 ---
-
-## 📮 7. Sử Dụng Postman Collection
+## 7. Sử Dụng Postman Collection
 
 Trong thư mục `docs/`, có sẵn file `Postman_Collection.json`.
 1. Mở phần mềm **Postman**.
