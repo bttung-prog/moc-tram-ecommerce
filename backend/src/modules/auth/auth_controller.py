@@ -12,14 +12,17 @@ from modules.auth.auth_validator import (
     LoginSchema,
     RefreshTokenSchema,
     RegisterSchema,
+    ResendRegisterOtpSchema,
     ResetPasswordSchema,
     VerifyOtpSchema,
+    VerifyRegisterOtpSchema,
 )
 from utils.api_response import ApiResponse
 
 
 def register(
     payload: RegisterSchema,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
 ):
     new_user = auth_service.register(
@@ -28,11 +31,45 @@ def register(
         password=payload.password,
         full_name=payload.full_name,
         phone=payload.phone,
+        background_tasks=background_tasks,
     )
 
     return ApiResponse.created(
         data=new_user,
-        message=AUTH_MESSAGES["REGISTER_SUCCESS"],
+        message=AUTH_MESSAGES["REGISTER_SUCCESS_WITH_OTP"],
+    )
+
+
+def verify_register_otp(
+    payload: VerifyRegisterOtpSchema,
+    db: Session = Depends(get_db),
+):
+    result = auth_service.verify_register_otp(
+        db=db,
+        email=payload.email,
+        otp=payload.otp,
+    )
+
+    return ApiResponse.success(
+        data=result,
+        message=AUTH_MESSAGES["ACCOUNT_ACTIVATED_SUCCESS"],
+    )
+
+
+def resend_register_otp(
+    payload: ResendRegisterOtpSchema,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    result = auth_service.resend_register_otp(
+        db=db,
+        email=payload.email,
+        background_tasks=background_tasks,
+    )
+
+    return ApiResponse.success(
+        data=result,
+        message=AUTH_MESSAGES["OTP_SENT_SUCCESS"],
     )
 
 

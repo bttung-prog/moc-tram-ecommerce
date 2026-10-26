@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from constants.messages import COMMON_MESSAGES, USER_MESSAGES
 from constants.roles import ROLES
+from constants.user_statuses import USER_STATUSES
 from modules.user import user_repository
 from modules.user.user import User
 from utils.api_error import ApiError
@@ -18,7 +19,8 @@ def create(
     password: str,
     phone: str,
     full_name: str,
-    role: str = ROLES.CUSTOMER,
+    role: str = ROLES.CUSTOMER.value,
+    status: str = USER_STATUSES.ACTIVE.value,
 ):
     if not email or not password or not phone or not full_name or not role:
         raise ApiError(
@@ -49,10 +51,22 @@ def create(
             "phone": clean_phone,
             "full_name": clean_full_name,
             "role": role,
+            "status": status,
         },
     )
 
     return new_user
+
+
+def activate_user(db: Session, user_id: UUID) -> User:
+    user = user_repository.update_by_id(
+        db, user_id, {"status": USER_STATUSES.ACTIVE.value}
+    )
+
+    if not user:
+        raise ApiError(404, USER_MESSAGES["NOT_FOUND"])
+
+    return user
 
 
 def get_by_id(db: Session, user_id: UUID) -> User | None:

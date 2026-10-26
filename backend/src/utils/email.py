@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from utils.api_error import ApiError
 
 
-def send_otp_email(to_email: str, otp: str) -> None:
+def send_otp_email(to_email: str, otp: str, purpose: str = "reset_password") -> None:
     smtp_host = os.getenv("SMTP_HOST", "smtp.gmail.com")
     smtp_port = int(os.getenv("SMTP_PORT", "587"))
     smtp_user = os.getenv("EMAIL_USER") or os.getenv("SMTP_USER")
@@ -26,19 +26,43 @@ def send_otp_email(to_email: str, otp: str) -> None:
             message="Hệ thống chưa cấu hình mật khẩu email người gửi (EMAIL_CODE trong .env).",
         )
 
+    if purpose == "register":
+        subject = f"[{from_name}] Mã xác thực đăng ký tài khoản"
+        section_title = "Xác thực đăng ký tài khoản"
+        greeting_text = (
+            f"Xin chào,\n\n"
+            f"Cảm ơn bạn đã đăng ký tài khoản tại {from_name}.\n"
+            f"Mã OTP kích hoạt tài khoản của bạn là: {otp}\n\n"
+            f"Mã này có hiệu lực trong vòng 5 phút. Vui lòng không chia sẻ mã này cho bất kỳ ai.\n"
+            f"Nếu bạn không thực hiện đăng ký này, vui lòng bỏ qua email.\n\n"
+            f"Trân trọng,\n{from_name}"
+        )
+        intro_html = f"Xin chào, cảm ơn bạn đã đăng ký tài khoản tại <strong>{from_name}</strong> với email <strong>{to_email}</strong>."
+        instruction_html = "Dưới đây là mã xác thực OTP để kích hoạt tài khoản của bạn. Mã này có hiệu lực trong vòng <strong>5 phút</strong>:"
+        footer_note_html = (
+            "Nếu bạn không thực hiện đăng ký này, hãy yên tâm bỏ qua email này."
+        )
+    else:
+        subject = f"[{from_name}] Mã xác thực đặt lại mật khẩu"
+        section_title = "Yêu cầu đặt lại mật khẩu"
+        greeting_text = (
+            f"Xin chào,\n\n"
+            f"Bạn vừa yêu cầu đặt lại mật khẩu tại {from_name}.\n"
+            f"Mã OTP của bạn là: {otp}\n\n"
+            f"Mã này có hiệu lực trong vòng 5 phút. Vui lòng không chia sẻ mã này cho bất kỳ ai.\n"
+            f"Nếu bạn không yêu cầu hành động này, vui lòng bỏ qua email.\n\n"
+            f"Trân trọng,\n{from_name}"
+        )
+        intro_html = f"Xin chào, chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản liên kết với email <strong>{to_email}</strong>."
+        instruction_html = "Dưới đây là mã xác thực OTP của bạn. Mã này có hiệu lực trong vòng <strong>5 phút</strong>:"
+        footer_note_html = "Nếu bạn không thực hiện yêu cầu này, hãy yên tâm bỏ qua email này hoặc liên hệ ngay với chúng tôi để bảo vệ tài khoản."
+
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"[{from_name}] Mã xác thực đặt lại mật khẩu"
+    msg["Subject"] = subject
     msg["From"] = f"{from_name} <{smtp_user}>"
     msg["To"] = to_email
 
-    plain_text = (
-        f"Xin chào,\n\n"
-        f"Bạn vừa yêu cầu đặt lại mật khẩu tại {from_name}.\n"
-        f"Mã OTP của bạn là: {otp}\n\n"
-        f"Mã này có hiệu lực trong vòng 5 phút. Vui lòng không chia sẻ mã này cho bất kỳ ai.\n"
-        f"Nếu bạn không yêu cầu hành động này, vui lòng bỏ qua email.\n\n"
-        f"Trân trọng,\n{from_name}"
-    )
+    plain_text = greeting_text
 
     html_content = f"""
     <!DOCTYPE html>
@@ -60,13 +84,13 @@ def send_otp_email(to_email: str, otp: str) -> None:
             <tr>
                 <td style="padding: 32px 30px;">
                     <h2 style="margin: 0 0 16px 0; color: #222222; font-size: 20px; font-weight: 600;">
-                        Yêu cầu đặt lại mật khẩu
+                        {section_title}
                     </h2>
                     <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.6; color: #555555;">
-                        Xin chào, chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản liên kết với email <strong>{to_email}</strong>.
+                        {intro_html}
                     </p>
                     <p style="margin: 0 0 20px 0; font-size: 14px; line-height: 1.6; color: #555555;">
-                        Dưới đây là mã xác thực OTP của bạn. Mã này có hiệu lực trong vòng <strong>5 phút</strong>:
+                        {instruction_html}
                     </p>
                     <div style="text-align: center; margin: 28px 0;">
                         <div style="display: inline-block; background-color: #fcf9f2; border: 2px dashed #d4af37; border-radius: 8px; padding: 16px 36px;">
@@ -81,7 +105,7 @@ def send_otp_email(to_email: str, otp: str) -> None:
                         </p>
                     </div>
                     <p style="margin: 20px 0 0 0; font-size: 13px; line-height: 1.6; color: #777777;">
-                        Nếu bạn không thực hiện yêu cầu này, hãy yên tâm bỏ qua email này hoặc liên hệ ngay với chúng tôi để bảo vệ tài khoản.
+                        {footer_note_html}
                     </p>
                 </td>
             </tr>
