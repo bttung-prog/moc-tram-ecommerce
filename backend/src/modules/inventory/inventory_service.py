@@ -15,8 +15,8 @@ def create(
     db: Session,
     warehouse_id: UUID,
     product_id: UUID,
-    quantity: int,
-    location: str,
+    quantity: int = 0,
+    location: str = "Khu vực nhập hàng",
 ) -> Inventory:
     warehouse_service.get_by_id(db, warehouse_id, check_active=True)
     product_service.get_by_id(db, product_id)
@@ -109,38 +109,27 @@ def get_all(
 def update(
     db: Session,
     inventory_id: UUID,
-    quantity: int | None = None,
-    location: str | None = None,
+    location: str,
 ) -> Inventory:
     inventory = inventory_repository.find_by_id(db, inventory_id)
     if not inventory:
         raise ApiError(404, INVENTORY_MESSAGES["NOT_FOUND"])
 
-    update_data = {}
-
-    if quantity is not None:
-        if quantity < 0:
-            raise ApiError(400, INVENTORY_MESSAGES["INVALID_QUANTITY"])
-        update_data["quantity"] = quantity
-
-    if location is not None:
-        clean_location = location.strip()
-        if not clean_location:
-            raise ApiError(400, INVENTORY_MESSAGES["INVALID_LOCATION"])
-        update_data["location"] = clean_location
-
-    if not update_data:
-        raise ApiError(400, INVENTORY_MESSAGES["AT_LEAST_ONE_FIELD_REQUIRED"])
+    if not location or not location.strip():
+        raise ApiError(400, INVENTORY_MESSAGES["INVALID_LOCATION"])
 
     updated_inventory = inventory_repository.update_by_id(
         db=db,
         inventory_id=inventory_id,
-        inventory_data=update_data,
+        inventory_data={"location": location.strip()},
     )
     if not updated_inventory:
         raise ApiError(404, INVENTORY_MESSAGES["NOT_FOUND"])
 
     return updated_inventory
+
+
+# Internal service function: called exclusively by receipt_service and issue_service
 
 
 def adjust_stock(

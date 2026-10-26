@@ -18,12 +18,6 @@ class CreateInventorySchema(BaseModel):
         description="Product ID",
     )
 
-    quantity: int = Field(
-        default=0,
-        ge=0,
-        description="Initial stock quantity",
-    )
-
     location: str = Field(
         ...,
         min_length=1,
@@ -36,53 +30,22 @@ class CreateInventorySchema(BaseModel):
         if not self.location or not self.location.strip():
             raise ApiError(400, INVENTORY_MESSAGES["INVALID_LOCATION"])
         self.location = self.location.strip()
-
-        if self.quantity < 0:
-            raise ApiError(400, INVENTORY_MESSAGES["INVALID_QUANTITY"])
-
         return self
 
 
 class UpdateInventorySchema(BaseModel):
-    quantity: int | None = Field(
-        default=None,
-        ge=0,
-        description="Updated quantity",
-    )
-
-    location: str | None = Field(
-        default=None,
+    location: str = Field(
+        ...,
         min_length=1,
         max_length=255,
-        description="Updated location",
+        description="Updated storage location",
     )
 
     @model_validator(mode="after")
     def validate_update_constraints(self):
-        if self.quantity is None and self.location is None:
-            raise ApiError(400, INVENTORY_MESSAGES["AT_LEAST_ONE_FIELD_REQUIRED"])
-
-        if self.quantity is not None and self.quantity < 0:
-            raise ApiError(400, INVENTORY_MESSAGES["INVALID_QUANTITY"])
-
-        if self.location is not None:
-            if not self.location.strip():
-                raise ApiError(400, INVENTORY_MESSAGES["INVALID_LOCATION"])
-            self.location = self.location.strip()
-
-        return self
-
-
-class AdjustStockSchema(BaseModel):
-    delta: int = Field(
-        ...,
-        description="Quantity delta to adjust (positive to add, negative to subtract)",
-    )
-
-    @model_validator(mode="after")
-    def validate_delta(self):
-        if self.delta == 0:
-            raise ApiError(400, "Độ lệch điều chỉnh tồn kho (delta) phải khác 0")
+        if not self.location or not self.location.strip():
+            raise ApiError(400, INVENTORY_MESSAGES["INVALID_LOCATION"])
+        self.location = self.location.strip()
         return self
 
 

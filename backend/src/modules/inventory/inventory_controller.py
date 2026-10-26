@@ -7,7 +7,6 @@ from configs.db_connection import get_db
 from constants.messages import INVENTORY_MESSAGES
 from modules.inventory import inventory_service
 from modules.inventory.inventory_validator import (
-    AdjustStockSchema,
     CreateInventorySchema,
     UpdateInventorySchema,
 )
@@ -22,7 +21,7 @@ def create(
         db=db,
         warehouse_id=payload.warehouse_id,
         product_id=payload.product_id,
-        quantity=payload.quantity,
+        quantity=0,
         location=payload.location,
     )
 
@@ -96,25 +95,7 @@ def update(
     updated_inventory = inventory_service.update(
         db=db,
         inventory_id=inventory_id,
-        quantity=payload.quantity,
         location=payload.location,
-    )
-
-    return ApiResponse.success(
-        data=updated_inventory,
-        message=INVENTORY_MESSAGES["UPDATED"],
-    )
-
-
-def adjust_stock(
-    product_id: UUID,
-    payload: AdjustStockSchema,
-    db: Session = Depends(get_db),
-):
-    updated_inventory = inventory_service.adjust_stock(
-        db=db,
-        product_id=product_id,
-        delta=payload.delta,
     )
 
     return ApiResponse.success(
