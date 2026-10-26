@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: backend
+Version: 0.1.0
+Summary: Backend API for Moc Tram Ecommerce
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: bcrypt>=5.0.0
+Requires-Dist: fastapi>=0.143.0
+Requires-Dist: pydantic>=2.14.1
+Requires-Dist: pyjwt>=2.15.1
+Requires-Dist: pymysql>=1.2.3
+Requires-Dist: python-dotenv>=1.2.4
+Requires-Dist: sqlalchemy>=2.1.4
+Requires-Dist: uvicorn[standard]>=0.54.0
+
+Mộc Trầm Backend
+test commit
