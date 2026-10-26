@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from modules.auth.password_reset_otp import PasswordResetOtp
 from modules.auth.refresh_token import RefreshToken
+from modules.auth.register_otp import RegisterOtp
 
 
 def create_refresh_token(
@@ -84,6 +85,48 @@ def find_latest_password_reset_otp(db: Session, email: str) -> PasswordResetOtp 
 
 
 def increment_otp_attempts(db: Session, otp_record: PasswordResetOtp) -> int:
+    otp_record.attempts += 1
+    db.flush()
+    return otp_record.attempts
+
+
+def delete_register_otp_by_email(db: Session, email: str) -> bool:
+    query = delete(RegisterOtp).where(RegisterOtp.email == email)
+
+    result = db.execute(query)
+    return result.rowcount > 0
+
+
+def create_register_otp(
+    db: Session, email: str, otp: str, expires_at: datetime
+) -> RegisterOtp:
+    delete_register_otp_by_email(db, email)
+
+    new_otp = RegisterOtp(
+        email=email,
+        otp=otp,
+        expires_at=expires_at,
+        attempts=0,
+    )
+
+    db.add(new_otp)
+    db.flush()
+    db.refresh(new_otp)
+
+    return new_otp
+
+
+def find_latest_register_otp(db: Session, email: str) -> RegisterOtp | None:
+    query = (
+        select(RegisterOtp)
+        .where(RegisterOtp.email == email)
+        .order_by(desc(RegisterOtp.created_at))
+    )
+
+    return db.scalar(query)
+
+
+def increment_register_otp_attempts(db: Session, otp_record: RegisterOtp) -> int:
     otp_record.attempts += 1
     db.flush()
     return otp_record.attempts

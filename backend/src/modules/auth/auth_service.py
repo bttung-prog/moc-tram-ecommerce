@@ -6,7 +6,7 @@ import jwt
 from fastapi import BackgroundTasks
 from sqlalchemy.orm import Session
 
-from constants.messages import AUTH_MESSAGES
+from constants.messages import AUTH_MESSAGES, USER_MESSAGES
 from constants.roles import ROLES
 from constants.user_statuses import USER_STATUSES
 from modules.auth import auth_repository
@@ -27,17 +27,51 @@ def register(
     password: str,
     full_name: str,
     phone: str,
+    background_tasks: BackgroundTasks | None = None,
 ):
+    clean_email = email.strip().lower()
+
+    existing_user = user_service.get_by_email(db, clean_email)
+    if existing_user:
+        if existing_user.status == USER_STATUSES.INACTIVE.value:
+            raise ApiError(400, AUTH_MESSAGES["ACCOUNT_NOT_ACTIVATED"])
+        raise ApiError(409, USER_MESSAGES["EMAIL_EXISTS"])
+
     role = ROLES.CUSTOMER.value
 
     new_user = user_service.create(
         db=db,
-        email=email,
+        email=clean_email,
         password=password,
         full_name=full_name,
         phone=phone,
         role=role,
+        status=USER_STATUSES.INACTIVE.value,
     )
+
+    otp = f"{secrets.randbelow(90_000_000) + 10_000_000}"
+    expires_at = datetime.now(UTC) + timedelta(minutes=5)
+
+    auth_repository.create_register_otp(
+        db=db,
+        email=clean_email,
+        otp=otp,
+        expires_at=expires_at,
+    )
+
+    if background_tasks:
+        background_tasks.add_task(
+            send_otp_email,
+            to_email=clean_email,
+            otp=otp,
+            purpose="register",
+        )
+    else:
+        send_otp_email(
+            to_email=clean_email,
+            otp=otp,
+            purpose="register",
+        )
 
     return {
         "id": new_user.id,
@@ -47,6 +81,107 @@ def register(
         "role": new_user.role,
         "status": new_user.status,
     }
+
+
+def verify_register_otp(db: Session, email: str, otp: str) -> dict:
+    clean_email = email.strip().lower()
+    clean_otp = otp.strip()
+
+    user = user_service.get_by_email(db, clean_email)
+    if not user:
+        raise ApiError(404, AUTH_MESSAGES["EMAIL_NOT_FOUND"])
+
+    if user.status == USER_STATUSES.ACTIVE.value:
+        raise ApiError(400, AUTH_MESSAGES["ACCOUNT_ALREADY_ACTIVE"])
+
+    otp_record = auth_repository.find_latest_register_otp(db, clean_email)
+    if not otp_record:
+        raise ApiError(400, AUTH_MESSAGES["OTP_NOT_FOUND"])
+
+    if otp_record.attempts >= 5:
+        auth_repository.delete_register_otp_by_email(db, clean_email)
+        raise ApiError(400, AUTH_MESSAGES["OTP_MAX_ATTEMPTS"])
+
+    expires_at = otp_record.expires_at
+    if expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=UTC)
+
+    if datetime.now(UTC) > expires_at:
+        auth_repository.delete_register_otp_by_email(db, clean_email)
+        raise ApiError(400, AUTH_MESSAGES["OTP_EXPIRED"])
+
+    if otp_record.otp != clean_otp:
+        new_attempts = auth_repository.increment_register_otp_attempts(db, otp_record)
+        remaining = 5 - new_attempts
+        if remaining <= 0:
+            auth_repository.delete_register_otp_by_email(db, clean_email)
+            raise ApiError(400, AUTH_MESSAGES["OTP_MAX_ATTEMPTS"])
+        raise ApiError(
+            400, f"{AUTH_MESSAGES['OTP_INVALID']}. Bạn còn {remaining} lần thử."
+        )
+
+    activated_user = user_service.activate_user(db, user.id)
+    auth_repository.delete_register_otp_by_email(db, clean_email)
+
+    return {
+        "id": activated_user.id,
+        "email": activated_user.email,
+        "full_name": activated_user.full_name,
+        "phone": activated_user.phone,
+        "role": activated_user.role,
+        "status": activated_user.status,
+    }
+
+
+def resend_register_otp(
+    db: Session,
+    email: str,
+    background_tasks: BackgroundTasks | None = None,
+) -> dict:
+    clean_email = email.strip().lower()
+
+    user = user_service.get_by_email(db, clean_email)
+    if not user:
+        raise ApiError(404, AUTH_MESSAGES["EMAIL_NOT_FOUND"])
+
+    if user.status == USER_STATUSES.ACTIVE.value:
+        raise ApiError(400, AUTH_MESSAGES["ACCOUNT_ALREADY_ACTIVE"])
+
+    existing_otp = auth_repository.find_latest_register_otp(db, clean_email)
+    if existing_otp:
+        created_at = existing_otp.created_at
+        if created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=UTC)
+
+        time_diff = (datetime.now(UTC) - created_at).total_seconds()
+        if time_diff < 60:
+            raise ApiError(429, AUTH_MESSAGES["OTP_RESEND_COOLDOWN"])
+
+    otp = f"{secrets.randbelow(90_000_000) + 10_000_000}"
+    expires_at = datetime.now(UTC) + timedelta(minutes=5)
+
+    auth_repository.create_register_otp(
+        db=db,
+        email=clean_email,
+        otp=otp,
+        expires_at=expires_at,
+    )
+
+    if background_tasks:
+        background_tasks.add_task(
+            send_otp_email,
+            to_email=clean_email,
+            otp=otp,
+            purpose="register",
+        )
+    else:
+        send_otp_email(
+            to_email=clean_email,
+            otp=otp,
+            purpose="register",
+        )
+
+    return {"email": clean_email}
 
 
 def login(db: Session, email: str, phone: str, password: str):

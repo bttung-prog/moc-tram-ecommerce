@@ -17,6 +17,18 @@ auth_router.add_api_route(
 )
 
 auth_router.add_api_route(
+    "/verify-register-otp",
+    auth_controller.verify_register_otp,
+    methods=["POST"],
+)
+
+auth_router.add_api_route(
+    "/resend-register-otp",
+    auth_controller.resend_register_otp,
+    methods=["POST"],
+)
+
+auth_router.add_api_route(
     "/login",
     auth_controller.login,
     methods=["POST"],
