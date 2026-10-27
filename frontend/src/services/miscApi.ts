@@ -26,22 +26,82 @@ export const shippingApi = {
 };
 
 export const couponApi = {
-  async validateCoupon(code: string, subtotal: number): Promise<ApiResult<{ valid: boolean; discount: number; coupon?: Coupon }>> {
-    await randomDelay();
-    const coupon = coupons.find((c) => c.code === code && c.isActive);
-    if (!coupon) return fail('Mã giảm giá không hợp lệ');
-    if (subtotal < coupon.minOrder) return fail(`Đơn hàng tối thiểu ${coupon.minOrder.toLocaleString('vi-VN')} ₫`);
-    const now = new Date();
-    if (new Date(coupon.validFrom) > now || new Date(coupon.validUntil) < now) return fail('Mã giảm giá đã hết hạn');
-    let discount = 0;
-    if (coupon.discountType === 'PERCENT') {
-      discount = Math.min(coupon.maxDiscount, Math.round(subtotal * coupon.discountValue / 100));
-    } else {
-      discount = Math.min(coupon.maxDiscount, coupon.discountValue);
-    }
-    return ok({ valid: true, discount, coupon });
-  },
+  
+async validateCoupon(
+  code: string,
+  subtotal: number
+): Promise<ApiResult<{ valid: boolean; discount: number; coupon?: Coupon }>> {
+  await randomDelay();
 
+  const normalizedCode = code.trim().toUpperCase();
+
+  if (!normalizedCode) {
+    return fail('Vui lòng nhập mã giảm giá');
+  }
+
+  if (subtotal <= 0) {
+    return fail('Đơn hàng không hợp lệ');
+  }
+
+  const coupon = coupons.find(
+    (c) => c.code.trim().toUpperCase() === normalizedCode
+  );
+
+  if (!coupon) {
+    return fail('Không tìm thấy mã giảm giá');
+  }
+
+  if (!coupon.isActive) {
+    return fail('Mã giảm giá đã bị tắt');
+  }
+
+  const now = new Date();
+  const validFrom = new Date(coupon.validFrom);
+  const validUntil = new Date(coupon.validUntil);
+
+  if (
+    Number.isNaN(validFrom.getTime()) ||
+    Number.isNaN(validUntil.getTime())
+  ) {
+    return fail('Thời hạn mã giảm giá không hợp lệ');
+  }
+
+  if (validFrom > now) {
+    return fail('Mã giảm giá chưa bắt đầu');
+  }
+
+  if (validUntil < now) {
+    return fail('Mã giảm giá đã hết hạn');
+  }
+
+  if (coupon.usedCount >= coupon.usageLimit) {
+    return fail('Mã giảm giá đã hết lượt sử dụng');
+  }
+
+  if (subtotal < coupon.minOrder) {
+    return fail(
+      `Đơn hàng tối thiểu ${coupon.minOrder.toLocaleString('vi-VN')} ₫`
+    );
+  }
+
+  let discount = 0;
+
+  if (coupon.discountType === 'PERCENT') {
+    discount = Math.round(
+      subtotal * coupon.discountValue / 100
+    );
+  } else {
+    discount = coupon.discountValue;
+  }
+
+  discount = Math.min(
+    Math.max(0, discount),
+    Math.max(0, coupon.maxDiscount),
+    subtotal
+  );
+
+  return ok({ valid: true, discount, coupon });
+},
   async getAllCoupons(): Promise<ApiResult<Coupon[]>> {
     await randomDelay();
     return ok([...coupons]);
@@ -60,7 +120,7 @@ export const couponApi = {
       usageLimit: data.usageLimit || 100,
       usedCount: 0,
       validFrom: data.validFrom || new Date().toISOString(),
-      validUntil: data.validUntil || '2025-12-31T23:59:59Z',
+      validUntil: data.validUntil || '2027-12-31T23:59:59Z',
       isActive: true,
     };
     coupons.push(coupon);

@@ -4,6 +4,7 @@ import { ArrowLeft, RefreshCw, Search, Package, ShoppingBag, Warehouse, RotateCc
 import { orderApi } from '@/services/orderApi';
 import { inventoryApi, type InventorySummary } from '@/services/inventoryApi';
 import { consultationApi } from '@/services/consultationApi';
+import { couponApi } from '@/services/miscApi';
 import type { Order, ReturnRequest, QuoteRequest, ShowroomAppointment } from '@/types';
 import { formatVND, formatDateTime } from '@/utils/format';
 
@@ -15,6 +16,7 @@ const TABS = [
   { id: 'overview', label: 'Tổng quan', icon: TrendingUp }, { id: 'orders', label: 'Đơn hàng', icon: ShoppingBag },
   { id: 'inventory', label: 'Kho & tồn', icon: Warehouse }, { id: 'returns', label: 'Đổi trả', icon: RotateCcw },
   { id: 'b2b', label: 'Báo giá B2B', icon: BriefcaseBusiness }, { id: 'appointments', label: 'Lịch thử hương', icon: CalendarDays },
+  { id: 'coupons', label: 'Quản lý Coupon', icon: ShoppingBag },
 ] as const;
 type Tab = typeof TABS[number]['id'];
 
@@ -25,6 +27,8 @@ export default function AdminPanel() {
   const [returns, setReturns] = useState<ReturnRequest[]>([]);
   const [quotes, setQuotes] = useState<QuoteRequest[]>([]);
   const [appointments, setAppointments] = useState<ShowroomAppointment[]>([]);
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [couponSearch, setCouponSearch] = useState('');
   const [search, setSearch] = useState('');
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
@@ -41,6 +45,11 @@ export default function AdminPanel() {
       if (r.success && r.data) setReturns(r.data);
       if (q.success && q.data) setQuotes(q.data);
       if (a.success && a.data) setAppointments(a.data);
+      const couponResult = await couponApi.getAllCoupons();
+
+      if (couponResult.success && couponResult.data) {
+    setCoupons(couponResult.data);
+}
     } catch { setMessage('Không thể tải dữ liệu. Vui lòng thử tải lại.'); }
     finally { setBusy(false); }
   }, []);
@@ -88,6 +97,118 @@ export default function AdminPanel() {
       {tab==='returns' && <DataTable title="Yêu cầu đổi trả / hoàn tiền" headers={['Mã yêu cầu','Mã đơn','Lý do','Trạng thái','Thao tác']} rows={returns.map(r=>[r.requestCode,r.orderCode,r.reason,<span>{r.status}</span>,<select aria-label={`Trạng thái ${r.requestCode}`} className="rounded border p-2" value={r.status} onChange={e=>void changeReturnStatus(r,e.target.value)}><option value={r.status}>{r.status}</option>{['VERIFIED','APPROVED','REJECTED','ITEM_RECEIVED','COMPLETED'].filter(s=>s!==r.status).map(s=><option key={s}>{s}</option>)}</select>])}/>}
       {tab==='b2b' && <DataTable title="Yêu cầu báo giá doanh nghiệp" headers={['Doanh nghiệp','Liên hệ','Sản phẩm / nhu cầu','Số lượng','Trạng thái']} rows={quotes.map(q=>[q.companyName,`${q.contactName} · ${q.phone}`,q.productsInterested,q.quantity,<select aria-label={`Trạng thái báo giá ${q.companyName}`} className="rounded border p-2" value={q.status} onChange={e=>void changeQuoteStatus(q,e.target.value)}><option value={q.status}>{q.status}</option>{['IN_PROGRESS','QUOTED','ACCEPTED','REJECTED','CLOSED'].filter(s=>s!==q.status).map(s=><option key={s}>{s}</option>)}</select>])}/>}
       {tab==='appointments' && <DataTable title="Lịch hẹn thử hương showroom" headers={['Khách hàng','Ngày / giờ','Số khách','Điện thoại','Trạng thái']} rows={appointments.map(a=>[a.customerName,`${a.date} · ${a.slot}`,String(a.numGuests),a.phone,<select aria-label={`Trạng thái lịch ${a.customerName}`} className="rounded border p-2" value={a.status} onChange={e=>void changeAppointmentStatus(a,e.target.value)}><option value={a.status}>{a.status}</option>{['CONFIRMED','COMPLETED','CANCELLED','NO_SHOW'].filter(s=>s!==a.status).map(s=><option key={s}>{s}</option>)}</select>])}/>}
+      {tab === 'coupons' && (
+  <section className="rounded-2xl border border-stone-200 bg-white p-5">
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <h2 className="font-semibold">Quản lý Coupon</h2>
+
+      <input
+        value={couponSearch}
+        onChange={(e) => setCouponSearch(e.target.value)}
+        placeholder="Tìm mã Coupon..."
+        className="rounded-lg border border-stone-200 px-3 py-2 text-sm"
+      />
+    </div>
+
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[800px] text-left text-sm">
+        <thead>
+          <tr className="border-b bg-stone-50 text-stone-500">
+            <th className="p-3">Mã Coupon</th>
+            <th className="p-3">Loại giảm</th>
+            <th className="p-3">Giá trị</th>
+            <th className="p-3">Lượt dùng</th>
+            <th className="p-3">Thời hạn</th>
+            <th className="p-3">Trạng thái</th>
+            <th className="p-3">Thao tác</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {coupons
+            .filter((coupon) =>
+              coupon.code.toLowerCase().includes(couponSearch.toLowerCase())
+            )
+            .map((coupon) => (
+              <tr key={coupon.id} className="border-b border-stone-100">
+                <td className="p-3 font-semibold">{coupon.code}</td>
+
+                <td className="p-3">
+                  {coupon.discountType === 'PERCENT'
+                    ? 'Phần trăm'
+                    : 'Số tiền cố định'}
+                </td>
+
+                <td className="p-3">
+                  {coupon.discountType === 'PERCENT'
+                    ? `${coupon.discountValue}%`
+                    : formatVND(coupon.discountValue)}
+                </td>
+
+                <td className="p-3">
+                  {coupon.usedCount}/{coupon.usageLimit}
+                </td>
+
+                <td className="p-3">
+                  {new Date(coupon.validUntil).toLocaleDateString('vi-VN')}
+                </td>
+
+                <td className="p-3">
+                  <span
+                    className={
+                      coupon.isActive
+                        ? 'rounded-full bg-green-50 px-2 py-1 text-xs text-green-700'
+                        : 'rounded-full bg-red-50 px-2 py-1 text-xs text-red-700'
+                    }
+                  >
+                    {!coupon.isActive
+                      ? 'Đã tắt'
+                      : new Date(coupon.validFrom) > new Date()
+                        ? 'Chưa bắt đầu'
+                      : new Date(coupon.validUntil) < new Date()
+                        ? 'Đã hết hạn'
+                      : coupon.usedCount >= coupon.usageLimit
+                        ? 'Hết lượt dùng'
+                      : 'Đang bật'}
+                  </span>
+                </td>
+
+                <td className="p-3">
+                  <button
+                    onClick={async () => {
+                      const result = await couponApi.toggleCoupon(coupon.id);
+
+                      if (result.success) {
+                        setMessage(result.message || 'Đã cập nhật Coupon');
+                        const refreshed = await couponApi.getAllCoupons();
+
+                        if (refreshed.success && refreshed.data) {
+                          setCoupons(refreshed.data);
+                        }
+                      } else {
+                        setMessage(result.message || 'Không thể cập nhật Coupon');
+                      }
+                    }}
+                    className="rounded-lg border border-stone-200 px-3 py-2 hover:bg-stone-50"
+                  >
+                    {coupon.isActive ? 'Tắt Coupon' : 'Bật Coupon'}
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+
+      {coupons.filter((coupon) =>
+        coupon.code.toLowerCase().includes(couponSearch.toLowerCase())
+      ).length === 0 && (
+        <p className="py-8 text-center text-sm text-stone-500">
+          Không tìm thấy Coupon.
+        </p>
+      )}
+    </div>
+  </section>
+)}
     </main>
   </div>;
 }

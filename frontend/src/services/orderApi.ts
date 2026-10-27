@@ -2,7 +2,7 @@ import type { ApiResult, Order, ReturnRequest, QuoteRequest, ShowroomAppointment
 import { randomDelay, generateId, generateOrderCode } from '@/utils/helpers';
 import { orders, returnRequests, quoteRequests, appointments } from '@/mock/orders';
 import { APP_CONFIG } from '@/constants/enums';
-
+import { couponApi } from '@/services/miscApi';
 function ok<T>(data: T, message = 'Thành công'): ApiResult<T> {
   return { success: true, data, message };
 }
@@ -30,14 +30,40 @@ export const orderApi = {
   async createOrder(data: CreateOrderData): Promise<ApiResult<Order>> {
     await randomDelay();
     if (!data.privacyConsent) return fail('Bạn phải đồng ý với chính sách bảo mật');
+    
+const subtotal = data.items.reduce(
+  (sum, item) => sum + item.price * item.quantity,
+  0
+);
 
-    const subtotal = data.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    const shippingFee = subtotal >= APP_CONFIG.freeShipThreshold ? 0 : APP_CONFIG.shippingFee;
-    let discount = 0;
-    if (data.couponCode === 'TRAM100' && subtotal >= 1000000) discount = 100000;
-    if (data.couponCode === 'MOCTRAM10' && subtotal >= 300000) discount = Math.min(50000, Math.round(subtotal * 0.1));
-    if (data.couponCode === 'FREESHIP' && subtotal >= 500000) discount = shippingFee;
-    const total = subtotal + shippingFee - discount;
+const shippingFee =
+  subtotal >= APP_CONFIG.freeShipThreshold
+    ? 0
+    : APP_CONFIG.shippingFee;
+
+let discount = 0;
+const couponCode = data.couponCode?.trim().toUpperCase();
+
+if (couponCode) {
+  const couponResult = await couponApi.validateCoupon(
+    couponCode,
+    subtotal
+  );
+
+  if (!couponResult.success || !couponResult.data?.valid) {
+    return fail(
+      couponResult.message || 'Mã giảm giá không hợp lệ'
+    );
+  }
+
+  discount = couponResult.data.discount;
+}
+
+// Không để tổng tiền âm
+discount = Math.min(discount, subtotal + shippingFee);
+
+const total = subtotal + shippingFee - discount;
+
 
     const orderCode = generateOrderCode();
     const now = new Date().toISOString();

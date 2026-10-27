@@ -421,8 +421,8 @@ export const coupons: Coupon[] = [
     maxDiscount: 100000,
     usageLimit: 100,
     usedCount: 23,
-    validFrom: '2025-09-01T00:00:00Z',
-    validUntil: '2025-12-31T23:59:59Z',
+    validFrom: '2027-09-01T00:00:00Z',
+    validUntil: '2027-12-31T23:59:59Z',
     isActive: true,
   },
   {
@@ -435,8 +435,8 @@ export const coupons: Coupon[] = [
     maxDiscount: 50000,
     usageLimit: 200,
     usedCount: 87,
-    validFrom: '2025-08-01T00:00:00Z',
-    validUntil: '2025-12-31T23:59:59Z',
+    validFrom: '2027-08-01T00:00:00Z',
+    validUntil: '2027-12-31T23:59:59Z',
     isActive: true,
   },
   {
