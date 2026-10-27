@@ -67,6 +67,12 @@ COUPON_MESSAGES = {
     "INVALID_MIN_ORDER_AMOUNT": "Giá trị đơn hàng tối thiểu không được âm",
     "INVALID_DATE_RANGE": "Thời gian kết thúc không được trước thời gian bắt đầu",
     "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
+    "INACTIVE": "Mã giảm giá hiện đang bị vô hiệu hóa",
+    "NOT_STARTED": "Mã giảm giá chưa đến thời gian áp dụng",
+    "EXPIRED": "Mã giảm giá đã hết hạn sử dụng",
+    "USAGE_LIMIT_EXCEEDED": "Mã giảm giá đã hết lượt sử dụng",
+    "USER_USAGE_LIMIT_EXCEEDED": "Bạn đã sử dụng hết số lượt cho phép của mã giảm giá này",
+    "MIN_ORDER_AMOUNT_NOT_MET": "Đơn hàng chưa đạt giá trị tối thiểu để áp dụng mã giảm giá",
 }
 
 CATEGORY_MESSAGES = {
@@ -140,6 +146,12 @@ ISSUE_MESSAGES = {
     "PRODUCT_NOT_FOUND": "Sản phẩm không tồn tại",
     "ORDER_NOT_FOUND": "Đơn hàng không tồn tại",
     "CANNOT_UPDATE_CANCELLED": "Không thể chỉnh sửa phiếu xuất kho đã hủy",
+    "PRODUCT_MISMATCH": "Sản phẩm xuất kho không khớp với sản phẩm trong đơn hàng",
+    "ORDER_CANCELLED": "Không thể xuất kho cho đơn hàng đã bị hủy",
+    "ORDER_DELIVERED": "Đơn hàng đã được giao thành công, không thể xuất kho thêm",
+    "ORDER_PENDING": "Đơn hàng đang chờ xác nhận (PENDING), vui lòng xác nhận đơn hàng trước khi xuất kho",
+    "ORDER_ALREADY_FULFILLED": "Đơn hàng này đã được xuất kho đủ số lượng",
+    "EXCEEDS_ORDER_QUANTITY": "Số lượng xuất kho vượt quá số lượng còn lại của đơn hàng",
 }
 
 RECEIPT_MESSAGES = {
@@ -153,4 +165,74 @@ RECEIPT_MESSAGES = {
     "WAREHOUSE_NOT_FOUND": "Kho hàng không tồn tại",
     "PRODUCT_NOT_FOUND": "Sản phẩm không tồn tại",
     "CANNOT_UPDATE_CANCELLED": "Không thể chỉnh sửa phiếu nhập kho đã hủy",
+}
+
+CUSTOMER_MESSAGES = {
+    "CREATED": "Tạo hồ sơ khách hàng thành công",
+    "UPDATED": "Cập nhật hồ sơ khách hàng thành công",
+    "DELETED": "Vô hiệu hóa tài khoản khách hàng thành công",
+    "RESTORED": "Khôi phục tài khoản khách hàng thành công",
+    "NOT_FOUND": "Không tìm thấy hồ sơ khách hàng",
+    "ALREADY_EXISTS": "Khách hàng này đã có hồ sơ",
+    "USER_NOT_FOUND": "Người dùng không tồn tại",
+    "USER_NOT_CUSTOMER": "Người dùng không phải là khách hàng",
+    "INVALID_LOYALTY_POINTS": "Điểm tích lũy không được âm",
+    "INVALID_TOTAL_SPENT": "Tổng chi tiêu không được âm",
+    "INVALID_TOTAL_ORDERS": "Tổng số đơn hàng không được âm",
+    "INVALID_GENDER": "Giới tính không hợp lệ",
+    "ALREADY_DEACTIVATED": "Tài khoản khách hàng này đã bị vô hiệu hóa trước đó",
+}
+
+ADDRESS_MESSAGES = {
+    "CREATED": "Thêm địa chỉ thành công",
+    "UPDATED": "Cập nhật địa chỉ thành công",
+    "DELETED": "Xóa địa chỉ thành công",
+    "NOT_FOUND": "Không tìm thấy địa chỉ",
+    "SET_DEFAULT_SUCCESS": "Đặt địa chỉ mặc định thành công",
+    "CANNOT_DELETE_DEFAULT": "Không được phép xóa địa chỉ mặc định. Vui lòng thiết lập địa chỉ khác làm mặc định trước khi xóa.",
+    "CANNOT_UNSET_DEFAULT": "Không thể hủy mặc định. Vui lòng chọn địa chỉ khác làm mặc định.",
+    "CUSTOMER_NOT_FOUND": "Không tìm thấy thông tin khách hàng",
+}
+
+ORDER_MESSAGES = {
+    "CREATED": "Đặt đơn hàng thành công",
+    "UPDATED": "Cập nhật đơn hàng thành công",
+    "STATUS_UPDATED": "Cập nhật trạng thái đơn hàng thành công",
+    "CANCELLED": "Hủy đơn hàng thành công",
+    "NOT_FOUND": "Không tìm thấy đơn hàng",
+    "ORDER_NUMBER_EXISTS": "Mã đơn hàng đã tồn tại",
+    "INVALID_STATUS": "Trạng thái đơn hàng không hợp lệ",
+    "INVALID_STATUS_TRANSITION": "Không thể chuyển trạng thái đơn hàng theo luồng này",
+    "ALREADY_CANCELLED": "Đơn hàng này đã bị hủy trước đó",
+    "ALREADY_DELIVERED": "Đơn hàng này đã được giao thành công, không thể thay đổi trạng thái",
+    "CUSTOMER_NOT_FOUND": "Không tìm thấy khách hàng đặt đơn",
+    "INVALID_SUBTOTAL": "Tổng tiền hàng không hợp lệ (phải >= 0)",
+    "INVALID_DISCOUNT_AMOUNT": "Số tiền giảm giá không hợp lệ (không được âm và không được lớn hơn tổng tiền hàng)",
+    "INVALID_SHIPPING_FEE": "Phí vận chuyển không hợp lệ (phải >= 0)",
+    "INVALID_TOTAL_AMOUNT": "Tổng tiền thanh toán không hợp lệ (phải >= 0)",
+    "RECIPIENT_NAME_REQUIRED": "Tên người nhận không được để trống",
+    "RECIPIENT_PHONE_REQUIRED": "Số điện thoại người nhận không được để trống",
+    "INVALID_PHONE_NUMBER": "Số điện thoại người nhận không hợp lệ",
+    "SHIPPING_ADDRESS_REQUIRED": "Địa chỉ giao hàng không được để trống",
+    "CANNOT_UPDATE_SHIPPED_ORDER": "Không thể chỉnh sửa thông tin đơn hàng đang hoặc đã giao",
+    "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
+    "FORBIDDEN": "Bạn không có quyền thao tác trên đơn hàng này",
+    "ITEMS_REQUIRED": "Đơn hàng phải có ít nhất một sản phẩm",
+    "PRODUCT_INACTIVE": "Sản phẩm hiện đang tạm ngưng kinh doanh",
+    "INSUFFICIENT_STOCK": "Số lượng hàng trong kho không đủ để đặt hàng",
+}
+
+FEEDBACK_MESSAGES = {
+    "CREATED": "Gửi phản hồi đơn hàng thành công",
+    "UPDATED": "Cập nhật phản hồi thành công",
+    "DELETED": "Xóa phản hồi thành công",
+    "REPLIED": "Gửi câu trả lời phản hồi thành công",
+    "NOT_FOUND": "Không tìm thấy phản hồi của đơn hàng",
+    "ALREADY_EXISTS": "Đơn hàng này đã được gửi phản hồi trước đó",
+    "ORDER_NOT_DELIVERED": "Chỉ có thể đánh giá đơn hàng khi đã nhận hàng thành công (DELIVERED)",
+    "INVALID_RATING": "Số sao đánh giá phải từ 1 đến 5 sao",
+    "COMMENT_REQUIRED": "Nội dung phản hồi không được để trống",
+    "REPLY_REQUIRED": "Nội dung câu trả lời không được để trống",
+    "FORBIDDEN": "Bạn không có quyền thao tác trên phản hồi này",
+    "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
 }
