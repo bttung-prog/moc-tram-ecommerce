@@ -10,6 +10,7 @@ from constants.messages import AUTH_MESSAGES, USER_MESSAGES
 from constants.roles import ROLES
 from constants.user_statuses import USER_STATUSES
 from modules.auth import auth_repository
+from modules.customer import customer_service
 from modules.user import user_service
 from utils.api_error import ApiError
 from utils.email import send_otp_email
@@ -48,6 +49,13 @@ def register(
         role=role,
         status=USER_STATUSES.INACTIVE.value,
     )
+
+    if role == ROLES.CUSTOMER.value or role == ROLES.CUSTOMER:
+        customer_service.create(
+            db=db,
+            user_id=new_user.id,
+            is_active=False,
+        )
 
     otp = f"{secrets.randbelow(90_000_000) + 10_000_000}"
     expires_at = datetime.now(UTC) + timedelta(minutes=5)
@@ -122,6 +130,9 @@ def verify_register_otp(db: Session, email: str, otp: str) -> dict:
 
     activated_user = user_service.activate_user(db, user.id)
     auth_repository.delete_register_otp_by_email(db, clean_email)
+
+    if activated_user.role == ROLES.CUSTOMER:
+        customer_service.activate_by_user_id(db, activated_user.id)
 
     return {
         "id": activated_user.id,
