@@ -46,7 +46,8 @@ class CouponUsage(Base):
         index=True,
     )
 
-    order_id: Mapped[int] = mapped_column(
+    order_id: Mapped[UUID] = mapped_column(
+        Uuid,
         ForeignKey("orders.id"),
         nullable=False,
         index=True,
