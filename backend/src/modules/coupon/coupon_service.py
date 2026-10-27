@@ -9,6 +9,7 @@ from constants.discount_types import DiscountType
 from constants.messages import COUPON_MESSAGES
 from modules.coupon import coupon_repository
 from modules.coupon.coupon import Coupon
+from modules.coupon.coupon_usage import CouponUsage
 from utils.api_error import ApiError
 
 
@@ -234,3 +235,84 @@ def delete_by_code(db: Session, code: str) -> bool:
         raise ApiError(404, COUPON_MESSAGES["NOT_FOUND"])
 
     return coupon_repository.delete_by_code(db, clean_code)
+
+
+def validate_and_calculate_discount(
+    db: Session,
+    code: str,
+    user_id: UUID,
+    subtotal: Decimal,
+) -> tuple[Coupon, Decimal]:
+    coupon = get_by_code(db, code)
+    now = (
+        datetime.now(coupon.start_date.tzinfo)
+        if coupon.start_date and coupon.start_date.tzinfo
+        else datetime.now()
+    )
+
+    if not coupon.is_active:
+        raise ApiError(400, COUPON_MESSAGES["INACTIVE"])
+
+    if coupon.start_date and coupon.start_date > now:
+        raise ApiError(400, COUPON_MESSAGES["NOT_STARTED"])
+
+    if coupon.end_date and coupon.end_date < now:
+        raise ApiError(400, COUPON_MESSAGES["EXPIRED"])
+
+    if coupon.min_order_amount and subtotal < coupon.min_order_amount:
+        raise ApiError(
+            400,
+            f"{COUPON_MESSAGES['MIN_ORDER_AMOUNT_NOT_MET']} (Yêu cầu tối thiểu {coupon.min_order_amount})",
+        )
+
+    if coupon.usage_limit is not None and coupon.used_count >= coupon.usage_limit:
+        raise ApiError(400, COUPON_MESSAGES["USAGE_LIMIT_EXCEEDED"])
+
+    if coupon.usage_limit_per_user is not None:
+        user_usages = coupon_repository.count_user_usages(db, coupon.id, user_id)
+        if user_usages >= coupon.usage_limit_per_user:
+            raise ApiError(400, COUPON_MESSAGES["USER_USAGE_LIMIT_EXCEEDED"])
+
+    if coupon.discount_type == DiscountType.PERCENTAGE:
+        discount = subtotal * (coupon.discount_value / Decimal("100"))
+        if coupon.max_discount_amount is not None:
+            discount = min(discount, coupon.max_discount_amount)
+    elif coupon.discount_type == DiscountType.FIXED_AMOUNT:
+        discount = min(subtotal, coupon.discount_value)
+    else:
+        discount = Decimal("0.00")
+
+    return coupon, discount
+
+
+def apply_coupon(
+    db: Session,
+    coupon_id: UUID,
+    user_id: UUID,
+    order_id: UUID,
+    discount_amount: Decimal,
+) -> CouponUsage:
+    usage = coupon_repository.create_usage(
+        db,
+        usage_data={
+            "coupon_id": coupon_id,
+            "user_id": user_id,
+            "order_id": order_id,
+            "discount_amount": discount_amount,
+            "used_at": datetime.now(),
+        },
+    )
+    coupon_repository.adjust_used_count(db, coupon_id, delta=1)
+    return usage
+
+
+def revert_coupon_usage(db: Session, order_id: UUID) -> bool:
+    usage = coupon_repository.find_usage_by_order_id(db, order_id)
+    if not usage:
+        return False
+
+    coupon_id = usage.coupon_id
+    deleted = coupon_repository.delete_usage_by_order_id(db, order_id)
+    if deleted:
+        coupon_repository.adjust_used_count(db, coupon_id, delta=-1)
+    return deleted

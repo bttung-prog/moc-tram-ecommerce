@@ -4,6 +4,7 @@ from sqlalchemy import desc, func, select
 from sqlalchemy.orm import Session
 
 from modules.coupon.coupon import Coupon
+from modules.coupon.coupon_usage import CouponUsage
 
 # ==========================================
 # Coupon CRUD
@@ -108,4 +109,52 @@ def delete_by_code(db: Session, code: str) -> bool:
     db.delete(coupon)
     db.flush()
 
+    return True
+
+
+def adjust_used_count(db: Session, coupon_id: UUID, delta: int) -> Coupon | None:
+    coupon = find_by_id(db, coupon_id)
+    if not coupon:
+        return None
+
+    coupon.used_count = max(0, coupon.used_count + delta)
+    db.flush()
+    db.refresh(coupon)
+    return coupon
+
+
+# ==========================================
+# CouponUsage Operations
+# ==========================================
+
+
+def create_usage(db: Session, usage_data: dict) -> CouponUsage:
+    usage = CouponUsage(**usage_data)
+    db.add(usage)
+    db.flush()
+    db.refresh(usage)
+    return usage
+
+
+def find_usage_by_order_id(db: Session, order_id: UUID) -> CouponUsage | None:
+    query = select(CouponUsage).where(CouponUsage.order_id == order_id)
+    return db.scalar(query)
+
+
+def count_user_usages(db: Session, coupon_id: UUID, user_id: UUID) -> int:
+    query = (
+        select(func.count(CouponUsage.id))
+        .where(CouponUsage.coupon_id == coupon_id)
+        .where(CouponUsage.user_id == user_id)
+    )
+    return db.scalar(query) or 0
+
+
+def delete_usage_by_order_id(db: Session, order_id: UUID) -> bool:
+    usage = find_usage_by_order_id(db, order_id)
+    if not usage:
+        return False
+
+    db.delete(usage)
+    db.flush()
     return True
