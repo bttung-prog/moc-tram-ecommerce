@@ -3,6 +3,32 @@ import { randomDelay, generateId, generateOrderCode } from '@/utils/helpers';
 import { orders, returnRequests, quoteRequests, appointments } from '@/mock/orders';
 import { APP_CONFIG } from '@/constants/enums';
 import { couponApi } from '@/services/miscApi';
+const API_BASE = (
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'
+).replace(/\/$/, '');
+
+async function fetchAdminOrders<T>(path: string): Promise<T> {
+  const token = localStorage.getItem('moctram_token');
+
+  if (!token) {
+    throw new Error('Vui lòng đăng nhập lại.');
+  }
+
+  const response = await fetch(`${API_BASE}${path}`, {
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const result = await response.json();
+
+  if (!response.ok || result.success === false) {
+    throw new Error(result.message || `Lỗi API: ${response.status}`);
+  }
+
+  return result;
+}
 function ok<T>(data: T, message = 'Thành công'): ApiResult<T> {
   return { success: true, data, message };
 }
@@ -132,24 +158,62 @@ const total = subtotal + shippingFee - discount;
     if (!order) return fail('Không tìm thấy đơn hàng');
     return ok(order);
   },
+async getAllOrders(
+  filter?: {
+    status?: string;
+    paymentMethod?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }
+): Promise<ApiResult<{
+  items: Order[];
+  total: number;
+  page: number;
+  totalPages: number;
+}>> {
+  try {
+    const params = new URLSearchParams({
+      page: String(filter?.page || 1),
+      limit: String(filter?.limit || 10),
+    });
 
-  async getAllOrders(filter?: { status?: string; paymentMethod?: string; search?: string; page?: number; limit?: number }): Promise<ApiResult<{ items: Order[]; total: number; page: number; totalPages: number }>> {
-    await randomDelay();
-    let result = [...orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    if (filter?.status) result = result.filter((o) => o.status === filter.status);
-    if (filter?.paymentMethod) result = result.filter((o) => o.paymentMethod === filter.paymentMethod);
-    if (filter?.search) {
-      const q = filter.search.toLowerCase();
-      result = result.filter((o) => o.orderCode.toLowerCase().includes(q) || o.customerName.toLowerCase().includes(q) || o.customerPhone.includes(q));
+    if (filter?.search?.trim()) {
+      params.set('search', filter.search.trim());
     }
-    const total = result.length;
-    const page = filter?.page || 1;
-    const limit = filter?.limit || 10;
-    const totalPages = Math.ceil(total / limit);
-    const items = result.slice((page - 1) * limit, page * limit);
-    return ok({ items, total, page, totalPages });
-  },
 
+    if (filter?.status) {
+      params.set('status', filter.status);
+    }
+
+    const response = await fetch(
+      `${API_BASE}/admin/orders?${params.toString()}`,
+      {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('moctram_token') || ''}`,
+        },
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || result.success === false) {
+      throw new Error(result.message || `Lỗi API: ${response.status}`);
+    }
+
+    return ok({
+      items: result.items ?? result.data?.items ?? [],
+      total: result.total ?? result.data?.total ?? 0,
+      page: result.page ?? result.data?.page ?? 1,
+      totalPages: result.totalPages ?? result.data?.totalPages ?? 0,
+    });
+  } catch (e) {
+    return fail(
+      e instanceof Error ? e.message : 'Không thể tải danh sách đơn hàng'
+    );
+  }
+},
   async updateOrderStatus(orderId: string, newStatus: string, note?: string): Promise<ApiResult<Order>> {
     await randomDelay();
     const order = orders.find((o) => o.id === orderId);

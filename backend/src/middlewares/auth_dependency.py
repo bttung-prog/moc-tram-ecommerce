@@ -1,21 +1,26 @@
+
 import jwt
-from fastapi.requests import Request
+from fastapi import Request, Security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from constants.messages import AUTH_MESSAGES, COMMON_MESSAGES
 from utils.api_error import ApiError
 from utils.jwt import verify_access_token
 
+bearer_scheme = HTTPBearer(auto_error=False)
 
-def auth_dependency(request: Request):
-    auth_header: str | None = request.headers.get("authorization")
-    if not auth_header or not auth_header.startswith("Bearer "):
+
+def auth_dependency(
+    request: Request,
+    credentials: HTTPAuthorizationCredentials | None = Security(bearer_scheme),
+):
+    if credentials is None or credentials.scheme.lower() != "bearer":
         raise ApiError(401, COMMON_MESSAGES["UNAUTHORIZED"])
 
-    parts = auth_header.split(maxsplit=1)
-    if len(parts) < 2 or not parts[1].strip():
-        raise ApiError(401, COMMON_MESSAGES["UNAUTHORIZED"])
+    access_token = credentials.credentials.strip()
 
-    access_token = parts[1].strip()
+    if not access_token:
+        raise ApiError(401, COMMON_MESSAGES["UNAUTHORIZED"])
 
     try:
         payload: dict = verify_access_token(access_token)
