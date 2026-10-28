@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends
 from middlewares.auth_dependency import auth_dependency
 from modules.address.address_routes import address_router
 from modules.auth.auth_routes import auth_router
+from modules.cart.cart_routes import cart_router
 from modules.category.category_routes import category_router
 from modules.coupon.coupon_routes import coupon_router
 from modules.customer.customer_routes import customer_router
@@ -34,6 +35,7 @@ protected_router.include_router(issue_router, prefix="/issues")
 protected_router.include_router(receipt_router, prefix="/receipts")
 protected_router.include_router(order_router, prefix="/orders")
 protected_router.include_router(feedback_router, prefix="/feedbacks")
+protected_router.include_router(cart_router, prefix="/cart")
 
 index_router.include_router(public_router)
 index_router.include_router(protected_router)
