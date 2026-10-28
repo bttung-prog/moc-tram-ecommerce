@@ -236,3 +236,19 @@ FEEDBACK_MESSAGES = {
     "FORBIDDEN": "Bạn không có quyền thao tác trên phản hồi này",
     "AT_LEAST_ONE_FIELD_REQUIRED": "Vui lòng cung cấp ít nhất một trường để cập nhật",
 }
+
+CART_MESSAGES = {
+    "GET_SUCCESS": "Lấy thông tin giỏ hàng thành công",
+    "ITEM_ADDED": "Đã thêm sản phẩm vào giỏ hàng",
+    "ITEM_UPDATED": "Cập nhật giỏ hàng thành công",
+    "ITEM_REMOVED": "Đã xóa sản phẩm khỏi giỏ hàng",
+    "CLEARED": "Đã xóa toàn bộ giỏ hàng",
+    "MERGED": "Đồng bộ giỏ hàng thành công",
+    "ITEM_NOT_FOUND": "Không tìm thấy sản phẩm trong giỏ hàng",
+    "CART_NOT_FOUND": "Không tìm thấy giỏ hàng",
+    "INVALID_QUANTITY": "Số lượng sản phẩm phải lớn hơn 0",
+    "PRODUCT_NOT_FOUND": "Sản phẩm không tồn tại",
+    "PRODUCT_INACTIVE": "Sản phẩm hiện đang tạm ngưng kinh doanh",
+    "INSUFFICIENT_STOCK": "Số lượng hàng trong kho không đủ đáp ứng",
+    "FORBIDDEN": "Bạn không có quyền thao tác trên giỏ hàng này",
+}
