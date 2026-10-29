@@ -270,3 +270,46 @@ PAYMENT_MESSAGES = {
     "INVALID_STATUS": "Trạng thái thanh toán không hợp lệ",
     "INVALID_AMOUNT": "Số tiền thanh toán không hợp lệ",
 }
+
+
+STAFF_MESSAGES = {
+    "CREATED": "Tạo hồ sơ nhân viên thành công",
+    "UPDATED": "Cập nhật hồ sơ nhân viên thành công",
+    "DELETED": "Vô hiệu hóa tài khoản nhân viên thành công",
+    "RESTORED": "Khôi phục tài khoản nhân viên thành công",
+    "NOT_FOUND": "Không tìm thấy hồ sơ nhân viên",
+    "ALREADY_EXISTS": "Nhân viên này đã có hồ sơ",
+    "USER_NOT_FOUND": "Người dùng không tồn tại",
+    "USER_NOT_STAFF": "Người dùng không phải là nhân viên nghiệp vụ (STAFF)",
+    "STAFF_CODE_EXISTS": "Mã nhân viên đã tồn tại",
+    "ALREADY_DEACTIVATED": "Tài khoản nhân viên này đã bị vô hiệu hóa trước đó",
+}
+
+
+WAREHOUSE_STAFF_MESSAGES = {
+    "CREATED": "Tạo hồ sơ nhân viên kho thành công",
+    "UPDATED": "Cập nhật hồ sơ nhân viên kho thành công",
+    "DELETED": "Vô hiệu hóa tài khoản nhân viên kho thành công",
+    "RESTORED": "Khôi phục tài khoản nhân viên kho thành công",
+    "NOT_FOUND": "Không tìm thấy hồ sơ nhân viên kho",
+    "ALREADY_EXISTS": "Nhân viên kho này đã có hồ sơ",
+    "USER_NOT_FOUND": "Người dùng không tồn tại",
+    "USER_NOT_WAREHOUSE_STAFF": "Người dùng không phải là nhân viên kho (WAREHOUSE_STAFF)",
+    "WAREHOUSE_NOT_FOUND": "Kho hàng không tồn tại",
+    "STAFF_CODE_EXISTS": "Mã nhân viên kho đã tồn tại",
+    "ALREADY_DEACTIVATED": "Tài khoản nhân viên kho này đã bị vô hiệu hóa trước đó",
+}
+
+
+ADMIN_MESSAGES = {
+    "CREATE_USER_SUCCESS": "Tạo tài khoản người dùng thành công",
+    "GET_USERS_SUCCESS": "Lấy danh sách người dùng thành công",
+    "GET_USER_SUCCESS": "Lấy thông tin người dùng thành công",
+    "UPDATE_USER_SUCCESS": "Cập nhật thông tin người dùng thành công",
+    "CHANGE_ROLE_SUCCESS": "Thay đổi vai trò người dùng thành công",
+    "CHANGE_STATUS_SUCCESS": "Thay đổi trạng thái người dùng thành công",
+    "INVALID_ROLE": "Vai trò không hợp lệ",
+    "INVALID_STATUS": "Trạng thái không hợp lệ",
+    "CANNOT_CHANGE_OWN_ROLE": "Không thể tự thay đổi vai trò của chính mình",
+    "CANNOT_DEACTIVATE_OWN_ACCOUNT": "Không thể tự vô hiệu hóa tài khoản của chính mình",
+}

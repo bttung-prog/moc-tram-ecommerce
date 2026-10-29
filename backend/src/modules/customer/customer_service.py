@@ -86,6 +86,17 @@ def activate_by_user_id(db: Session, user_id: UUID) -> Customer:
     return customer
 
 
+def deactivate_by_user_id(db: Session, user_id: UUID) -> Customer | None:
+    customer = customer_repository.find_by_user_id(db, user_id)
+    if not customer:
+        return None
+
+    if customer.is_active or customer.deleted_at is None:
+        customer_repository.delete_by_id(db, customer.id)
+
+    return customer
+
+
 def get_by_id(db: Session, customer_id: UUID) -> Customer:
     customer = customer_repository.find_by_id(db, customer_id)
     if not customer:

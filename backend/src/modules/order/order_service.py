@@ -16,7 +16,7 @@ from modules.order import order_repository
 from modules.order.order import Order
 from modules.product import product_service
 from utils.api_error import ApiError
-from utils.generate_order_code import generate_order_code
+from utils.generate_code import generate_order_code
 
 ALLOWED_STATUS_TRANSITIONS: dict[ORDER_STATUSES, list[ORDER_STATUSES]] = {
     ORDER_STATUSES.PENDING: [ORDER_STATUSES.CONFIRMED, ORDER_STATUSES.CANCELLED],
