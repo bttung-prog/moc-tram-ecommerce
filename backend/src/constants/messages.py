@@ -252,3 +252,21 @@ CART_MESSAGES = {
     "INSUFFICIENT_STOCK": "Số lượng hàng trong kho không đủ đáp ứng",
     "FORBIDDEN": "Bạn không có quyền thao tác trên giỏ hàng này",
 }
+
+
+PAYMENT_MESSAGES = {
+    "CREATED": "Tạo yêu cầu thanh toán VietQR thành công",
+    "GET_SUCCESS": "Lấy thông tin thanh toán thành công",
+    "CONFIRMED": "Xác nhận thanh toán thành công",
+    "SIMULATED": "Giả lập thanh toán VietQR thành công",
+    "CANCELLED": "Hủy giao dịch thanh toán thành công",
+    "NOT_FOUND": "Không tìm thấy thông tin thanh toán",
+    "ALREADY_PAID": "Đơn hàng này đã được thanh toán thành công trước đó",
+    "ORDER_NOT_FOUND": "Không tìm thấy đơn hàng cần thanh toán",
+    "ORDER_CANCELLED": "Không thể thanh toán cho đơn hàng đã bị hủy",
+    "ORDER_DELIVERED": "Đơn hàng đã hoàn thành, không thể tạo thanh toán mới",
+    "PAYMENT_EXPIRED": "Yêu cầu thanh toán đã hết hạn, vui lòng tạo lại mã mới",
+    "FORBIDDEN": "Bạn không có quyền thao tác trên thanh toán này",
+    "INVALID_STATUS": "Trạng thái thanh toán không hợp lệ",
+    "INVALID_AMOUNT": "Số tiền thanh toán không hợp lệ",
+}

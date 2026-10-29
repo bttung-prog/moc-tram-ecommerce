@@ -11,6 +11,7 @@ from modules.feedback.feedback_routes import feedback_router
 from modules.inventory.inventory_routes import inventory_router
 from modules.issue.issue_routes import issue_router
 from modules.order.order_routes import order_router
+from modules.payment.payment_routes import payment_router
 from modules.product.product_routes import product_router
 from modules.receipt.receipt_routes import receipt_router
 from modules.user.user_routes import user_router
@@ -36,6 +37,7 @@ protected_router.include_router(receipt_router, prefix="/receipts")
 protected_router.include_router(order_router, prefix="/orders")
 protected_router.include_router(feedback_router, prefix="/feedbacks")
 protected_router.include_router(cart_router, prefix="/cart")
+protected_router.include_router(payment_router, prefix="/payments")
 
 index_router.include_router(public_router)
 index_router.include_router(protected_router)
