@@ -21,25 +21,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let active = true;
-    const restoreSession = async () => {
-      const stored = authApi.getStoredUser<User>();
-      if (!stored || !authApi.getToken()) {
-        if (active) setLoading(false);
-        return;
-      }
-      // Dùng hồ sơ do backend trả về thay vì tin hoàn toàn vào dữ liệu trong localStorage.
-      const result = await authApi.getProfile();
-      if (!active) return;
-      if (result.success && result.data) setUser(result.data as User);
-      else {
-        await authApi.logout();
-        setUser(null);
-      }
-      setLoading(false);
-    };
-    void restoreSession();
-    return () => { active = false; };
+    const stored = authApi.getStoredUser<User>();
+    if (stored && authApi.getToken()) {
+      setUser(stored);
+    }
+    setLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {

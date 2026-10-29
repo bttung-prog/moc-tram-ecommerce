@@ -4,10 +4,8 @@ import { ArrowRight, Award, Check, ChevronDown, Flame, Leaf, MapPin, Menu, Packa
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { ProductCard } from '@/components/product/ProductCard';
-import AdminPanel from '@/components/AdminPanel';
 import { Breadcrumb, EmptyState, ErrorState, Pagination, SkeletonCard, StatusBadge, ScrollToTop, ProtectedRoute } from '@/components/common';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
-import { authApi } from '@/services/authApi';
 import { CartProvider, useCart } from '@/contexts/CartContext';
 import { productApi } from '@/services/productApi';
 import { orderApi } from '@/services/orderApi';
@@ -17,7 +15,7 @@ import { categories, origins, agarwoodTypes, agarwoodGrades } from '@/mock/catal
 import { products } from '@/mock/products';
 import { formatVND, formatDateTime } from '@/utils/format';
 import { validateEmail, validatePhone } from '@/utils/validation';
-import { APP_CONFIG, ORDER_STATUS_COLORS, ORDER_STATUS_LABELS, PAYMENT_METHOD_LABELS, SHOWROOMS, APPOINTMENT_SLOTS } from '@/constants/enums';
+import { APP_CONFIG, ORDER_STATUS_COLORS, ORDER_STATUS_LABELS, PAYMENT_METHOD_LABELS } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import type { Product, Order, User } from '@/types';
 
@@ -778,80 +776,7 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
 
   if (user) return <Navigate to={redirect} replace />;
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [forgotEmail, setForgotEmail] = useState('');
-  const [forgotOtp, setForgotOtp] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [forgotBusy, setForgotBusy] = useState(false);
-  const [forgotMessage, setForgotMessage] = useState('');
-  const [forgotError, setForgotError] = useState('');
-  const [otpSent, setOtpSent] = useState(false);
-const handleForgotPassword = async (e: FormEvent) => {
-  e.preventDefault();
-  setForgotError('');
-  setForgotMessage('');
-  setForgotBusy(true);
 
-  try {
-    const result = await authApi.forgotPassword({
-      email: forgotEmail.trim(),
-    });
-
-    if (!result.success) {
-      throw new Error(result.message || 'Không thể gửi yêu cầu khôi phục.');
-    }
-
-    setOtpSent(true);
-    setForgotMessage(
-      result.message || 'Nếu email hợp lệ, mã OTP sẽ được gửi đến email của bạn.'
-    );
-  } catch (err) {
-    setForgotError(
-      err instanceof Error ? err.message : 'Có lỗi khi gửi yêu cầu.'
-    );
-  } finally {
-    setForgotBusy(false);
-  }
-};
-
-const handleResetPassword = async (e: FormEvent) => {
-  e.preventDefault();
-  setForgotError('');
-  setForgotMessage('');
-
-  if (newPassword.length < 8) {
-    setForgotError('Mật khẩu mới phải có ít nhất 8 ký tự.');
-    return;
-  }
-
-  setForgotBusy(true);
-
-  try {
-    const result = await authApi.resetPassword({
-      email: forgotEmail.trim(),
-      otp: forgotOtp.trim(),
-      newPassword,
-    });
-
-    if (!result.success) {
-      throw new Error(result.message || 'Không thể đặt lại mật khẩu.');
-    }
-
-    setForgotMessage('Đặt lại mật khẩu thành công. Bạn có thể đăng nhập.');
-    setOtpSent(false);
-    setShowForgotPassword(false);
-    setMode('login');
-    setForm((prev) => ({ ...prev, email: forgotEmail, password: '' }));
-    setForgotOtp('');
-    setNewPassword('');
-  } catch (err) {
-    setForgotError(
-      err instanceof Error ? err.message : 'Có lỗi khi đặt lại mật khẩu.'
-    );
-  } finally {
-    setForgotBusy(false);
-  }
-};
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
@@ -860,10 +785,9 @@ const handleResetPassword = async (e: FormEvent) => {
       if (mode === 'login') {
         const result = await login(form.email, form.password);
         if (result.requiresMfa) {
-          throw new Error('MFA chưa được cấu hình. Hệ thống không chấp nhận mã OTP demo.');
+          setError('Tài khoản nhân viên cần xác thực MFA. Demo: nhập 6 chữ số bất kỳ.');
         } else {
-          const loggedInUser = authApi.getStoredUser<{ role?: string }>();
-          navigate(loggedInUser?.role === 'ADMIN' ? '/admin' : redirect);
+          navigate(redirect);
         }
       } else {
         const p = validatePhone(form.phone);
@@ -888,87 +812,6 @@ const handleResetPassword = async (e: FormEvent) => {
             <h1 className="mt-5 font-serif text-3xl text-agarwood-800">{mode === 'login' ? 'Chào mừng trở lại' : 'Tạo tài khoản'}</h1>
             <p className="mt-2 text-sm text-charcoal-300">{mode === 'login' ? 'Đăng nhập để theo dõi hành trình đơn hàng.' : 'Lưu lại những khoảnh khắc an nhiên của bạn.'}</p>
           </div>
-          
-{showForgotPassword && (
-  <form
-    onSubmit={otpSent ? handleResetPassword : handleForgotPassword}
-    className="card mt-8 space-y-4 p-6"
-  >
-    <h2 className="font-serif text-2xl text-agarwood-800">
-      Quên mật khẩu
-    </h2>
-
-    <label className="block space-y-2">
-      <span className="text-sm">Email</span>
-      <input
-        type="email"
-        required
-        value={forgotEmail}
-        onChange={(e) => setForgotEmail(e.target.value)}
-        className="w-full"
-        placeholder="Nhập email của bạn"
-      />
-    </label>
-
-    {otpSent && (
-      <>
-        <label className="block space-y-2">
-          <span className="text-sm">Mã OTP</span>
-          <input
-            required
-            value={forgotOtp}
-            onChange={(e) => setForgotOtp(e.target.value)}
-            className="w-full"
-            placeholder="Nhập mã OTP"
-          />
-        </label>
-
-        <label className="block space-y-2">
-          <span className="text-sm">Mật khẩu mới</span>
-          <input
-            type="password"
-            required
-            minLength={8}
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full"
-            placeholder="Ít nhất 8 ký tự"
-          />
-        </label>
-      </>
-    )}
-
-    {forgotMessage && (
-      <p className="text-sm text-green-700">{forgotMessage}</p>
-    )}
-
-    {forgotError && (
-      <p className="text-sm text-red-600">{forgotError}</p>
-    )}
-
-    <button disabled={forgotBusy} className="btn-primary w-full">
-      {forgotBusy
-        ? 'Đang xử lý...'
-        : otpSent
-          ? 'Đặt lại mật khẩu'
-          : 'Gửi mã OTP'}
-    </button>
-
-    <button
-      type="button"
-      onClick={() => {
-        setShowForgotPassword(false);
-        setOtpSent(false);
-        setForgotError('');
-        setForgotMessage('');
-      }}
-      className="w-full text-sm text-agarwood-700 hover:underline"
-    >
-      Quay lại đăng nhập
-    </button>
-  </form>
-)}
-          {!showForgotPassword && (
           <form onSubmit={submit} className="card mt-8 space-y-4 p-6">
             {mode === 'register' && (
               <>
@@ -990,24 +833,6 @@ const handleResetPassword = async (e: FormEvent) => {
               <span className="label-base">Mật khẩu</span>
               <input required type="password" className="input-base" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="Tối thiểu 8 ký tự" />
             </label>
-            
-{mode === 'login' && (
-  <div className="text-right">
-    <button
-      type="button"
-      onClick={() => {
-        setShowForgotPassword(true);
-        setForgotEmail(form.email);
-        setForgotError('');
-        setForgotMessage('');
-      }}
-      className="text-sm text-agarwood-700 hover:underline"
-    >
-      Quên mật khẩu?
-    </button>
-  </div>
-)}
-
             {error && <p className="rounded-lg bg-error-light p-3 text-sm text-error-dark">{error}</p>}
             <button disabled={busy} className="btn-primary w-full">{busy ? 'Đang xử lý...' : mode === 'login' ? 'Đăng nhập' : 'Đăng ký'}</button>
             <div className="text-center text-sm text-charcoal-300">
@@ -1017,8 +842,7 @@ const handleResetPassword = async (e: FormEvent) => {
               </button>
             </div>
           </form>
-          )}
-          <p className="mt-4 text-center text-xs text-charcoal-300">Tài khoản được xác thực bởi máy chủ. Quản trị viên cần được cấp quyền trong cơ sở dữ liệu.</p>
+          <p className="mt-4 text-center text-xs text-charcoal-300">Demo khách hàng: annguyen@email.com<br />Demo quản trị: admin@moctram.vn</p>
         </div>
       </div>
     </PageShell>
@@ -1244,56 +1068,6 @@ function B2BPage() {
   );
 }
 
-function ShowroomPage() {
-  const [sent, setSent] = useState(false);
-  const today = new Date().toISOString().slice(0, 10);
-  const [form, setForm] = useState({ showroomId: SHOWROOMS[0]?.id || 'sr-hcm', customerName: '', phone: '', email: '', date: today, slot: APPOINTMENT_SLOTS[0], numGuests: 1, note: '' });
-  const [error, setError] = useState('');
-
-  const submit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError('');
-    if (form.date < today) { setError('Vui lòng chọn ngày hôm nay hoặc ngày trong tương lai.'); return; }
-    const result = await consultationApi.createAppointment(form);
-    if (!result.success) { setError(result.message || 'Không thể gửi lịch hẹn.'); return; }
-    setSent(true);
-  };
-
-  return (
-    <PageShell>
-      <div className="container-content max-w-3xl py-12">
-        <Breadcrumb items={[{ label: 'Trang chủ', path: '/' }, { label: 'Đặt lịch thử hương' }]} />
-        <div className="mt-8 text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-agarwood-500">Trải nghiệm trực tiếp</p>
-          <h1 className="mt-3 font-serif text-4xl text-agarwood-800 sm:text-5xl">Đặt lịch thử hương tại showroom</h1>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-charcoal-300">Chọn địa điểm, ngày và khung giờ để đội ngũ tư vấn chuẩn bị trải nghiệm phù hợp với bạn.</p>
-        </div>
-        {sent ? (
-          <div className="card mt-10 p-10 text-center">
-            <Check className="mx-auto h-12 w-12 text-success" />
-            <h2 className="mt-4 font-serif text-2xl text-agarwood-800">Đã ghi nhận lịch hẹn mẫu</h2>
-            <p className="mt-2 text-sm leading-relaxed text-charcoal-300">Bản giao diện hiện lưu lịch hẹn trong bộ nhớ tạm của frontend. Lịch hẹn chưa được gửi đến hệ thống vận hành thực tế.</p>
-            <Link to="/" className="btn-primary mt-6">Về trang chủ</Link>
-          </div>
-        ) : (
-          <form onSubmit={submit} className="card mt-10 grid gap-4 p-6 sm:grid-cols-2">
-            <label className="sm:col-span-2"><span className="label-base">Showroom</span><select className="input-base" value={form.showroomId} onChange={(e) => setForm({ ...form, showroomId: e.target.value })}>{SHOWROOMS.map((s) => <option key={s.id} value={s.id}>{s.name} — {s.address}</option>)}</select></label>
-            <Field label="Họ và tên" value={form.customerName} set={(v) => setForm({ ...form, customerName: v })} required />
-            <Field label="Số điện thoại" value={form.phone} set={(v) => setForm({ ...form, phone: v })} required />
-            <Field label="Email" type="email" value={form.email} set={(v) => setForm({ ...form, email: v })} required />
-            <label><span className="label-base">Ngày hẹn</span><input className="input-base" type="date" min={today} required value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} /></label>
-            <label><span className="label-base">Khung giờ</span><select className="input-base" value={form.slot} onChange={(e) => setForm({ ...form, slot: e.target.value })}>{APPOINTMENT_SLOTS.map((slot) => <option key={slot} value={slot}>{slot}</option>)}</select></label>
-            <label><span className="label-base">Số khách</span><select className="input-base" value={form.numGuests} onChange={(e) => setForm({ ...form, numGuests: Number(e.target.value) })}>{[1, 2, 3, 4].map((n) => <option key={n} value={n}>{n} khách</option>)}</select></label>
-            <label className="sm:col-span-2"><span className="label-base">Nhu cầu hoặc mùi hương quan tâm</span><textarea className="input-base min-h-24" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} /></label>
-            {error && <p role="alert" className="sm:col-span-2 text-sm text-red-700">{error}</p>}
-            <button className="btn-primary sm:col-span-2">Gửi yêu cầu đặt lịch <ArrowRight className="h-4 w-4" /></button>
-          </form>
-        )}
-      </div>
-    </PageShell>
-  );
-}
-
 function NotFoundPage() {
   return (
     <PageShell>
@@ -1383,10 +1157,7 @@ function AppRoutes() {
 
       {/* 7. B2B & Showroom */}
       <Route path={ROUTES.B2B} element={<B2BPage />} />
-      <Route path={ROUTES.SHOWROOM} element={<ShowroomPage />} />
-
-      {/* Admin Panel: yêu cầu tài khoản có vai trò ADMIN */}
-      <Route path="/admin" element={<ProtectedRoute allowedRoles={["ADMIN"]}><AdminPanel /></ProtectedRoute>} />
+      <Route path={ROUTES.SHOWROOM} element={<B2BPage />} />
 
       {/* 8. Trang 404 Not Found (Xử lý tất cả các đường dẫn không hợp lệ) */}
       <Route path="*" element={<NotFoundPage />} />
