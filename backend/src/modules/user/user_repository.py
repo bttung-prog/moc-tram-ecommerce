@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import desc, func, select
+from sqlalchemy import desc, func, or_, select
 from sqlalchemy.orm import Session, defer
 
 from modules.user.user import User
@@ -45,29 +45,55 @@ def find_password_by_id(db: Session, user_id: UUID) -> str:
 def find_all(
     db: Session,
     filter: dict | None = None,
+    search: str | None = None,
     skip: int = 0,
     limit: int = 10,
 ) -> list[User]:
     query = _base_user_query()
 
     if filter:
-        query = query.filter_by(**filter)
+        for k, v in filter.items():
+            if hasattr(User, k) and v is not None:
+                query = query.where(getattr(User, k) == v)
+
+    if search:
+        search_term = f"%{search.strip()}%"
+        query = query.where(
+            or_(
+                User.full_name.ilike(search_term),
+                User.email.ilike(search_term),
+                User.phone.ilike(search_term),
+            )
+        )
 
     query = query.order_by(desc(User.created_at)).offset(skip).limit(limit)
 
-    return db.scalars(query).all()
+    return list(db.scalars(query).all())
 
 
 def count_all(
     db: Session,
     filter: dict | None = None,
+    search: str | None = None,
 ) -> int:
     query = select(func.count(User.id)).select_from(User)
 
     if filter:
-        query = query.filter_by(**filter)
+        for k, v in filter.items():
+            if hasattr(User, k) and v is not None:
+                query = query.where(getattr(User, k) == v)
 
-    return db.scalar(query)
+    if search:
+        search_term = f"%{search.strip()}%"
+        query = query.where(
+            or_(
+                User.full_name.ilike(search_term),
+                User.email.ilike(search_term),
+                User.phone.ilike(search_term),
+            )
+        )
+
+    return db.scalar(query) or 0
 
 
 def update_by_id(db: Session, user_id: UUID, user_data: dict) -> User | None:

@@ -50,13 +50,6 @@ def register(
         status=USER_STATUSES.INACTIVE.value,
     )
 
-    if role == ROLES.CUSTOMER.value or role == ROLES.CUSTOMER:
-        customer_service.create(
-            db=db,
-            user_id=new_user.id,
-            is_active=False,
-        )
-
     otp = f"{secrets.randbelow(90_000_000) + 10_000_000}"
     expires_at = datetime.now(UTC) + timedelta(minutes=5)
 
