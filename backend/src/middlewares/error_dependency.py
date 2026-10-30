@@ -1,3 +1,4 @@
+import traceback
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
@@ -13,6 +14,8 @@ async def api_request_error_handler(_request: Request, exc: ApiError) -> JSONRes
 
 
 async def global_exception_handler(_request: Request, exc: Exception) -> JSONResponse:
+    print(f"[ERROR 500] Unhandled Exception: {exc}")
+    traceback.print_exc()
     return ApiResponse.error(
         message=COMMON_MESSAGES.get("SERVER_ERROR"), error=[], status_code=500
     )

@@ -129,15 +129,15 @@ def send_otp_email(to_email: str, otp: str, purpose: str = "reset_password") -> 
             server.starttls()
             server.login(smtp_user, smtp_password)
             server.send_message(msg)
-            print(f"[EMAIL SUCCESS] Đã gửi mã OTP đến {to_email}")
+            print(f"[EMAIL SUCCESS] OTP email sent to {to_email}")
     except smtplib.SMTPAuthenticationError as e:
-        print(f"[EMAIL ERROR] Xác thực SMTP thất bại: {e}")
+        print(f"[EMAIL ERROR] SMTP Auth failed: {e}")
         raise ApiError(
             status_code=500,
             message="Xác thực email gửi thất bại. Vui lòng kiểm tra lại EMAIL_USER và EMAIL_CODE trong file .env.",
         ) from None
     except Exception as e:
-        print(f"[EMAIL ERROR] Không thể gửi email: {e}")
+        print(f"[EMAIL ERROR] Send email failed: {e}")
         raise ApiError(
             status_code=500,
             message="Không thể gửi email xác thực. Vui lòng thử lại sau.",
