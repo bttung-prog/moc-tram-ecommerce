@@ -16,7 +16,7 @@ class RefreshToken(Base):
         Uuid, ForeignKey("users.id"), nullable=False, unique=True
     )
 
-    token: Mapped[str] = mapped_column(String(2048), nullable=False, unique=True)
+    token: Mapped[str] = mapped_column(String(500), nullable=False, unique=True)
 
     expires_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False
