@@ -231,7 +231,7 @@ export const orders: Order[] = [
     shippingWard: 'Phường Hải Châu',
     shippingDetail: '56 Bạch Đằng',
     items: [
-      { id: 'oi-006', productId: 'prod-002', productName: 'Nhang vòng trầm hương Quảng Nam', productSlug: 'nhang-vong-tram-huong-quang-nam', skuId: 'sku-002-a', specLabel: 'Hộp 10 vòng', image: '/images/products/prod-002.jpg', price: 145000, quantity: 3, lineTotal: 435000 },
+      { id: 'oi-006', productId: 'prod-002', productName: 'Nhang vòng trầm hương tự nhiên (Khoanh 4h)', productSlug: 'nhang-vong-tram-huong-tu-nhien-4h', skuId: 'sku-002-a', specLabel: 'Hộp 10 vòng', image: '/images/products/prod-002.jpg', price: 145000, quantity: 3, lineTotal: 435000 },
     ],
     subtotal: 435000,
     shippingFee: 35000,
@@ -506,7 +506,7 @@ Sau nhiều năm gắn bó cùng bà con nông dân và các nghệ nhân làng 
 
 **Chắt lọc tinh hoa từ các vùng trầm danh tiếng Việt Nam**
 
-Bên cạnh vùng nguyên liệu cốt lõi tại Hương Khê (Hà Tĩnh) cung cấp nguồn phôi bột trầm mịn màng, nhang nụ thảo mộc và trầm miếng già dầu, Mộc Trầm còn cẩn trọng chọn lọc những phôi trầm tốc tự nhiên lâu năm từ đại ngàn Quảng Nam và vùng trầm Khánh Hòa. Từng khối gỗ dó trầm sau khi khai thác đều trải qua quá trình xoi tỉa, tiện gọt thủ công tỉ mỉ để giữ trọn từng đường vân dầu mộc mạc và hương thơm tự nhiên nguyên bản nhất.
+Bên cạnh vùng nguyên liệu cốt lõi tại Hương Khê (Hà Tĩnh) cung cấp nguồn phôi bột trầm mịn màng, nhang nụ thảo mộc và trầm miếng già dầu, Mộc Trầm còn cẩn trọng chọn lọc những phôi trầm tốc tự nhiên già tuổi vùng Nghệ An. Từng khối gỗ dó trầm sau khi khai thác đều trải qua quá trình xoi tỉa, tiện gọt thủ công tỉ mỉ để giữ trọn từng đường vân dầu mộc mạc và hương thơm tự nhiên nguyên bản nhất.
 
 **Sứ mệnh của chúng tôi**
 

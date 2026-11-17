@@ -21,8 +21,7 @@ export const categories: Category[] = [
 export const origins: Origin[] = [
   { id: 'origin-hk', name: 'Hương Khê (Hà Tĩnh)', region: 'Bắc Trung Bộ' },
   { id: 'origin-ht', name: 'Hà Tĩnh', region: 'Bắc Trung Bộ' },
-  { id: 'origin-qn', name: 'Quảng Nam', region: 'Nam Trung Bộ' },
-  { id: 'origin-kh', name: 'Khánh Hòa', region: 'Nam Trung Bộ' },
+  { id: 'origin-na', name: 'Nghệ An', region: 'Bắc Trung Bộ' },
 ];
 
 export const agarwoodTypes: AgarwoodType[] = [
