@@ -2,6 +2,39 @@ import type { User, Order, ReturnRequest, QuoteRequest, ShowroomAppointment, Cou
 
 export const users: User[] = [
   {
+    id: 'user-dochet89',
+    username: 'dochet89',
+    email: 'dochet89@moctram.vn',
+    fullName: 'Phùng Thanh Độ',
+    phone: '0898898989',
+    role: 'CUSTOMER',
+    isActive: true,
+    addresses: [
+      {
+        id: 'addr-dochet89-1',
+        fullName: 'Phùng Thanh Độ',
+        phone: '0898898989',
+        province: 'Hà Nội',
+        ward: 'Phường Láng Hạ',
+        detail: 'Tòa nhà Mixi, Yên Lãng, Đống Đa',
+        isDefault: true,
+      },
+    ],
+    createdAt: '2025-08-09T08:00:00Z',
+  },
+  {
+    id: 'user-customer',
+    email: 'khachhang@moctram.vn',
+    fullName: 'Nguyễn Thị An',
+    phone: '0901234567',
+    role: 'CUSTOMER',
+    isActive: true,
+    addresses: [
+      { id: 'addr-001', fullName: 'Nguyễn Thị An', phone: '0901234567', province: 'TP. Hồ Chí Minh', ward: 'Phường Bến Nghé', detail: '12 Lý Tự Trọng, căn hộ 502', isDefault: true },
+    ],
+    createdAt: '2025-06-01T08:00:00Z',
+  },
+  {
     id: 'user-001',
     email: 'annguyen@email.com',
     fullName: 'Nguyễn Thị An',
@@ -76,15 +109,15 @@ export const orders: Order[] = [
     shippingWard: 'Phường Bến Nghé',
     shippingDetail: '12 Lý Tự Trọng, căn hộ 502',
     items: [
-      { id: 'oi-001', productId: 'prod-001', productName: 'Nhang nụ trầm hương Khánh Hòa', productSlug: 'nhang-nu-tram-huong-khanh-hoa', skuId: 'sku-001-a', specLabel: 'Hộp 50 nụ', image: '/images/products/prod-001.jpg', price: 185000, quantity: 2, lineTotal: 370000 },
-      { id: 'oi-002', productId: 'prod-006', productName: 'Lư xông gốm Thanh Hà', productSlug: 'lu-xong-gom-thanh-ha', skuId: 'sku-006-a', specLabel: 'Màu nâu trầm', image: '/images/products/prod-006.jpg', price: 280000, quantity: 1, lineTotal: 280000 },
+      { id: 'oi-001', productId: 'prod-013', productName: 'Nhang nụ trầm hương hảo hạng (Hương Khê)', productSlug: 'nhang-nu-tram-huong-hao-hang', skuId: 'sku-013-a', specLabel: 'Hộp quà nụ trầm thuần khiết', image: '/images/products/prod-013.jpg', price: 580000, quantity: 1, lineTotal: 580000 },
+      { id: 'oi-002', productId: 'prod-006', productName: 'Lư xông gốm men rạn cổ', productSlug: 'lu-xong-gom-men-ran-co', skuId: 'sku-006-a', specLabel: 'Men xanh ngọc cổ', image: '/images/products/prod-006.jpg', price: 290000, quantity: 1, lineTotal: 290000 },
     ],
-    subtotal: 650000,
+    subtotal: 870000,
     shippingFee: 0,
     discount: 0,
-    total: 650000,
+    total: 870000,
     paymentMethod: 'VIETQR',
-    payment: { id: 'pay-001', method: 'VIETQR', status: 'SUCCESS', amount: 650000, transactionId: 'VQR-DEMO-001', transferContent: 'MOC TRAM MT251003A7K2', paidAt: hoursAgo(20) },
+    payment: { id: 'pay-001', method: 'VIETQR', status: 'SUCCESS', amount: 870000, transactionId: 'VQR-DEMO-001', transferContent: 'MOC TRAM MT251003A7K2', paidAt: hoursAgo(20) },
     shipment: { id: 'ship-001', trackingCode: 'GHN-DEMO-001', carrier: 'GHN (demo)', status: 'IN_TRANSIT', codStatus: 'NONE', estimatedDelivery: daysAgo(-1), timeline: [
       { status: 'CREATED', label: 'Đã tạo vận đơn', timestamp: hoursAgo(18) },
       { status: 'PICKED_UP', label: 'Đã lấy hàng', timestamp: hoursAgo(16) },
@@ -236,14 +269,14 @@ export const orders: Order[] = [
     shippingWard: 'Phường Cẩm Châu',
     shippingDetail: '88 Trần Nhân Tông',
     items: [
-      { id: 'oi-007', productId: 'prod-008', productName: 'Thác khói trầm hương gốm nghệ thuật', productSlug: 'thac-khoi-tram-huong-gom-nghe-thuat', skuId: 'sku-008-a', specLabel: 'Màu xanh rêu', image: '/images/products/prod-008.jpg', price: 420000, quantity: 1, lineTotal: 420000 },
+      { id: 'oi-007', productId: 'prod-006', productName: 'Lư xông gốm men rạn cổ', productSlug: 'lu-xong-gom-men-ran-co', skuId: 'sku-006-a', specLabel: 'Men xanh ngọc cổ', image: '/images/products/prod-006.jpg', price: 290000, quantity: 1, lineTotal: 290000 },
     ],
-    subtotal: 420000,
+    subtotal: 290000,
     shippingFee: 35000,
     discount: 0,
-    total: 455000,
+    total: 325000,
     paymentMethod: 'VIETQR',
-    payment: { id: 'pay-005', method: 'VIETQR', status: 'EXPIRED', amount: 455000, transferContent: 'MOC TRAM MT250925H4J1', expiresAt: daysAgo(9) },
+    payment: { id: 'pay-005', method: 'VIETQR', status: 'EXPIRED', amount: 325000, transferContent: 'MOC TRAM MT250925H4J1', expiresAt: daysAgo(9) },
     shipment: null,
     status: 'CANCELLED',
     timeline: [
@@ -268,14 +301,14 @@ export const orders: Order[] = [
     shippingWard: 'Phường Bến Nghé',
     shippingDetail: '12 Lý Tự Trọng, căn hộ 502',
     items: [
-      { id: 'oi-008', productId: 'prod-011', productName: 'Bộ dụng cụ pha trà gốm Bát Tràng', productSlug: 'bo-dung-cu-pha-tra-gom-bat-trang', skuId: 'sku-011-a', specLabel: 'Bộ 8 món', image: '/images/products/prod-011.jpg', price: 1250000, quantity: 1, lineTotal: 1250000 },
+      { id: 'oi-008', productId: 'prod-007', productName: 'Lư xông trầm đồng hoa sen tinh xảo', productSlug: 'lu-xong-tram-dong-hoa-sen', skuId: 'sku-007-a', specLabel: 'Đồng thau cổ điển', image: '/images/products/prod-007.jpg', price: 680000, quantity: 1, lineTotal: 680000 },
     ],
-    subtotal: 1250000,
+    subtotal: 680000,
     shippingFee: 0,
     discount: 0,
-    total: 1250000,
+    total: 680000,
     paymentMethod: 'VIETQR',
-    payment: { id: 'pay-006', method: 'VIETQR', status: 'SUCCESS', amount: 1250000, transactionId: 'VQR-DEMO-006', transferContent: 'MOC TRAM MT250920K6L8', paidAt: daysAgo(12) },
+    payment: { id: 'pay-006', method: 'VIETQR', status: 'SUCCESS', amount: 680000, transactionId: 'VQR-DEMO-006', transferContent: 'MOC TRAM MT250920K6L8', paidAt: daysAgo(12) },
     shipment: { id: 'ship-006', trackingCode: 'GHN-DEMO-006', carrier: 'GHN (demo)', status: 'DELIVERED', codStatus: 'NONE', estimatedDelivery: daysAgo(10), timeline: [
       { status: 'DELIVERED', label: 'Đã giao thành công', timestamp: daysAgo(10) },
     ] },
@@ -306,14 +339,14 @@ export const orders: Order[] = [
     shippingWard: 'Phường 1',
     shippingDetail: '23 Trần Phú',
     items: [
-      { id: 'oi-009', productId: 'prod-013', productName: 'Nhang nụ kỳ nam siêu phẩm', productSlug: 'nhang-nu-ky-nam-sieu-pham', skuId: 'sku-013-a', specLabel: 'Hộp 20 nụ', image: '/images/products/prod-013.jpg', price: 1200000, quantity: 1, lineTotal: 1200000 },
+      { id: 'oi-009', productId: 'prod-013', productName: 'Nhang nụ trầm hương hảo hạng (Hương Khê)', productSlug: 'nhang-nu-tram-huong-hao-hang', skuId: 'sku-013-a', specLabel: 'Hộp quà nụ trầm thuần khiết', image: '/images/products/prod-013.jpg', price: 580000, quantity: 2, lineTotal: 1160000 },
     ],
-    subtotal: 1200000,
+    subtotal: 1160000,
     shippingFee: 0,
     discount: 0,
-    total: 1200000,
+    total: 1160000,
     paymentMethod: 'COD',
-    payment: { id: 'pay-007', method: 'COD', status: 'PENDING', amount: 1200000 },
+    payment: { id: 'pay-007', method: 'COD', status: 'PENDING', amount: 1160000 },
     shipment: null,
     status: 'PENDING',
     timeline: [
@@ -670,14 +703,14 @@ Tại showroom: 12 Lý Tự Trọng, Phường Bến Nghé, TP. HCM`,
 ];
 
 export const inventoryBatches: InventoryBatch[] = [
-  { id: 'ib-001', productId: 'prod-001', productName: 'Nhang nụ trầm hương Khánh Hòa', skuId: 'sku-001-a', specLabel: 'Hộp 50 nụ', batchCode: 'LOT-2509-001', quantity: 50, receivedDate: '2025-09-15', note: 'Nhập từ xưởng Khánh Hòa' },
-  { id: 'ib-002', productId: 'prod-004', productName: 'Bột trầm hương tinh khiết', skuId: 'sku-004-a', specLabel: 'Hộp 50g', batchCode: 'LOT-2509-002', quantity: 40, receivedDate: '2025-09-20', note: 'Nhập lô mới' },
-  { id: 'ib-003', productId: 'prod-012', productName: 'Chuỗi hạt trầm hương 108 hạt', skuId: 'sku-012-a', specLabel: 'Hạt 8mm', batchCode: 'LOT-2508-010', quantity: 8, receivedDate: '2025-08-28', note: 'Hàng chọn tay' },
+  { id: 'ib-001', productId: 'prod-013', productName: 'Nhang nụ trầm hương hảo hạng (Hương Khê)', skuId: 'sku-013-a', specLabel: 'Hộp quà nụ trầm thuần khiết', batchCode: 'LOT-2509-001', quantity: 50, receivedDate: '2025-09-15', note: 'Nhập từ xưởng Hương Khê (Hà Tĩnh)' },
+  { id: 'ib-002', productId: 'prod-004', productName: 'Bột trầm hương tinh khiết', skuId: 'sku-004-a', specLabel: 'Hũ thủy tinh 50g', batchCode: 'LOT-2509-002', quantity: 40, receivedDate: '2025-09-20', note: 'Nhập lô mới xưởng Hương Khê' },
+  { id: 'ib-003', productId: 'prod-012', productName: 'Chuỗi hạt trầm hương 108 hạt', skuId: 'sku-012-a', specLabel: 'Chuỗi 108 hạt (8mm - Hộp quà cao cấp)', batchCode: 'LOT-2508-010', quantity: 8, receivedDate: '2025-08-28', note: 'Hàng chọn tay' },
 ];
 
 export const inventoryMovements: InventoryMovement[] = [
-  { id: 'im-001', skuId: 'sku-001-a', productName: 'Nhang nụ trầm hương Khánh Hòa', specLabel: 'Hộp 50 nụ', type: 'IN', quantity: 50, reason: 'Nhập kho lô LOT-2509-001', timestamp: '2025-09-15T08:00:00Z' },
-  { id: 'im-002', skuId: 'sku-001-a', productName: 'Nhang nụ trầm hương Khánh Hòa', specLabel: 'Hộp 50 nụ', type: 'OUT', quantity: 2, reason: 'Xuất đơn MT251003A7K2', timestamp: hoursAgo(18) },
-  { id: 'im-003', skuId: 'sku-006-a', productName: 'Lư xông gốm Thanh Hà', specLabel: 'Màu nâu trầm', type: 'OUT', quantity: 1, reason: 'Xuất đơn MT251003A7K2', timestamp: hoursAgo(18) },
-  { id: 'im-004', skuId: 'sku-004-a', productName: 'Bột trầm hương tinh khiết', specLabel: 'Hộp 50g', type: 'IN', quantity: 40, reason: 'Nhập kho lô LOT-2509-002', timestamp: '2025-09-20T09:00:00Z' },
+  { id: 'im-001', skuId: 'sku-013-a', productName: 'Nhang nụ trầm hương hảo hạng (Hương Khê)', specLabel: 'Hộp quà nụ trầm thuần khiết', type: 'IN', quantity: 50, reason: 'Nhập kho lô LOT-2509-001', timestamp: '2025-09-15T08:00:00Z' },
+  { id: 'im-002', skuId: 'sku-013-a', productName: 'Nhang nụ trầm hương hảo hạng (Hương Khê)', specLabel: 'Hộp quà nụ trầm thuần khiết', type: 'OUT', quantity: 1, reason: 'Xuất đơn MT251003A7K2', timestamp: hoursAgo(18) },
+  { id: 'im-003', skuId: 'sku-006-a', productName: 'Lư xông gốm men rạn cổ', specLabel: 'Men xanh ngọc cổ', type: 'OUT', quantity: 1, reason: 'Xuất đơn MT251003A7K2', timestamp: hoursAgo(18) },
+  { id: 'im-004', skuId: 'sku-004-a', productName: 'Bột trầm hương tinh khiết', specLabel: 'Hũ thủy tinh 50g', type: 'IN', quantity: 40, reason: 'Nhập kho lô LOT-2509-002', timestamp: '2025-09-20T09:00:00Z' },
 ];
