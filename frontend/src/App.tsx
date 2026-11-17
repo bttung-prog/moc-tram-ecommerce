@@ -41,11 +41,13 @@ import {
   Lock,
   Plus,
   Trash2,
-  Phone,
 } from "lucide-react";
 import { Header } from "@/components/common/Header";
 import { Footer } from "@/components/common/Footer";
 import { ProductCard } from "@/components/product/ProductCard";
+import { AdminLayout } from "@/components/admin/AdminLayout";
+import { AdminDashboardPage } from "@/pages/admin/AdminDashboardPage";
+import { AdminPlaceholderPage } from "@/pages/admin/AdminPlaceholderPage";
 import {
   Breadcrumb,
   EmptyState,
@@ -154,7 +156,8 @@ function HomePage() {
               <em className="text-agarwood-300 font-normal">Tâm an nhiên.</em>
             </h1>
             <p className="mt-6 max-w-lg text-base leading-relaxed text-cream/80">
-              Mộc Trầm mang hương thơm nguyên bản từ vùng trầm danh tiếng đến không gian sống của bạn.
+              Mộc Trầm mang hương thơm nguyên bản từ vùng trầm danh tiếng đến
+              không gian sống của bạn.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link to="/san-pham" className="btn-accent">
@@ -993,18 +996,23 @@ function CartPage() {
                       Yêu cầu tài khoản đặt hàng
                     </p>
                     <p className="mt-1 text-charcoal-400 leading-relaxed">
-                      Quý khách cần đăng nhập hoặc tạo tài khoản mới để tiến hành thanh toán và lưu đơn hàng.
+                      Quý khách cần đăng nhập hoặc tạo tài khoản mới để tiến
+                      hành thanh toán và lưu đơn hàng.
                     </p>
                   </div>
                   <Link
                     to="/dang-nhap?redirect=/thanh-toan"
                     className="btn-primary w-full flex items-center justify-center gap-2"
                   >
-                    Đăng nhập / Đăng ký để đặt hàng <ArrowRight className="h-4 w-4" />
+                    Đăng nhập / Đăng ký để đặt hàng{" "}
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
                 </div>
               ) : (
-                <Link to="/thanh-toan" className="btn-primary w-full flex items-center justify-center gap-2">
+                <Link
+                  to="/thanh-toan"
+                  className="btn-primary w-full flex items-center justify-center gap-2"
+                >
                   Tiến hành thanh toán <ArrowRight className="h-4 w-4" />
                 </Link>
               )}
@@ -1154,7 +1162,8 @@ function CheckoutPage() {
                 </div>
                 <div>
                   <p className="font-medium text-agarwood-800">
-                    Đặt hàng với tài khoản: <span className="font-semibold">{user.fullName}</span>
+                    Đặt hàng với tài khoản:{" "}
+                    <span className="font-semibold">{user.fullName}</span>
                   </p>
                   <p className="text-xs text-charcoal-400">
                     {user.email} · {user.phone || "Chưa có SĐT"}
@@ -1285,7 +1294,8 @@ function CheckoutPage() {
                           />
                         </div>
                         <span className="text-[11px] text-charcoal-400 mt-1.5 flex items-center gap-1 font-medium">
-                          <QrCode className="w-3.5 h-3.5 text-agarwood-600" /> Quét qua App Ngân hàng / Viettel Money
+                          <QrCode className="w-3.5 h-3.5 text-agarwood-600" />{" "}
+                          Quét qua App Ngân hàng / Viettel Money
                         </span>
                       </div>
 
@@ -1293,17 +1303,29 @@ function CheckoutPage() {
                       <div className="flex-1 w-full space-y-2 text-xs">
                         <div className="rounded-lg bg-agarwood-50/80 p-3 border border-agarwood-100 space-y-1.5 text-charcoal-400">
                           <div className="flex justify-between items-center">
-                            <span className="text-charcoal-300">Ngân hàng / Đơn vị:</span>
-                            <span className="font-semibold text-agarwood-800">Viettel Money (Napas 247)</span>
+                            <span className="text-charcoal-300">
+                              Ngân hàng / Đơn vị:
+                            </span>
+                            <span className="font-semibold text-agarwood-800">
+                              Viettel Money (Napas 247)
+                            </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-charcoal-300">Chủ tài khoản:</span>
-                            <span className="font-bold text-agarwood-900 uppercase tracking-wide">NGUYEN NHU TRUNG</span>
+                            <span className="text-charcoal-300">
+                              Chủ tài khoản:
+                            </span>
+                            <span className="font-bold text-agarwood-900 uppercase tracking-wide">
+                              NGUYEN NHU TRUNG
+                            </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-charcoal-300">Số tài khoản / SĐT:</span>
+                            <span className="text-charcoal-300">
+                              Số tài khoản / SĐT:
+                            </span>
                             <div className="flex items-center gap-1.5">
-                              <span className="font-mono font-bold text-base text-agarwood-900">0365117151</span>
+                              <span className="font-mono font-bold text-base text-agarwood-900">
+                                0365117151
+                              </span>
                               <button
                                 type="button"
                                 onClick={(e) => {
@@ -1318,21 +1340,40 @@ function CheckoutPage() {
                             </div>
                           </div>
                           <div className="flex justify-between items-center pt-1.5 border-t border-agarwood-200/60">
-                            <span className="text-charcoal-300">Số tiền cần thanh toán:</span>
-                            <span className="font-bold text-base text-agarwood-800">{formatVND(totals.total)}</span>
+                            <span className="text-charcoal-300">
+                              Số tiền cần thanh toán:
+                            </span>
+                            <span className="font-bold text-base text-agarwood-800">
+                              {formatVND(totals.total)}
+                            </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-charcoal-300">Nội dung chuyển khoản:</span>
-                            <span className="font-mono font-semibold text-agarwood-700">MT {form.shippingPhone || "DONHANG"}</span>
+                            <span className="text-charcoal-300">
+                              Nội dung chuyển khoản:
+                            </span>
+                            <span className="font-mono font-semibold text-agarwood-700">
+                              MT {form.shippingPhone || "DONHANG"}
+                            </span>
                           </div>
                         </div>
 
                         <div className="p-2.5 rounded-lg bg-amber-50/70 border border-amber-200/60 text-[11px] text-amber-900 space-y-1">
-                          <p className="font-semibold">💡 Hướng dẫn thanh toán:</p>
+                          <p className="font-semibold">
+                            💡 Hướng dẫn thanh toán:
+                          </p>
                           <ol className="list-decimal list-inside space-y-0.5 pl-0.5 text-charcoal-400">
-                            <li>Mở ứng dụng ngân hàng bất kỳ hoặc Viettel Money, chọn <strong>Quét mã QR</strong>.</li>
-                            <li>Quét mã QR bên cạnh hoặc chuyển khoản theo số tài khoản ở trên.</li>
-                            <li>Sau khi quét chuyển khoản xong, bấm nút <strong>Xác nhận đặt hàng</strong> bên dưới.</li>
+                            <li>
+                              Mở ứng dụng ngân hàng bất kỳ hoặc Viettel Money,
+                              chọn <strong>Quét mã QR</strong>.
+                            </li>
+                            <li>
+                              Quét mã QR bên cạnh hoặc chuyển khoản theo số tài
+                              khoản ở trên.
+                            </li>
+                            <li>
+                              Sau khi quét chuyển khoản xong, bấm nút{" "}
+                              <strong>Xác nhận đặt hàng</strong> bên dưới.
+                            </li>
                           </ol>
                         </div>
                       </div>
@@ -1464,15 +1505,23 @@ function CheckoutPage() {
   );
 }
 
-function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register" }) {
-  const { user, login, register, verifyRegisterOtp, resendRegisterOtp } = useAuth();
+function AuthPage({
+  initialMode = "login",
+}: {
+  initialMode?: "login" | "register";
+}) {
+  const { user, login, register, verifyRegisterOtp, resendRegisterOtp } =
+    useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect") || "/tai-khoan";
 
-  const defaultMode = location.pathname === "/dang-ky" ? "register" : initialMode;
-  const [mode, setMode] = useState<"login" | "register" | "verify_otp">(defaultMode);
+  const defaultMode =
+    location.pathname === "/dang-ky" ? "register" : initialMode;
+  const [mode, setMode] = useState<"login" | "register" | "verify_otp">(
+    defaultMode,
+  );
 
   useEffect(() => {
     if (location.pathname === "/dang-ky") {
@@ -1546,7 +1595,10 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
         });
 
         setSuccessMsg(
-          res.message || "Mã OTP kích hoạt gồm 8 chữ số đã được gửi đến email " + form.email + "."
+          res.message ||
+            "Mã OTP kích hoạt gồm 8 chữ số đã được gửi đến email " +
+              form.email +
+              ".",
         );
         setMode("verify_otp");
         setCountdown(60);
@@ -1557,7 +1609,9 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
 
         await verifyRegisterOtp(form.email, otp.trim());
 
-        setSuccessMsg("Kích hoạt tài khoản thành công! Đang tự động đăng nhập...");
+        setSuccessMsg(
+          "Kích hoạt tài khoản thành công! Đang tự động đăng nhập...",
+        );
         await login(form.email, form.password);
         navigate(redirect);
       }
@@ -1596,7 +1650,9 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                   Quý khách cần tài khoản để tiến hành đặt hàng
                 </p>
                 <p className="mt-0.5 text-xs text-charcoal-400 leading-relaxed">
-                  Vui lòng đăng nhập hoặc chọn <strong>"Đăng ký ngay"</strong> để tạo tài khoản mới. Ngay sau khi hoàn tất, bạn sẽ được tự động chuyển tiếp về trang Thanh toán.
+                  Vui lòng đăng nhập hoặc chọn <strong>"Đăng ký ngay"</strong>{" "}
+                  để tạo tài khoản mới. Ngay sau khi hoàn tất, bạn sẽ được tự
+                  động chuyển tiếp về trang Thanh toán.
                 </p>
               </div>
             </div>
@@ -1604,7 +1660,11 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
 
           <div className="text-center">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-agarwood-400 bg-agarwood-50 font-serif text-2xl text-agarwood-800">
-              {mode === "verify_otp" ? <Mail className="h-7 w-7 text-agarwood-700" /> : "M"}
+              {mode === "verify_otp" ? (
+                <Mail className="h-7 w-7 text-agarwood-700" />
+              ) : (
+                "M"
+              )}
             </div>
             <h1 className="mt-5 font-serif text-3xl text-agarwood-800">
               {mode === "verify_otp"
@@ -1615,7 +1675,9 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
             </h1>
             <p className="mt-2 text-sm text-charcoal-300">
               {mode === "verify_otp"
-                ? "Nhập mã OTP 8 chữ số gửi tới " + form.email + " để hoàn tất kích hoạt."
+                ? "Nhập mã OTP 8 chữ số gửi tới " +
+                  form.email +
+                  " để hoàn tất kích hoạt."
                 : mode === "login"
                   ? "Đăng nhập để theo dõi hành trình đơn hàng."
                   : "Lưu lại những khoảnh khắc an nhiên của bạn."}
@@ -1653,8 +1715,12 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                     onClick={handleResendOtp}
                     className="flex items-center gap-1 font-medium text-agarwood-700 hover:underline disabled:text-charcoal-300 disabled:no-underline"
                   >
-                    <RefreshCw className={`h-3 w-3 ${busy ? "animate-spin" : ""}`} />
-                    {countdown > 0 ? `Gửi lại sau (${countdown}s)` : "Gửi lại mã"}
+                    <RefreshCw
+                      className={`h-3 w-3 ${busy ? "animate-spin" : ""}`}
+                    />
+                    {countdown > 0
+                      ? `Gửi lại sau (${countdown}s)`
+                      : "Gửi lại mã"}
                   </button>
                 </div>
               </div>
@@ -1699,7 +1765,9 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                     type={mode === "login" ? "text" : "email"}
                     className="input-base"
                     value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, email: e.target.value })
+                    }
                     placeholder={
                       mode === "login"
                         ? "dochet89 hoặc email@moctram.vn"
@@ -1719,14 +1787,22 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                       onChange={(e) =>
                         setForm({ ...form, password: e.target.value })
                       }
-                      placeholder={mode === "register" ? "Từ 6 đến 24 ký tự" : "Nhập mật khẩu"}
+                      placeholder={
+                        mode === "register"
+                          ? "Từ 6 đến 24 ký tự"
+                          : "Nhập mật khẩu"
+                      }
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-300 hover:text-charcoal-500"
                     >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
                     </button>
                   </div>
                 </label>
@@ -1747,10 +1823,16 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                       />
                       <button
                         type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-300 hover:text-charcoal-500"
                       >
-                        {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
                       </button>
                     </div>
                   </label>
@@ -1823,13 +1905,19 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                   type="button"
                   disabled={busy}
                   onClick={async () => {
-                    setForm({ ...form, email: "khachhang@moctram.vn", password: "Moctram@123" });
+                    setForm({
+                      ...form,
+                      email: "khachhang@moctram.vn",
+                      password: "Moctram@123",
+                    });
                     try {
                       setBusy(true);
                       await login("khachhang@moctram.vn", "Moctram@123");
                       navigate(redirect);
                     } catch (e) {
-                      setError(e instanceof Error ? e.message : "Lỗi đăng nhập");
+                      setError(
+                        e instanceof Error ? e.message : "Lỗi đăng nhập",
+                      );
                     } finally {
                       setBusy(false);
                     }
@@ -1845,8 +1933,12 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                       Đăng nhập ➔
                     </span>
                   </div>
-                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">khachhang@moctram.vn</p>
-                  <p className="text-[11px] text-charcoal-400 mt-1">Vai trò: CUSTOMER · Đặt hàng, theo dõi đơn, bảo hành</p>
+                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">
+                    khachhang@moctram.vn
+                  </p>
+                  <p className="text-[11px] text-charcoal-400 mt-1">
+                    Vai trò: CUSTOMER · Đặt hàng, theo dõi đơn, bảo hành
+                  </p>
                 </button>
 
                 {/* 2. Nhân viên Kho */}
@@ -1854,13 +1946,21 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                   type="button"
                   disabled={busy}
                   onClick={async () => {
-                    setForm({ ...form, email: "kho@moctram.vn", password: "Moctram@123" });
+                    setForm({
+                      ...form,
+                      email: "kho@moctram.vn",
+                      password: "Moctram@123",
+                    });
                     try {
                       setBusy(true);
                       await login("kho@moctram.vn", "Moctram@123");
-                      navigate(redirect !== "/tai-khoan" ? redirect : "/admin/kho");
+                      navigate(
+                        redirect !== "/tai-khoan" ? redirect : "/admin/kho",
+                      );
                     } catch (e) {
-                      setError(e instanceof Error ? e.message : "Lỗi đăng nhập");
+                      setError(
+                        e instanceof Error ? e.message : "Lỗi đăng nhập",
+                      );
                     } finally {
                       setBusy(false);
                     }
@@ -1876,8 +1976,13 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                       Đăng nhập ➔
                     </span>
                   </div>
-                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">kho@moctram.vn</p>
-                  <p className="text-[11px] text-charcoal-400 mt-1">Vai trò: STAFF_WAREHOUSE · Quản lý tồn kho, đóng gói, xuất nhập</p>
+                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">
+                    kho@moctram.vn
+                  </p>
+                  <p className="text-[11px] text-charcoal-400 mt-1">
+                    Vai trò: STAFF_WAREHOUSE · Quản lý tồn kho, đóng gói, xuất
+                    nhập
+                  </p>
                 </button>
 
                 {/* 3. Chăm sóc KH */}
@@ -1885,13 +1990,21 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                   type="button"
                   disabled={busy}
                   onClick={async () => {
-                    setForm({ ...form, email: "cskh@moctram.vn", password: "Moctram@123" });
+                    setForm({
+                      ...form,
+                      email: "cskh@moctram.vn",
+                      password: "Moctram@123",
+                    });
                     try {
                       setBusy(true);
                       await login("cskh@moctram.vn", "Moctram@123");
-                      navigate(redirect !== "/tai-khoan" ? redirect : "/admin/doi-tra");
+                      navigate(
+                        redirect !== "/tai-khoan" ? redirect : "/admin/doi-tra",
+                      );
                     } catch (e) {
-                      setError(e instanceof Error ? e.message : "Lỗi đăng nhập");
+                      setError(
+                        e instanceof Error ? e.message : "Lỗi đăng nhập",
+                      );
                     } finally {
                       setBusy(false);
                     }
@@ -1907,8 +2020,12 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                       Đăng nhập ➔
                     </span>
                   </div>
-                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">cskh@moctram.vn</p>
-                  <p className="text-[11px] text-charcoal-400 mt-1">Vai trò: STAFF_CS · Đổi trả, tư vấn showroom & báo giá B2B</p>
+                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">
+                    cskh@moctram.vn
+                  </p>
+                  <p className="text-[11px] text-charcoal-400 mt-1">
+                    Vai trò: STAFF_CS · Đổi trả, tư vấn showroom & báo giá B2B
+                  </p>
                 </button>
 
                 {/* 4. Quản trị viên */}
@@ -1916,13 +2033,19 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                   type="button"
                   disabled={busy}
                   onClick={async () => {
-                    setForm({ ...form, email: "admin@moctram.vn", password: "Moctram@123" });
+                    setForm({
+                      ...form,
+                      email: "admin@moctram.vn",
+                      password: "Moctram@123",
+                    });
                     try {
                       setBusy(true);
                       await login("admin@moctram.vn", "Moctram@123");
                       navigate(redirect !== "/tai-khoan" ? redirect : "/admin");
                     } catch (e) {
-                      setError(e instanceof Error ? e.message : "Lỗi đăng nhập");
+                      setError(
+                        e instanceof Error ? e.message : "Lỗi đăng nhập",
+                      );
                     } finally {
                       setBusy(false);
                     }
@@ -1938,14 +2061,20 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                       Đăng nhập ➔
                     </span>
                   </div>
-                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">admin@moctram.vn</p>
-                  <p className="text-[11px] text-charcoal-400 mt-1">Vai trò: ADMIN · Toàn quyền quản trị hệ thống & cấu hình</p>
+                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">
+                    admin@moctram.vn
+                  </p>
+                  <p className="text-[11px] text-charcoal-400 mt-1">
+                    Vai trò: ADMIN · Toàn quyền quản trị hệ thống & cấu hình
+                  </p>
                 </button>
               </div>
 
               <div className="mt-4 pt-3 border-t border-agarwood-100 flex items-center justify-center gap-2 text-xs text-charcoal-400">
                 <span>Mật khẩu mặc định:</span>
-                <code className="bg-agarwood-100 px-2 py-0.5 rounded font-mono font-bold text-agarwood-800">Moctram@123</code>
+                <code className="bg-agarwood-100 px-2 py-0.5 rounded font-mono font-bold text-agarwood-800">
+                  Moctram@123
+                </code>
               </div>
             </div>
           )}
@@ -2095,7 +2224,8 @@ function OrderSummary({ order }: { order: Order }) {
       {order.paymentMethod === "VIETQR" && (
         <div className="mt-6 p-4 rounded-xl border border-agarwood-200 bg-agarwood-50/60">
           <h3 className="font-serif text-base font-semibold text-agarwood-800 mb-3 flex items-center gap-2">
-            <QrCode className="w-5 h-5 text-agarwood-600" /> Mã QR thanh toán VietQR
+            <QrCode className="w-5 h-5 text-agarwood-600" /> Mã QR thanh toán
+            VietQR
           </h3>
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <div className="p-2 bg-white rounded-xl border border-agarwood-200 shadow-sm shrink-0">
@@ -2109,12 +2239,16 @@ function OrderSummary({ order }: { order: Order }) {
               <div className="p-3 bg-white rounded-lg border border-agarwood-100 space-y-1.5 text-charcoal-400">
                 <div className="flex justify-between">
                   <span className="text-charcoal-300">Chủ tài khoản:</span>
-                  <span className="font-bold text-agarwood-900 uppercase">NGUYEN NHU TRUNG</span>
+                  <span className="font-bold text-agarwood-900 uppercase">
+                    NGUYEN NHU TRUNG
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-charcoal-300">Số tài khoản / SĐT:</span>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-mono font-bold text-agarwood-900 text-sm">0365117151</span>
+                    <span className="font-mono font-bold text-agarwood-900 text-sm">
+                      0365117151
+                    </span>
                     <button
                       type="button"
                       onClick={() => {
@@ -2129,12 +2263,18 @@ function OrderSummary({ order }: { order: Order }) {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-charcoal-300">Số tiền:</span>
-                  <span className="font-bold text-agarwood-800 text-sm">{formatVND(order.total)}</span>
+                  <span className="font-bold text-agarwood-800 text-sm">
+                    {formatVND(order.total)}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-charcoal-300">Nội dung chuyển khoản:</span>
+                  <span className="text-charcoal-300">
+                    Nội dung chuyển khoản:
+                  </span>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-mono font-bold text-agarwood-700">{order.orderCode}</span>
+                    <span className="font-mono font-bold text-agarwood-700">
+                      {order.orderCode}
+                    </span>
                     <button
                       type="button"
                       onClick={() => {
@@ -2149,7 +2289,8 @@ function OrderSummary({ order }: { order: Order }) {
                 </div>
               </div>
               <p className="text-[11px] text-charcoal-300 italic">
-                * Sau khi quý khách chuyển khoản thành công, hệ thống Mộc Trầm sẽ tự động xác nhận đơn hàng và tiến hành đóng gói giao đến bạn.
+                * Sau khi quý khách chuyển khoản thành công, hệ thống Mộc Trầm
+                sẽ tự động xác nhận đơn hàng và tiến hành đóng gói giao đến bạn.
               </p>
             </div>
           </div>
@@ -2327,7 +2468,11 @@ function AccountPage() {
       });
       if (res.success) {
         setPwdMsg("Đổi mật khẩu thành công!");
-        setPwdForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+        setPwdForm({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
       } else {
         setPwdErr(res.message || "Đổi mật khẩu thất bại");
       }
@@ -2460,7 +2605,8 @@ function AccountPage() {
                       Hồ sơ cá nhân
                     </h2>
                     <p className="mt-1 text-xs text-charcoal-400">
-                      Cập nhật thông tin họ tên và số điện thoại liên hệ của bạn.
+                      Cập nhật thông tin họ tên và số điện thoại liên hệ của
+                      bạn.
                     </p>
                   </div>
 
@@ -2486,7 +2632,10 @@ function AccountPage() {
                           className="input-base"
                           value={profileForm.fullName}
                           onChange={(e) =>
-                            setProfileForm({ ...profileForm, fullName: e.target.value })
+                            setProfileForm({
+                              ...profileForm,
+                              fullName: e.target.value,
+                            })
                           }
                           placeholder="Nguyễn Văn A"
                         />
@@ -2499,7 +2648,10 @@ function AccountPage() {
                           className="input-base"
                           value={profileForm.phone}
                           onChange={(e) =>
-                            setProfileForm({ ...profileForm, phone: e.target.value })
+                            setProfileForm({
+                              ...profileForm,
+                              phone: e.target.value,
+                            })
                           }
                           placeholder="0901234567"
                           maxLength={10}
@@ -2562,7 +2714,8 @@ function AccountPage() {
                       Đổi mật khẩu
                     </h2>
                     <p className="mt-1 text-xs text-charcoal-400">
-                      Để bảo vệ tài khoản, hãy sử dụng mật khẩu mạnh từ 6 đến 24 ký tự.
+                      Để bảo vệ tài khoản, hãy sử dụng mật khẩu mạnh từ 6 đến 24
+                      ký tự.
                     </p>
                   </div>
 
@@ -2579,7 +2732,10 @@ function AccountPage() {
                     </div>
                   )}
 
-                  <form onSubmit={handleChangePassword} className="space-y-4 max-w-md">
+                  <form
+                    onSubmit={handleChangePassword}
+                    className="space-y-4 max-w-md"
+                  >
                     <label className="block">
                       <span className="label-base">Mật khẩu hiện tại</span>
                       <input
@@ -2588,7 +2744,10 @@ function AccountPage() {
                         className="input-base"
                         value={pwdForm.currentPassword}
                         onChange={(e) =>
-                          setPwdForm({ ...pwdForm, currentPassword: e.target.value })
+                          setPwdForm({
+                            ...pwdForm,
+                            currentPassword: e.target.value,
+                          })
                         }
                         placeholder="Nhập mật khẩu đang dùng"
                       />
@@ -2602,7 +2761,10 @@ function AccountPage() {
                         className="input-base"
                         value={pwdForm.newPassword}
                         onChange={(e) =>
-                          setPwdForm({ ...pwdForm, newPassword: e.target.value })
+                          setPwdForm({
+                            ...pwdForm,
+                            newPassword: e.target.value,
+                          })
                         }
                         placeholder="Từ 6 đến 24 ký tự"
                       />
@@ -2616,7 +2778,10 @@ function AccountPage() {
                         className="input-base"
                         value={pwdForm.confirmPassword}
                         onChange={(e) =>
-                          setPwdForm({ ...pwdForm, confirmPassword: e.target.value })
+                          setPwdForm({
+                            ...pwdForm,
+                            confirmPassword: e.target.value,
+                          })
                         }
                         placeholder="Nhập lại mật khẩu mới"
                       />
@@ -2652,11 +2817,16 @@ function AccountPage() {
                   {orders.length === 0 ? (
                     <div className="py-8 text-center text-sm text-charcoal-400">
                       <ShoppingBag className="mx-auto h-12 w-12 text-agarwood-200 mb-3" />
-                      <p className="font-medium text-agarwood-800">Bạn chưa có đơn hàng nào</p>
+                      <p className="font-medium text-agarwood-800">
+                        Bạn chưa có đơn hàng nào
+                      </p>
                       <p className="text-xs text-charcoal-300 mt-1">
                         Hãy chọn cho mình mùi hương thanh khiết để bắt đầu.
                       </p>
-                      <Link to="/san-pham" className="btn-primary mt-4 inline-flex items-center gap-2">
+                      <Link
+                        to="/san-pham"
+                        className="btn-primary mt-4 inline-flex items-center gap-2"
+                      >
                         Khám phá sản phẩm <ArrowRight className="h-4 w-4" />
                       </Link>
                     </div>
@@ -2672,7 +2842,8 @@ function AccountPage() {
                             {order.orderCode}
                           </p>
                           <p className="mt-1 text-xs text-charcoal-400">
-                            {formatDateTime(order.createdAt)} · {order.items.length} sản phẩm
+                            {formatDateTime(order.createdAt)} ·{" "}
+                            {order.items.length} sản phẩm
                           </p>
                         </div>
                         <div className="flex items-center gap-5">
@@ -2680,7 +2851,9 @@ function AccountPage() {
                             {formatVND(order.total)}
                           </span>
                           <StatusBadge
-                            label={ORDER_STATUS_LABELS[order.status] || order.status}
+                            label={
+                              ORDER_STATUS_LABELS[order.status] || order.status
+                            }
                             colorClass={
                               ORDER_STATUS_COLORS[order.status] ||
                               "bg-agarwood-100 text-agarwood-700"
@@ -2703,7 +2876,8 @@ function AccountPage() {
                       Sổ địa chỉ nhận hàng
                     </h2>
                     <p className="mt-1 text-xs text-charcoal-400">
-                      Quản lý địa chỉ giao hàng để điền thông tin nhanh khi thanh toán.
+                      Quản lý địa chỉ giao hàng để điền thông tin nhanh khi
+                      thanh toán.
                     </p>
                   </div>
                   {!showAddAddress && (
@@ -2776,7 +2950,9 @@ function AccountPage() {
                         />
                       </label>
                       <label className="block">
-                        <span className="label-base">Quận / Huyện / Phường</span>
+                        <span className="label-base">
+                          Quận / Huyện / Phường
+                        </span>
                         <input
                           required
                           className="input-base bg-white"
@@ -2790,7 +2966,9 @@ function AccountPage() {
                     </div>
 
                     <label className="block">
-                      <span className="label-base">Địa chỉ chi tiết (Số nhà, đường)</span>
+                      <span className="label-base">
+                        Địa chỉ chi tiết (Số nhà, đường)
+                      </span>
                       <input
                         required
                         className="input-base bg-white"
@@ -2825,7 +3003,8 @@ function AccountPage() {
                 <div className="space-y-3">
                   {!user.addresses || user.addresses.length === 0 ? (
                     <p className="text-center py-6 text-xs text-charcoal-400">
-                      Bạn chưa lưu địa chỉ nào. Bấm nút "Thêm địa chỉ mới" để thêm.
+                      Bạn chưa lưu địa chỉ nào. Bấm nút "Thêm địa chỉ mới" để
+                      thêm.
                     </p>
                   ) : (
                     user.addresses.map((addr) => (
@@ -3108,7 +3287,10 @@ function AppRoutes() {
 
       {/* 4. Xác thực & Tài khoản */}
       <Route path={ROUTES.AUTH} element={<AuthPage initialMode="login" />} />
-      <Route path={ROUTES.REGISTER} element={<AuthPage initialMode="register" />} />
+      <Route
+        path={ROUTES.REGISTER}
+        element={<AuthPage initialMode="register" />}
+      />
       <Route
         path={ROUTES.ACCOUNT}
         element={
@@ -3146,7 +3328,30 @@ function AppRoutes() {
       <Route path={ROUTES.B2B} element={<B2BPage />} />
       <Route path={ROUTES.SHOWROOM} element={<B2BPage />} />
 
-      {/* 8. Trang 404 Not Found (Xử lý tất cả các đường dẫn không hợp lệ) */}
+      {/* 8. Admin & Staff Management */}
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute
+            allowedRoles={["ADMIN", "STAFF_WAREHOUSE", "STAFF_CS"]}
+          >
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<AdminDashboardPage />} />
+        <Route path="san-pham" element={<AdminPlaceholderPage />} />
+        <Route path="kho" element={<AdminPlaceholderPage />} />
+        <Route path="don-hang" element={<AdminPlaceholderPage />} />
+        <Route path="thanh-toan" element={<AdminPlaceholderPage />} />
+        <Route path="van-chuyen" element={<AdminPlaceholderPage />} />
+        <Route path="doi-tra" element={<AdminPlaceholderPage />} />
+        <Route path="tu-van" element={<AdminPlaceholderPage />} />
+        <Route path="ma-giam-gia" element={<AdminPlaceholderPage />} />
+        <Route path="nguoi-dung" element={<AdminPlaceholderPage />} />
+      </Route>
+
+      {/* 9. Trang 404 Not Found (Xử lý tất cả các đường dẫn không hợp lệ) */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
