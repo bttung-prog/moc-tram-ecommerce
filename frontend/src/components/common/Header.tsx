@@ -30,7 +30,6 @@ export function Header() {
   const navLinks = [
     { label: 'Trầm hương đốt', path: '/san-pham/tram-huong-dot' },
     { label: 'Vòng tay trầm hương', path: '/san-pham/vong-tay-tram-huong' },
-    { label: 'Dụng cụ thưởng trầm', path: '/san-pham/dung-cu-thuong-tram' },
     { label: 'Cẩm nang', path: '/cam-nang' },
     { label: 'Về Mộc Trầm', path: '/gioi-thieu' },
   ];
