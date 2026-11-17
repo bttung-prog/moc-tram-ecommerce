@@ -213,13 +213,13 @@ function HomePage() {
             title="Thưởng thức theo cách của bạn"
             description="Mỗi dòng sản phẩm là một trải nghiệm hương thơm và không gian sống trọn vẹn."
           />
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2">
             <CategoryFeature
               title="Trầm hương đốt"
               text="Nhang nụ, nhang vòng, nhang tăm, bột trầm tự nhiên."
               to="/san-pham/tram-huong-dot"
               icon={<Flame className="h-6 w-6" />}
-              image="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=800&q=80"
+              image="/images/cat-tram-huong-dot.jpg"
               className="bg-agarwood-800 text-cream"
             />
             <CategoryFeature
@@ -229,14 +229,6 @@ function HomePage() {
               icon={<Gem className="h-6 w-6" />}
               image="/images/products/prod-012-wearing.jpg"
               className="bg-agarwood-900 text-cream"
-            />
-            <CategoryFeature
-              title="Dụng cụ thưởng trầm"
-              text="Lư xông gốm thủ công, lư đồng, phụ kiện xông trầm cao cấp."
-              to="/san-pham/dung-cu-thuong-tram"
-              icon={<Sparkles className="h-6 w-6" />}
-              image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80"
-              className="bg-agarwood-700 text-cream"
             />
           </div>
         </div>

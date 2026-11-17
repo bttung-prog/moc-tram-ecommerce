@@ -110,14 +110,14 @@ export const orders: Order[] = [
     shippingDetail: '12 Lý Tự Trọng, căn hộ 502',
     items: [
       { id: 'oi-001', productId: 'prod-013', productName: 'Nhang nụ trầm hương hảo hạng (Hương Khê)', productSlug: 'nhang-nu-tram-huong-hao-hang', skuId: 'sku-013-a', specLabel: 'Hộp quà nụ trầm thuần khiết', image: '/images/products/prod-013.jpg', price: 580000, quantity: 1, lineTotal: 580000 },
-      { id: 'oi-002', productId: 'prod-006', productName: 'Lư xông gốm men rạn cổ', productSlug: 'lu-xong-gom-men-ran-co', skuId: 'sku-006-a', specLabel: 'Men xanh ngọc cổ', image: '/images/products/prod-006.jpg', price: 290000, quantity: 1, lineTotal: 290000 },
+      { id: 'oi-002', productId: 'prod-002', productName: 'Nhang vòng trầm hương tự nhiên (Khoanh 4h)', productSlug: 'nhang-vong-tram-huong-tu-nhien-4h', skuId: 'sku-002-a', specLabel: 'Hộp 10 vòng đôi (20 khoanh)', image: '/images/products/prod-002.jpg', price: 165000, quantity: 1, lineTotal: 165000 },
     ],
-    subtotal: 870000,
+    subtotal: 745000,
     shippingFee: 0,
     discount: 0,
-    total: 870000,
+    total: 745000,
     paymentMethod: 'VIETQR',
-    payment: { id: 'pay-001', method: 'VIETQR', status: 'SUCCESS', amount: 870000, transactionId: 'VQR-DEMO-001', transferContent: 'MOC TRAM MT251003A7K2', paidAt: hoursAgo(20) },
+    payment: { id: 'pay-001', method: 'VIETQR', status: 'SUCCESS', amount: 745000, transactionId: 'VQR-DEMO-001', transferContent: 'MOC TRAM MT251003A7K2', paidAt: hoursAgo(20) },
     shipment: { id: 'ship-001', trackingCode: 'GHN-DEMO-001', carrier: 'GHN (demo)', status: 'IN_TRANSIT', codStatus: 'NONE', estimatedDelivery: daysAgo(-1), timeline: [
       { status: 'CREATED', label: 'Đã tạo vận đơn', timestamp: hoursAgo(18) },
       { status: 'PICKED_UP', label: 'Đã lấy hàng', timestamp: hoursAgo(16) },
@@ -231,7 +231,7 @@ export const orders: Order[] = [
     shippingWard: 'Phường Hải Châu',
     shippingDetail: '56 Bạch Đằng',
     items: [
-      { id: 'oi-006', productId: 'prod-002', productName: 'Nhang vòng trầm hương Quảng Nam', productSlug: 'nhang-vong-tram-huong-quang-nam', skuId: 'sku-002-a', specLabel: 'Hộp 10 vòng', image: '/images/products/prod-002.jpg', price: 145000, quantity: 3, lineTotal: 435000 },
+      { id: 'oi-006', productId: 'prod-002', productName: 'Nhang vòng trầm hương tự nhiên (Khoanh 4h)', productSlug: 'nhang-vong-tram-huong-tu-nhien-4h', skuId: 'sku-002-a', specLabel: 'Hộp 10 vòng', image: '/images/products/prod-002.jpg', price: 145000, quantity: 3, lineTotal: 435000 },
     ],
     subtotal: 435000,
     shippingFee: 35000,
@@ -269,14 +269,14 @@ export const orders: Order[] = [
     shippingWard: 'Phường Cẩm Châu',
     shippingDetail: '88 Trần Nhân Tông',
     items: [
-      { id: 'oi-007', productId: 'prod-006', productName: 'Lư xông gốm men rạn cổ', productSlug: 'lu-xong-gom-men-ran-co', skuId: 'sku-006-a', specLabel: 'Men xanh ngọc cổ', image: '/images/products/prod-006.jpg', price: 290000, quantity: 1, lineTotal: 290000 },
+      { id: 'oi-007', productId: 'prod-003', productName: 'Nhang cây trầm hương tinh khiết (Nhang tăm)', productSlug: 'nhang-cay-tram-huong-tinh-khiet', skuId: 'sku-003-a', specLabel: 'Hộp tinh khiết (100 nén - 29cm)', image: '/images/products/prod-003.jpg', price: 185000, quantity: 1, lineTotal: 185000 },
     ],
-    subtotal: 290000,
+    subtotal: 185000,
     shippingFee: 35000,
     discount: 0,
-    total: 325000,
+    total: 220000,
     paymentMethod: 'VIETQR',
-    payment: { id: 'pay-005', method: 'VIETQR', status: 'EXPIRED', amount: 325000, transferContent: 'MOC TRAM MT250925H4J1', expiresAt: daysAgo(9) },
+    payment: { id: 'pay-005', method: 'VIETQR', status: 'EXPIRED', amount: 220000, transferContent: 'MOC TRAM MT250925H4J1', expiresAt: daysAgo(9) },
     shipment: null,
     status: 'CANCELLED',
     timeline: [
@@ -301,14 +301,14 @@ export const orders: Order[] = [
     shippingWard: 'Phường Bến Nghé',
     shippingDetail: '12 Lý Tự Trọng, căn hộ 502',
     items: [
-      { id: 'oi-008', productId: 'prod-007', productName: 'Lư xông trầm đồng hoa sen tinh xảo', productSlug: 'lu-xong-tram-dong-hoa-sen', skuId: 'sku-007-a', specLabel: 'Đồng thau cổ điển', image: '/images/products/prod-007.jpg', price: 680000, quantity: 1, lineTotal: 680000 },
+      { id: 'oi-008', productId: 'prod-005', productName: 'Trầm miếng xông tự nhiên cao cấp', productSlug: 'tram-mieng-xong-tu-nhien-cao-cap', skuId: 'sku-005-a', specLabel: 'Túi zip bảo quản 20g', image: '/images/products/prod-005.jpg', price: 580000, quantity: 1, lineTotal: 580000 },
     ],
-    subtotal: 680000,
+    subtotal: 580000,
     shippingFee: 0,
     discount: 0,
-    total: 680000,
+    total: 580000,
     paymentMethod: 'VIETQR',
-    payment: { id: 'pay-006', method: 'VIETQR', status: 'SUCCESS', amount: 680000, transactionId: 'VQR-DEMO-006', transferContent: 'MOC TRAM MT250920K6L8', paidAt: daysAgo(12) },
+    payment: { id: 'pay-006', method: 'VIETQR', status: 'SUCCESS', amount: 580000, transactionId: 'VQR-DEMO-006', transferContent: 'MOC TRAM MT250920K6L8', paidAt: daysAgo(12) },
     shipment: { id: 'ship-006', trackingCode: 'GHN-DEMO-006', carrier: 'GHN (demo)', status: 'DELIVERED', codStatus: 'NONE', estimatedDelivery: daysAgo(10), timeline: [
       { status: 'DELIVERED', label: 'Đã giao thành công', timestamp: daysAgo(10) },
     ] },
@@ -494,22 +494,31 @@ export const articles: Article[] = [
     title: 'Về Mộc Trầm — Hành trình của hương thơm',
     slug: 'gioi-thieu',
     type: 'ABOUT',
-    excerpt: 'Câu chuyện thương hiệu Mộc Trầm, từ những cánh rừng trầm Khánh Hòa đến không gian thiền của bạn.',
+    excerpt: 'Câu chuyện thương hiệu Mộc Trầm — khởi nguồn từ thủ phủ trầm dó bầu Hương Khê (Hà Tĩnh), kết tinh tinh hoa từ những vùng trầm cổ Việt Nam đến không gian thanh tịnh của bạn.',
     image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80',
-    content: `Mộc Trầm ra đời từ niềm tin rằng trầm hương không chỉ là sản phẩm, mà là cầu nối giữa con người và sự tĩnh tại nội tâm.
+    content: `Mộc Trầm ra đời từ niềm tin sâu sắc rằng trầm hương không chỉ là một tặng phẩm quý giá của đất trời, mà còn là chiếc cầu nối kỳ diệu đưa tâm hồn con người trở về với sự tĩnh tại, an yên và thanh thản giữa nhịp sống hiện đại.
 
-Chúng tôi bắt đầu từ năm 2018, khi người sáng lập — sau nhiều năm nghiên cứu trầm hương tại Khánh Hòa — quyết định mang sản phẩm trầm chất lượng cao đến với nhiều người hơn, với cam kết minh bạch về nguồn gốc.
+**Khởi nguồn từ thủ phủ trầm dó bầu Hương Khê (Hà Tĩnh)**
 
-**Sứ mệnh**
+Hành trình của Mộc Trầm bắt nguồn từ vùng đất Hương Khê (Hà Tĩnh) — nơi được thiên nhiên ưu đãi khí hậu khắc nghiệt, thổ nhưỡng gió Lào nắng cháy nhưng lại là cái nôi lý tưởng tôi luyện nên những cây dó bầu tích tụ lượng tinh dầu trầm dồi dào, đậm đặc và có mùi hương thanh khiết, ngọt sâu hiếm nơi nào sánh kịp.
 
-Mang hương thơm thanh tịnh của trầm hương Việt Nam đến mọi không gian sống, thiền đường, trà thất — từ những nụ nhang nhỏ nhất đến chuỗi hạt trầm tự nhiên.
+Sau nhiều năm gắn bó cùng bà con nông dân và các nghệ nhân làng nghề làm trầm truyền thống tại Hương Khê, người sáng lập Mộc Trầm trăn trở trước thực trạng thị trường ngập tràn các sản phẩm tẩm ướp hương liệu hóa chất độc hại, làm mai một giá trị thiêng liêng của trầm hương Việt. Từ đó, Mộc Trầm được thành lập với tâm nguyện: gìn giữ nghề truyền thống, mang đến cho người tiêu dùng những tạo tác trầm thuần khiết nhất với nguồn gốc hoàn toàn minh bạch.
 
-**Giá trị cốt lõi**
+**Chắt lọc tinh hoa từ các vùng trầm danh tiếng Việt Nam**
 
-- Tự nhiên: không hóa chất, không hương liệu
-- Minh bạch: chứng nhận nguồn gốc và kiểm định an toàn
-- Thẩm mỹ: thiết kế truyền thống pha hiện đại
-- Bền vững: trầm trồng có quản lý, khai thác có trách nhiệm`,
+Bên cạnh vùng nguyên liệu cốt lõi tại Hương Khê (Hà Tĩnh) cung cấp nguồn phôi bột trầm mịn màng, nhang nụ thảo mộc và trầm miếng già dầu, Mộc Trầm còn cẩn trọng chọn lọc những phôi trầm tốc tự nhiên già tuổi vùng Nghệ An. Từng khối gỗ dó trầm sau khi khai thác đều trải qua quá trình xoi tỉa, tiện gọt thủ công tỉ mỉ để giữ trọn từng đường vân dầu mộc mạc và hương thơm tự nhiên nguyên bản nhất.
+
+**Sứ mệnh của chúng tôi**
+
+Mang làn hương thanh tịnh và năng lượng chữa lành của trầm hương Việt Nam hiện diện trong mọi không gian sống — từ góc thờ tự gia tiên tôn nghiêm, không gian thiền định, bàn trà an yên đến những chuỗi hạt trầm mộc trợ duyên bình an cho người sở hữu trên mỗi bước đường đời.
+
+**Giá trị cốt lõi & Cam kết của Mộc Trầm**
+
+- **Nguồn gốc minh bạch:** Từng nụ nhang, thớ giác trầm hay vòng tay đều có chứng nhận xuất xứ rõ ràng từ các vùng nguyên liệu trứ danh, đạt tiêu chuẩn OCOP và hồ sơ kiểm định nguồn gốc đầy đủ.
+- **100% Thuần tự nhiên:** Tuyệt đối không hóa chất tạo tàn cong, không phẩm màu nhuộm chân tăm, không hương liệu nhân tạo hay phụ gia dẫn cháy độc hại. Chỉ sử dụng bột trầm nguyên chất hòa quyện cùng chất kết dính từ vỏ cây bời lời tự nhiên.
+- **An toàn sức khỏe:** Tất cả sản phẩm nhang trầm đều được kiểm định độc lập về mức độ an toàn khói nhang tại Viện Kiểm nghiệm & Kiểm định Chất lượng VNTEST, đảm bảo an toàn tuyệt đối cho người già, trẻ nhỏ và căn hộ chung cư phòng kín.
+- **Tôn vinh nghệ thuật thủ công:** Kết hợp hài hòa nét đẹp thủ công mỹ nghệ cổ truyền với tư duy thiết kế tối giản, hiện đại, mang lại giá trị thẩm mỹ thanh nhã cho không gian thưởng trầm.
+- **Phát triển bền vững:** Đồng hành và bảo tồn nguồn gen dó bầu bản địa, khai thác gắn liền với tái sinh tự nhiên và nâng cao thu nhập ổn định cho người làm nghề trầm tại địa phương.`,
     createdAt: '2025-06-01T00:00:00Z',
   },
   {
@@ -518,7 +527,7 @@ Mang hương thơm thanh tịnh của trầm hương Việt Nam đến mọi kh�
     slug: 'cach-thuong-tram-dung-cach',
     type: 'GUIDE',
     excerpt: 'Hướng dẫn cơ bản về cách đốt nhang nụ, xông bột trầm và thưởng thức hương trầm.',
-    image: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/cam-nang-thuong-tram.png',
     content: `Thưởng trầm là một nghệ thuật chậm rãi. Dưới đây là những bước cơ bản để bạn bắt đầu.
 
 **1. Chọn không gian**
@@ -711,6 +720,6 @@ export const inventoryBatches: InventoryBatch[] = [
 export const inventoryMovements: InventoryMovement[] = [
   { id: 'im-001', skuId: 'sku-013-a', productName: 'Nhang nụ trầm hương hảo hạng (Hương Khê)', specLabel: 'Hộp quà nụ trầm thuần khiết', type: 'IN', quantity: 50, reason: 'Nhập kho lô LOT-2509-001', timestamp: '2025-09-15T08:00:00Z' },
   { id: 'im-002', skuId: 'sku-013-a', productName: 'Nhang nụ trầm hương hảo hạng (Hương Khê)', specLabel: 'Hộp quà nụ trầm thuần khiết', type: 'OUT', quantity: 1, reason: 'Xuất đơn MT251003A7K2', timestamp: hoursAgo(18) },
-  { id: 'im-003', skuId: 'sku-006-a', productName: 'Lư xông gốm men rạn cổ', specLabel: 'Men xanh ngọc cổ', type: 'OUT', quantity: 1, reason: 'Xuất đơn MT251003A7K2', timestamp: hoursAgo(18) },
+  { id: 'im-003', skuId: 'sku-002-a', productName: 'Nhang vòng trầm hương tự nhiên (Khoanh 4h)', specLabel: 'Hộp 10 vòng đôi (20 khoanh)', type: 'OUT', quantity: 1, reason: 'Xuất đơn MT251003A7K2', timestamp: hoursAgo(18) },
   { id: 'im-004', skuId: 'sku-004-a', productName: 'Bột trầm hương tinh khiết', specLabel: 'Hũ thủy tinh 50g', type: 'IN', quantity: 40, reason: 'Nhập kho lô LOT-2509-002', timestamp: '2025-09-20T09:00:00Z' },
 ];

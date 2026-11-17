@@ -8,7 +8,6 @@ import { categories } from '@/mock/catalog';
 const categoryIcon: Record<string, typeof Flame> = {
   'cat-burn': Flame,
   'cat-bracelet': Gem,
-  'cat-tool': Sparkles,
 };
 
 export function ProductCard({ product }: { product: Product }) {
