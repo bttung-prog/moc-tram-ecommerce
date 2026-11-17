@@ -4,7 +4,6 @@ export const categories: Category[] = [
   // Level 0 — top-level groups
   { id: 'cat-burn', name: 'Trầm hương đốt', slug: 'tram-huong-dot', parentId: null, icon: 'Flame' },
   { id: 'cat-bracelet', name: 'Vòng tay trầm hương', slug: 'vong-tay-tram-huong', parentId: null, icon: 'Gem' },
-  { id: 'cat-tool', name: 'Dụng cụ thưởng trầm', slug: 'dung-cu-thuong-tram', parentId: null, icon: 'Sparkles' },
 
   // Subcategories — Trầm hương đốt
   { id: 'cat-nhang-nu', name: 'Nhang nụ', slug: 'nhang-nu', parentId: 'cat-burn' },
@@ -17,10 +16,6 @@ export const categories: Category[] = [
   { id: 'cat-vong-108', name: 'Chuỗi 108 hạt', slug: 'chuoi-108-hat', parentId: 'cat-bracelet' },
   { id: 'cat-vong-don', name: 'Vòng đơn hạt tròn', slug: 'vong-don-hat-tron', parentId: 'cat-bracelet' },
   { id: 'cat-vong-truc', name: 'Vòng trầm đốt trúc', slug: 'vong-tram-dot-truc', parentId: 'cat-bracelet' },
-
-  // Subcategories — Dụng cụ thưởng trầm
-  { id: 'cat-lu-xong', name: 'Lư xông gốm/đồng', slug: 'lu-xong', parentId: 'cat-tool' },
-  { id: 'cat-thac-khoi', name: 'Thác khói trầm hương', slug: 'thac-khoi', parentId: 'cat-tool' },
 ];
 
 export const origins: Origin[] = [
