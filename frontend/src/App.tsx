@@ -219,7 +219,7 @@ function HomePage() {
               text="Nhang nụ, nhang vòng, nhang tăm, bột trầm tự nhiên."
               to="/san-pham/tram-huong-dot"
               icon={<Flame className="h-6 w-6" />}
-              image="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=800&q=80"
+              image="/images/cat-tram-huong-dot.jpg"
               className="bg-agarwood-800 text-cream"
             />
             <CategoryFeature
