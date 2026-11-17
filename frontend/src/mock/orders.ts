@@ -518,7 +518,7 @@ Mang hương thơm thanh tịnh của trầm hương Việt Nam đến mọi kh�
     slug: 'cach-thuong-tram-dung-cach',
     type: 'GUIDE',
     excerpt: 'Hướng dẫn cơ bản về cách đốt nhang nụ, xông bột trầm và thưởng thức hương trầm.',
-    image: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/cam-nang-thuong-tram.png',
     content: `Thưởng trầm là một nghệ thuật chậm rãi. Dưới đây là những bước cơ bản để bạn bắt đầu.
 
 **1. Chọn không gian**
