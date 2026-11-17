@@ -168,7 +168,7 @@ export const orders: Order[] = [
         lineTotal: 290000,
       },
     ],
-    subtotal: 870000,
+    subtotal: 745000,
     shippingFee: 0,
     discount: 0,
     total: 870000,
@@ -464,7 +464,7 @@ export const orders: Order[] = [
         lineTotal: 290000,
       },
     ],
-    subtotal: 290000,
+    subtotal: 185000,
     shippingFee: 35000,
     discount: 0,
     total: 325000,
@@ -519,7 +519,7 @@ export const orders: Order[] = [
         lineTotal: 680000,
       },
     ],
-    subtotal: 680000,
+    subtotal: 580000,
     shippingFee: 0,
     discount: 0,
     total: 680000,
@@ -999,13 +999,13 @@ export const articles: Article[] = [
       "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
     content: `Mộc Trầm ra đời từ niềm tin rằng trầm hương không chỉ là sản phẩm, mà là cầu nối giữa con người và sự tĩnh tại nội tâm.
 
-Chúng tôi bắt đầu từ năm 2018, khi người sáng lập — sau nhiều năm nghiên cứu trầm hương tại Khánh Hòa — quyết định mang sản phẩm trầm chất lượng cao đến với nhiều người hơn, với cam kết minh bạch về nguồn gốc.
+**Khởi nguồn từ thủ phủ trầm dó bầu Hương Khê (Hà Tĩnh)**
 
-**Sứ mệnh**
+Hành trình của Mộc Trầm bắt nguồn từ vùng đất Hương Khê (Hà Tĩnh) — nơi được thiên nhiên ưu đãi khí hậu khắc nghiệt, thổ nhưỡng gió Lào nắng cháy nhưng lại là cái nôi lý tưởng tôi luyện nên những cây dó bầu tích tụ lượng tinh dầu trầm dồi dào, đậm đặc và có mùi hương thanh khiết, ngọt sâu hiếm nơi nào sánh kịp.
 
-Mang hương thơm thanh tịnh của trầm hương Việt Nam đến mọi không gian sống, thiền đường, trà thất — từ những nụ nhang nhỏ nhất đến chuỗi hạt trầm tự nhiên.
+Sau nhiều năm gắn bó cùng bà con nông dân và các nghệ nhân làng nghề làm trầm truyền thống tại Hương Khê, người sáng lập Mộc Trầm trăn trở trước thực trạng thị trường ngập tràn các sản phẩm tẩm ướp hương liệu hóa chất độc hại, làm mai một giá trị thiêng liêng của trầm hương Việt. Từ đó, Mộc Trầm được thành lập với tâm nguyện: gìn giữ nghề truyền thống, mang đến cho người tiêu dùng những tạo tác trầm thuần khiết nhất với nguồn gốc hoàn toàn minh bạch.
 
-**Giá trị cốt lõi**
+**Chắt lọc tinh hoa từ các vùng trầm danh tiếng Việt Nam**
 
 - Tự nhiên: không hóa chất, không hương liệu
 - Minh bạch: chứng nhận nguồn gốc và kiểm định an toàn
