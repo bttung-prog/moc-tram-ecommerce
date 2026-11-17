@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import type { Product } from '@/types';
 import { Link } from 'react-router-dom';
-import { Flame, Gem, Flower2, AlertTriangle, Droplets } from 'lucide-react';
+import { Flame, Gem, Sparkles, AlertTriangle, Droplets } from 'lucide-react';
 import { formatVND } from '@/utils/format';
 import { categories } from '@/mock/catalog';
 
 const categoryIcon: Record<string, typeof Flame> = {
   'cat-burn': Flame,
-  'cat-tool': Gem,
-  'cat-zen': Flower2,
+  'cat-bracelet': Gem,
+  'cat-tool': Sparkles,
 };
 
 export function ProductCard({ product }: { product: Product }) {
@@ -29,14 +29,14 @@ export function ProductCard({ product }: { product: Product }) {
       className="card group overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col"
     >
       {/* Product Image */}
-      <div className="relative aspect-[4/3] bg-gradient-to-br from-agarwood-50 to-agarwood-100 overflow-hidden">
+      <div className="relative aspect-[3/2] bg-gradient-to-br from-agarwood-50 via-cream/30 to-agarwood-100/60 overflow-hidden flex items-center justify-center">
         {mainImage && !imgError ? (
           <>
             <img
               src={mainImage}
               alt={product.name}
               onError={() => setImgError(true)}
-              className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+              className="h-full w-full object-contain object-center group-hover:scale-105 transition-transform duration-700 ease-out"
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-agarwood-900/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -51,8 +51,8 @@ export function ProductCard({ product }: { product: Product }) {
           </>
         )}
 
-        {/* Badges */}
-        <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
+        {/* Badges - positioned top-right so brand logo in top-left is never covered */}
+        <div className="absolute top-3 right-3 z-10 flex flex-col items-end gap-1.5">
           {product.featured && (
             <span className="badge bg-agarwood-800/90 text-cream backdrop-blur-sm">Nổi bật</span>
           )}

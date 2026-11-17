@@ -20,6 +20,7 @@ import {
   Eye,
   EyeOff,
   Flame,
+  Gem,
   Leaf,
   Mail,
   MapPin,
@@ -34,6 +35,13 @@ import {
   Compass,
   CreditCard,
   QrCode,
+  User as UserIcon,
+  Warehouse,
+  Headphones,
+  Lock,
+  Plus,
+  Trash2,
+  Phone,
 } from "lucide-react";
 import { Header } from "@/components/common/Header";
 import { Footer } from "@/components/common/Footer";
@@ -52,6 +60,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { CartProvider, useCart } from "@/contexts/CartContext";
 import { productApi } from "@/services/productApi";
 import { orderApi } from "@/services/orderApi";
+import { authApi } from "@/services/authApi";
 import { consultationApi } from "@/services/consultationApi";
 import { articles } from "@/mock/orders";
 import {
@@ -120,35 +129,45 @@ function HomePage() {
   const featured = products.filter((p) => p.featured).slice(0, 4);
   return (
     <PageShell>
-      <section className="relative overflow-hidden bg-agarwood-900 text-cream">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_20%,rgba(176,141,87,0.25),transparent_32%),radial-gradient(circle_at_12%_90%,rgba(79,93,69,0.25),transparent_35%)]" />
-        <div className="container-content relative grid min-h-[580px] items-center py-16 lg:grid-cols-2 lg:gap-16">
+      <section className="relative overflow-hidden text-cream min-h-[560px] lg:min-h-[620px] flex items-center">
+        {/* Full Hero Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/hero-banner.jpg"
+            alt="Mộc Trầm - Trầm hương thuần khiết"
+            className="w-full h-full object-cover object-right lg:object-center"
+          />
+          {/* Subtle gradient overlay to enhance text readability on the left while keeping the incense burner and bracelet visible */}
+          <div className="absolute inset-0 bg-gradient-to-r from-agarwood-950/90 via-agarwood-950/65 to-transparent sm:w-4/5 lg:w-3/5" />
+          <div className="absolute inset-0 bg-gradient-to-t from-agarwood-950/40 via-transparent to-black/20" />
+        </div>
+
+        <div className="container-content relative py-20 lg:py-24">
           <div className="max-w-xl animate-fade-up">
             <p className="mb-5 flex items-center gap-2 text-sm tracking-[0.2em] text-agarwood-200">
               <span className="h-px w-8 bg-agarwood-300" />
               TRẦM HƯƠNG VIỆT NAM
             </p>
-            <h1 className="font-serif text-5xl leading-[1.05] text-cream sm:text-7xl">
+            <h1 className="font-serif text-5xl leading-[1.08] text-cream sm:text-6xl lg:text-7xl">
               Hương thanh tịnh.
               <br />
-              <em className="text-agarwood-300">Tâm an nhiên.</em>
+              <em className="text-agarwood-300 font-normal">Tâm an nhiên.</em>
             </h1>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-cream/70">
-              Mộc Trầm mang hương thơm nguyên bản từ những vùng trầm Khánh Hòa,
-              Quảng Nam đến không gian sống của bạn.
+            <p className="mt-6 max-w-lg text-base leading-relaxed text-cream/80">
+              Mộc Trầm mang hương thơm nguyên bản từ vùng trầm danh tiếng đến không gian sống của bạn.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-4">
               <Link to="/san-pham" className="btn-accent">
                 Khám phá sản phẩm <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/gioi-thieu"
-                className="btn border border-cream/30 text-cream hover:bg-cream/10"
+                className="btn border border-cream/40 bg-black/25 text-cream backdrop-blur-sm hover:bg-cream/15 transition-all"
               >
                 Câu chuyện Mộc Trầm
               </Link>
             </div>
-            <div className="mt-12 flex items-center gap-6 text-xs text-cream/65">
+            <div className="mt-12 flex items-center gap-8 text-xs text-cream/75">
               <span className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-agarwood-300" />
                 Nguồn gốc minh bạch
@@ -159,33 +178,6 @@ function HomePage() {
               </span>
             </div>
           </div>
-          <div className="relative hidden h-[460px] lg:flex items-center justify-center">
-            <div className="relative w-full h-[420px] rounded-3xl overflow-hidden shadow-2xl border border-agarwood-400/25 group">
-              <img
-                src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=1200&q=85"
-                alt="Không gian trà đạo thưởng trầm Mộc Trầm"
-                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-agarwood-950/85 via-agarwood-950/20 to-transparent" />
-              <div className="absolute top-4 right-4 rounded-full bg-black/40 backdrop-blur-md px-3.5 py-1.5 border border-cream/20 text-xs text-cream flex items-center gap-1.5 shadow-sm">
-                <Sparkles className="h-3.5 w-3.5 text-agarwood-300" />
-                <span>Nghệ thuật thưởng trầm</span>
-              </div>
-              <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
-                <div>
-                  <p className="font-serif text-2xl text-cream font-medium">
-                    Từ đất lành
-                  </p>
-                  <p className="text-xs text-cream/70 mt-1">
-                    Đến không gian an nhiên · Tự nhiên thuần khiết
-                  </p>
-                </div>
-                <span className="badge bg-agarwood-800/80 text-cream backdrop-blur-sm border border-agarwood-400/30">
-                  100% Nguyên bản
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -194,7 +186,7 @@ function HomePage() {
           <TrustItem
             icon={<ShieldCheck />}
             title="Nguồn gốc rõ ràng"
-            text="Khánh Hòa · Quảng Nam"
+            text="Hương Khê (Hà Tĩnh)"
           />
           <TrustItem
             icon={<Award />}
@@ -224,27 +216,27 @@ function HomePage() {
           <div className="grid gap-6 md:grid-cols-3">
             <CategoryFeature
               title="Trầm hương đốt"
-              text="Nhang nụ, nhang vòng, bột trầm nguyên chất từ tự nhiên."
+              text="Nhang nụ, nhang vòng, nhang tăm, bột trầm tự nhiên."
               to="/san-pham/tram-huong-dot"
               icon={<Flame className="h-6 w-6" />}
               image="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=800&q=80"
               className="bg-agarwood-800 text-cream"
             />
             <CategoryFeature
+              title="Vòng tay trầm hương"
+              text="Chuỗi 108 hạt, vòng đơn, đốt trúc tự nhiên tinh tế."
+              to="/san-pham/vong-tay-tram-huong"
+              icon={<Gem className="h-6 w-6" />}
+              image="/images/products/prod-012-wearing.jpg"
+              className="bg-agarwood-900 text-cream"
+            />
+            <CategoryFeature
               title="Dụng cụ thưởng trầm"
-              text="Lư gốm Bát Tràng, thác khói, máy xông điện thanh lịch."
+              text="Lư xông gốm thủ công, lư đồng, phụ kiện xông trầm cao cấp."
               to="/san-pham/dung-cu-thuong-tram"
               icon={<Sparkles className="h-6 w-6" />}
               image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80"
               className="bg-agarwood-700 text-cream"
-            />
-            <CategoryFeature
-              title="Không gian Thiền & Trà"
-              text="Bồ đoàn thiền định, bộ trà cụ tao nhã và chuỗi hạt an yên."
-              to="/san-pham/khong-gian-thien-tra"
-              icon={<Leaf className="h-6 w-6" />}
-              image="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80"
-              className="bg-moss-700 text-cream"
             />
           </div>
         </div>
@@ -713,12 +705,12 @@ function ProductDetailPage() {
         <div className="mt-8 grid gap-10 lg:grid-cols-2">
           {/* Images Gallery */}
           <div className="flex flex-col gap-4">
-            <div className="relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-agarwood-50 to-agarwood-100 border border-agarwood-100 shadow-sm">
+            <div className="relative aspect-[3/2] overflow-hidden rounded-2xl bg-gradient-to-br from-agarwood-50 via-cream/30 to-agarwood-100/60 border border-agarwood-100 shadow-sm flex items-center justify-center">
               {currentImage ? (
                 <img
                   src={currentImage}
                   alt={product.name}
-                  className="h-full w-full object-cover object-center transition-all duration-500"
+                  className="h-full w-full object-contain object-center transition-all duration-500"
                 />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -734,12 +726,12 @@ function ProductDetailPage() {
                     key={i}
                     type="button"
                     onClick={() => setActiveImg(i)}
-                    className={`relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${activeImg === i ? "border-agarwood-600 ring-2 ring-agarwood-600/20" : "border-agarwood-100 hover:border-agarwood-300 opacity-70 hover:opacity-100"}`}
+                    className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${activeImg === i ? "border-agarwood-600 ring-2 ring-agarwood-600/20" : "border-agarwood-100 hover:border-agarwood-300 opacity-70 hover:opacity-100"}`}
                   >
                     <img
                       src={img}
                       alt={`${product.name} ${i + 1}`}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover object-center"
                     />
                   </button>
                 ))}
@@ -749,11 +741,7 @@ function ProductDetailPage() {
 
           {/* Info */}
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-agarwood-500">
-              {origins.find((o) => o.id === product.originId)?.name} ·{" "}
-              {agarwoodTypes.find((t) => t.id === product.agarwoodTypeId)?.name}
-            </p>
-            <h1 className="mt-3 font-serif text-4xl leading-tight text-agarwood-800">
+            <h1 className="font-serif text-4xl leading-tight text-agarwood-800">
               {product.name}
             </h1>
             <div className="mt-4 flex items-center gap-3">
@@ -886,6 +874,7 @@ function ProductOrCategoryRoute() {
 
 function CartPage() {
   const { items, updateQuantity, removeItem } = useCart();
+  const { user } = useAuth();
   const [totals, setTotals] = useState({
     subtotal: 0,
     shippingFee: 0,
@@ -1004,9 +993,29 @@ function CartPage() {
                 <span>Tổng cộng</span>
                 <span>{formatVND(totals.total)}</span>
               </div>
-              <Link to="/thanh-toan" className="btn-primary w-full">
-                Tiến hành thanh toán <ArrowRight className="h-4 w-4" />
-              </Link>
+              {!user ? (
+                <div className="space-y-3">
+                  <div className="rounded-xl border border-agarwood-200 bg-agarwood-50/80 p-3.5 text-xs text-agarwood-900">
+                    <p className="font-semibold flex items-center gap-1.5 text-agarwood-800">
+                      <UserIcon className="h-4 w-4 text-agarwood-600" />
+                      Yêu cầu tài khoản đặt hàng
+                    </p>
+                    <p className="mt-1 text-charcoal-400 leading-relaxed">
+                      Quý khách cần đăng nhập hoặc tạo tài khoản mới để tiến hành thanh toán và lưu đơn hàng.
+                    </p>
+                  </div>
+                  <Link
+                    to="/dang-nhap?redirect=/thanh-toan"
+                    className="btn-primary w-full flex items-center justify-center gap-2"
+                  >
+                    Đăng nhập / Đăng ký để đặt hàng <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              ) : (
+                <Link to="/thanh-toan" className="btn-primary w-full flex items-center justify-center gap-2">
+                  Tiến hành thanh toán <ArrowRight className="h-4 w-4" />
+                </Link>
+              )}
               <p className="mt-3 text-center text-xs text-charcoal-300">
                 Giá và phí được xác nhận từ hệ thống
               </p>
@@ -1023,12 +1032,16 @@ function CheckoutPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  if (!user) {
+    return <Navigate to="/dang-nhap?redirect=/thanh-toan" replace />;
+  }
+
   const [form, setForm] = useState({
-    shippingFullName: user?.fullName || "",
-    shippingPhone: user?.phone || "",
-    shippingProvince: "Hồ Chí Minh",
-    shippingWard: "Phường Bến Nghé, Quận 1",
-    shippingDetail: "",
+    shippingFullName: user.fullName || "",
+    shippingPhone: user.phone || "",
+    shippingProvince: user.addresses?.[0]?.province || "Hồ Chí Minh",
+    shippingWard: user.addresses?.[0]?.ward || "Phường Bến Nghé, Quận 1",
+    shippingDetail: user.addresses?.[0]?.detail || "",
     paymentMethod: "COD" as "COD" | "VIETQR" | "PAYPAL",
     note: "",
     couponCode: "",
@@ -1142,6 +1155,25 @@ function CheckoutPage() {
         >
           {/* Thông tin giao hàng & phương thức thanh toán */}
           <div className="space-y-6">
+            <div className="flex items-center justify-between rounded-xl border border-agarwood-200 bg-agarwood-50/80 p-4 text-sm">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-agarwood-200/70 font-serif font-bold text-agarwood-800">
+                  {user.fullName ? user.fullName.charAt(0) : "M"}
+                </div>
+                <div>
+                  <p className="font-medium text-agarwood-800">
+                    Đặt hàng với tài khoản: <span className="font-semibold">{user.fullName}</span>
+                  </p>
+                  <p className="text-xs text-charcoal-400">
+                    {user.email} · {user.phone || "Chưa có SĐT"}
+                  </p>
+                </div>
+              </div>
+              <span className="badge bg-agarwood-800 text-cream text-xs">
+                {user.role}
+              </span>
+            </div>
+
             <div className="card p-6">
               <h2 className="font-serif text-xl text-agarwood-800 mb-4">
                 1. Thông tin giao hàng
@@ -1247,6 +1279,74 @@ function CheckoutPage() {
                     </p>
                   </div>
                 </label>
+
+                {form.paymentMethod === "VIETQR" && (
+                  <div className="p-4 bg-white rounded-xl border border-agarwood-300 shadow-sm animate-fade-in space-y-3">
+                    <div className="flex flex-col sm:flex-row items-center gap-4">
+                      {/* Ảnh QR card */}
+                      <div className="shrink-0 flex flex-col items-center">
+                        <div className="p-2 bg-agarwood-50/60 rounded-xl border border-agarwood-200 shadow-inner">
+                          <img
+                            src="/images/vietqr-card.png"
+                            alt="Mã QR Chuyển khoản VietQR - NGUYEN NHU TRUNG"
+                            className="w-48 sm:w-52 h-auto object-contain rounded-lg shadow-sm"
+                          />
+                        </div>
+                        <span className="text-[11px] text-charcoal-400 mt-1.5 flex items-center gap-1 font-medium">
+                          <QrCode className="w-3.5 h-3.5 text-agarwood-600" /> Quét qua App Ngân hàng / Viettel Money
+                        </span>
+                      </div>
+
+                      {/* Thông tin tài khoản */}
+                      <div className="flex-1 w-full space-y-2 text-xs">
+                        <div className="rounded-lg bg-agarwood-50/80 p-3 border border-agarwood-100 space-y-1.5 text-charcoal-400">
+                          <div className="flex justify-between items-center">
+                            <span className="text-charcoal-300">Ngân hàng / Đơn vị:</span>
+                            <span className="font-semibold text-agarwood-800">Viettel Money (Napas 247)</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-charcoal-300">Chủ tài khoản:</span>
+                            <span className="font-bold text-agarwood-900 uppercase tracking-wide">NGUYEN NHU TRUNG</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-charcoal-300">Số tài khoản / SĐT:</span>
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-mono font-bold text-base text-agarwood-900">0365117151</span>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigator.clipboard.writeText("0365117151");
+                                  alert("Đã sao chép số tài khoản: 0365117151");
+                                }}
+                                className="px-2 py-0.5 rounded text-[11px] bg-agarwood-200/80 text-agarwood-800 hover:bg-agarwood-300 transition-colors font-medium"
+                              >
+                                Sao chép
+                              </button>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center pt-1.5 border-t border-agarwood-200/60">
+                            <span className="text-charcoal-300">Số tiền cần thanh toán:</span>
+                            <span className="font-bold text-base text-agarwood-800">{formatVND(totals.total)}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-charcoal-300">Nội dung chuyển khoản:</span>
+                            <span className="font-mono font-semibold text-agarwood-700">MT {form.shippingPhone || "DONHANG"}</span>
+                          </div>
+                        </div>
+
+                        <div className="p-2.5 rounded-lg bg-amber-50/70 border border-amber-200/60 text-[11px] text-amber-900 space-y-1">
+                          <p className="font-semibold">💡 Hướng dẫn thanh toán:</p>
+                          <ol className="list-decimal list-inside space-y-0.5 pl-0.5 text-charcoal-400">
+                            <li>Mở ứng dụng ngân hàng bất kỳ hoặc Viettel Money, chọn <strong>Quét mã QR</strong>.</li>
+                            <li>Quét mã QR bên cạnh hoặc chuyển khoản theo số tài khoản ở trên.</li>
+                            <li>Sau khi quét chuyển khoản xong, bấm nút <strong>Xác nhận đặt hàng</strong> bên dưới.</li>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <label
                   className={`flex items-center gap-3.5 p-3.5 rounded-xl border cursor-pointer transition-all ${form.paymentMethod === "PAYPAL" ? "border-agarwood-600 bg-agarwood-50/60 ring-1 ring-agarwood-600/30" : "border-agarwood-100 hover:border-agarwood-300"}`}
@@ -1495,7 +1595,21 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
   return (
     <PageShell>
       <div className="container-content flex min-h-[620px] items-center justify-center py-12">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-xl">
+          {redirect.includes("/thanh-toan") && (
+            <div className="mb-6 flex items-start gap-3 rounded-2xl border border-agarwood-300 bg-agarwood-50 p-4 text-sm text-agarwood-900 shadow-sm animate-fade-in">
+              <ShoppingBag className="h-5 w-5 shrink-0 text-agarwood-600 mt-0.5" />
+              <div>
+                <p className="font-semibold text-agarwood-800">
+                  Quý khách cần tài khoản để tiến hành đặt hàng
+                </p>
+                <p className="mt-0.5 text-xs text-charcoal-400 leading-relaxed">
+                  Vui lòng đăng nhập hoặc chọn <strong>"Đăng ký ngay"</strong> để tạo tài khoản mới. Ngay sau khi hoàn tất, bạn sẽ được tự động chuyển tiếp về trang Thanh toán.
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="text-center">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-agarwood-400 bg-agarwood-50 font-serif text-2xl text-agarwood-800">
               {mode === "verify_otp" ? <Mail className="h-7 w-7 text-agarwood-700" /> : "M"}
@@ -1585,14 +1699,20 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
                 )}
 
                 <label className="block">
-                  <span className="label-base">Email</span>
+                  <span className="label-base">
+                    {mode === "login" ? "Tài khoản / Email / SĐT" : "Email"}
+                  </span>
                   <input
                     required
-                    type="email"
+                    type={mode === "login" ? "text" : "email"}
                     className="input-base"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="name@example.com"
+                    placeholder={
+                      mode === "login"
+                        ? "dochet89 hoặc email@moctram.vn"
+                        : "name@example.com"
+                    }
                   />
                 </label>
 
@@ -1693,6 +1813,150 @@ function AuthPage({ initialMode = "login" }: { initialMode?: "login" | "register
               </div>
             )}
           </form>
+
+          {mode === "login" && (
+            <div className="mt-8 rounded-2xl border border-agarwood-200/80 bg-gradient-to-b from-cream to-agarwood-50/40 p-5 shadow-sm">
+              <div className="pb-3 border-b border-agarwood-100">
+                <h3 className="font-serif text-base font-semibold text-agarwood-800">
+                  Tài khoản đăng nhập hệ thống theo từng vai trò
+                </h3>
+                <p className="text-xs text-charcoal-400 mt-0.5">
+                  Chọn vai trò bên dưới để tự động điền và đăng nhập ngay:
+                </p>
+              </div>
+
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* 1. Khách hàng */}
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={async () => {
+                    setForm({ ...form, email: "khachhang@moctram.vn", password: "Moctram@123" });
+                    try {
+                      setBusy(true);
+                      await login("khachhang@moctram.vn", "Moctram@123");
+                      navigate(redirect);
+                    } catch (e) {
+                      setError(e instanceof Error ? e.message : "Lỗi đăng nhập");
+                    } finally {
+                      setBusy(false);
+                    }
+                  }}
+                  className="flex flex-col text-left p-3.5 rounded-xl border border-agarwood-200 bg-white hover:border-agarwood-500 hover:shadow-md transition-all group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-xs text-agarwood-800 flex items-center gap-1.5">
+                      <UserIcon className="h-4 w-4 text-agarwood-600" />
+                      Khách hàng
+                    </span>
+                    <span className="text-[10px] font-bold text-agarwood-700 bg-agarwood-50 border border-agarwood-200 px-2 py-0.5 rounded-md group-hover:bg-agarwood-700 group-hover:text-cream transition-colors">
+                      Đăng nhập ➔
+                    </span>
+                  </div>
+                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">khachhang@moctram.vn</p>
+                  <p className="text-[11px] text-charcoal-400 mt-1">Vai trò: CUSTOMER · Đặt hàng, theo dõi đơn, bảo hành</p>
+                </button>
+
+                {/* 2. Nhân viên Kho */}
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={async () => {
+                    setForm({ ...form, email: "kho@moctram.vn", password: "Moctram@123" });
+                    try {
+                      setBusy(true);
+                      await login("kho@moctram.vn", "Moctram@123");
+                      navigate(redirect !== "/tai-khoan" ? redirect : "/admin/kho");
+                    } catch (e) {
+                      setError(e instanceof Error ? e.message : "Lỗi đăng nhập");
+                    } finally {
+                      setBusy(false);
+                    }
+                  }}
+                  className="flex flex-col text-left p-3.5 rounded-xl border border-agarwood-200 bg-white hover:border-agarwood-500 hover:shadow-md transition-all group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-xs text-agarwood-800 flex items-center gap-1.5">
+                      <Warehouse className="h-4 w-4 text-moss-600" />
+                      Nhân viên Kho
+                    </span>
+                    <span className="text-[10px] font-bold text-moss-700 bg-moss-50 border border-moss-200 px-2 py-0.5 rounded-md group-hover:bg-moss-700 group-hover:text-cream transition-colors">
+                      Đăng nhập ➔
+                    </span>
+                  </div>
+                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">kho@moctram.vn</p>
+                  <p className="text-[11px] text-charcoal-400 mt-1">Vai trò: STAFF_WAREHOUSE · Quản lý tồn kho, đóng gói, xuất nhập</p>
+                </button>
+
+                {/* 3. Chăm sóc KH */}
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={async () => {
+                    setForm({ ...form, email: "cskh@moctram.vn", password: "Moctram@123" });
+                    try {
+                      setBusy(true);
+                      await login("cskh@moctram.vn", "Moctram@123");
+                      navigate(redirect !== "/tai-khoan" ? redirect : "/admin/doi-tra");
+                    } catch (e) {
+                      setError(e instanceof Error ? e.message : "Lỗi đăng nhập");
+                    } finally {
+                      setBusy(false);
+                    }
+                  }}
+                  className="flex flex-col text-left p-3.5 rounded-xl border border-agarwood-200 bg-white hover:border-agarwood-500 hover:shadow-md transition-all group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-xs text-agarwood-800 flex items-center gap-1.5">
+                      <Headphones className="h-4 w-4 text-warning-dark" />
+                      Chăm sóc KH (CS)
+                    </span>
+                    <span className="text-[10px] font-bold text-warning-dark bg-warning-light/50 border border-warning/30 px-2 py-0.5 rounded-md group-hover:bg-warning-dark group-hover:text-cream transition-colors">
+                      Đăng nhập ➔
+                    </span>
+                  </div>
+                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">cskh@moctram.vn</p>
+                  <p className="text-[11px] text-charcoal-400 mt-1">Vai trò: STAFF_CS · Đổi trả, tư vấn showroom & báo giá B2B</p>
+                </button>
+
+                {/* 4. Quản trị viên */}
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={async () => {
+                    setForm({ ...form, email: "admin@moctram.vn", password: "Moctram@123" });
+                    try {
+                      setBusy(true);
+                      await login("admin@moctram.vn", "Moctram@123");
+                      navigate(redirect !== "/tai-khoan" ? redirect : "/admin");
+                    } catch (e) {
+                      setError(e instanceof Error ? e.message : "Lỗi đăng nhập");
+                    } finally {
+                      setBusy(false);
+                    }
+                  }}
+                  className="flex flex-col text-left p-3.5 rounded-xl border border-agarwood-200 bg-white hover:border-agarwood-500 hover:shadow-md transition-all group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-xs text-agarwood-800 flex items-center gap-1.5">
+                      <ShieldCheck className="h-4 w-4 text-error" />
+                      Quản trị viên (Admin)
+                    </span>
+                    <span className="text-[10px] font-bold text-error bg-error-light/40 border border-error/30 px-2 py-0.5 rounded-md group-hover:bg-error group-hover:text-cream transition-colors">
+                      Đăng nhập ➔
+                    </span>
+                  </div>
+                  <p className="text-xs font-mono font-medium text-agarwood-900 mt-2">admin@moctram.vn</p>
+                  <p className="text-[11px] text-charcoal-400 mt-1">Vai trò: ADMIN · Toàn quyền quản trị hệ thống & cấu hình</p>
+                </button>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-agarwood-100 flex items-center justify-center gap-2 text-xs text-charcoal-400">
+                <span>Mật khẩu mặc định:</span>
+                <code className="bg-agarwood-100 px-2 py-0.5 rounded font-mono font-bold text-agarwood-800">Moctram@123</code>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </PageShell>
@@ -1835,6 +2099,70 @@ function OrderSummary({ order }: { order: Order }) {
           {formatVND(order.total)}
         </span>
       </div>
+
+      {order.paymentMethod === "VIETQR" && (
+        <div className="mt-6 p-4 rounded-xl border border-agarwood-200 bg-agarwood-50/60">
+          <h3 className="font-serif text-base font-semibold text-agarwood-800 mb-3 flex items-center gap-2">
+            <QrCode className="w-5 h-5 text-agarwood-600" /> Mã QR thanh toán VietQR
+          </h3>
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="p-2 bg-white rounded-xl border border-agarwood-200 shadow-sm shrink-0">
+              <img
+                src="/images/vietqr-card.png"
+                alt="Mã QR thanh toán đơn hàng"
+                className="w-44 h-auto object-contain rounded-lg"
+              />
+            </div>
+            <div className="flex-1 w-full space-y-2 text-xs">
+              <div className="p-3 bg-white rounded-lg border border-agarwood-100 space-y-1.5 text-charcoal-400">
+                <div className="flex justify-between">
+                  <span className="text-charcoal-300">Chủ tài khoản:</span>
+                  <span className="font-bold text-agarwood-900 uppercase">NGUYEN NHU TRUNG</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-charcoal-300">Số tài khoản / SĐT:</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-mono font-bold text-agarwood-900 text-sm">0365117151</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText("0365117151");
+                        alert("Đã sao chép số tài khoản: 0365117151");
+                      }}
+                      className="px-1.5 py-0.5 rounded text-[10px] bg-agarwood-100 text-agarwood-700 hover:bg-agarwood-200"
+                    >
+                      Sao chép
+                    </button>
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-charcoal-300">Số tiền:</span>
+                  <span className="font-bold text-agarwood-800 text-sm">{formatVND(order.total)}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-charcoal-300">Nội dung chuyển khoản:</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-mono font-bold text-agarwood-700">{order.orderCode}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(order.orderCode);
+                        alert(`Đã sao chép mã đơn hàng: ${order.orderCode}`);
+                      }}
+                      className="px-1.5 py-0.5 rounded text-[10px] bg-agarwood-100 text-agarwood-700 hover:bg-agarwood-200"
+                    >
+                      Sao chép
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <p className="text-[11px] text-charcoal-300 italic">
+                * Sau khi quý khách chuyển khoản thành công, hệ thống Mộc Trầm sẽ tự động xác nhận đơn hàng và tiến hành đóng gói giao đến bạn.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1895,8 +2223,49 @@ function ContentPage({ slug }: { slug: string }) {
 }
 
 function AccountPage() {
-  const { user, logout } = useAuth();
+  const { user, logout, updateUser } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
+  const [tab, setTab] = useState<"orders" | "profile" | "addresses">("profile");
+
+  // Profile Form state
+  const [profileForm, setProfileForm] = useState({
+    fullName: user?.fullName || "",
+    phone: user?.phone || "",
+  });
+  const [profileBusy, setProfileBusy] = useState(false);
+  const [profileMsg, setProfileMsg] = useState("");
+  const [profileErr, setProfileErr] = useState("");
+
+  // Password Form state
+  const [pwdForm, setPwdForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [pwdBusy, setPwdBusy] = useState(false);
+  const [pwdMsg, setPwdMsg] = useState("");
+  const [pwdErr, setPwdErr] = useState("");
+
+  // New Address state
+  const [showAddAddress, setShowAddAddress] = useState(false);
+  const [newAddr, setNewAddr] = useState({
+    fullName: user?.fullName || "",
+    phone: user?.phone || "",
+    province: "Hồ Chí Minh",
+    ward: "Phường Bến Nghé, Quận 1",
+    detail: "",
+  });
+  const [addrBusy, setAddrBusy] = useState(false);
+  const [addrMsg, setAddrMsg] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setProfileForm({
+        fullName: user.fullName || "",
+        phone: user.phone || "",
+      });
+    }
+  }, [user]);
 
   useEffect(() => {
     orderApi
@@ -1905,6 +2274,120 @@ function AccountPage() {
   }, []);
 
   if (!user) return <Navigate to="/dang-nhap" replace />;
+
+  const handleUpdateProfile = async (e: FormEvent) => {
+    e.preventDefault();
+    setProfileErr("");
+    setProfileMsg("");
+
+    if (profileForm.fullName.trim().length < 2) {
+      setProfileErr("Họ và tên phải có ít nhất 2 ký tự");
+      return;
+    }
+    const pErr = validatePhone(profileForm.phone);
+    if (pErr) {
+      setProfileErr(pErr);
+      return;
+    }
+
+    setProfileBusy(true);
+    try {
+      const res = await authApi.updateProfile({
+        fullName: profileForm.fullName,
+        phone: profileForm.phone,
+      });
+      if (res.success && res.data) {
+        updateUser(res.data);
+        setProfileMsg("Cập nhật thông tin cá nhân thành công!");
+      } else {
+        setProfileErr(res.message || "Cập nhật thất bại");
+      }
+    } catch (err) {
+      setProfileErr(err instanceof Error ? err.message : "Có lỗi xảy ra");
+    } finally {
+      setProfileBusy(false);
+    }
+  };
+
+  const handleChangePassword = async (e: FormEvent) => {
+    e.preventDefault();
+    setPwdErr("");
+    setPwdMsg("");
+
+    if (!pwdForm.currentPassword) {
+      setPwdErr("Vui lòng nhập mật khẩu hiện tại");
+      return;
+    }
+    if (pwdForm.newPassword.length < 6 || pwdForm.newPassword.length > 24) {
+      setPwdErr("Mật khẩu mới phải từ 6 đến 24 ký tự");
+      return;
+    }
+    if (pwdForm.newPassword !== pwdForm.confirmPassword) {
+      setPwdErr("Mật khẩu xác nhận không khớp");
+      return;
+    }
+
+    setPwdBusy(true);
+    try {
+      const res = await authApi.changePassword({
+        currentPassword: pwdForm.currentPassword,
+        newPassword: pwdForm.newPassword,
+      });
+      if (res.success) {
+        setPwdMsg("Đổi mật khẩu thành công!");
+        setPwdForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      } else {
+        setPwdErr(res.message || "Đổi mật khẩu thất bại");
+      }
+    } catch (err) {
+      setPwdErr(err instanceof Error ? err.message : "Có lỗi xảy ra");
+    } finally {
+      setPwdBusy(false);
+    }
+  };
+
+  const handleAddAddress = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!newAddr.fullName || !newAddr.phone || !newAddr.detail) {
+      return;
+    }
+    setAddrBusy(true);
+    try {
+      const res = await authApi.addAddress(newAddr);
+      if (res.success && res.data) {
+        updateUser(res.data);
+        setShowAddAddress(false);
+        setNewAddr({
+          fullName: user.fullName || "",
+          phone: user.phone || "",
+          province: "Hồ Chí Minh",
+          ward: "Phường Bến Nghé, Quận 1",
+          detail: "",
+        });
+        setAddrMsg("Đã thêm địa chỉ giao hàng mới thành công!");
+      }
+    } catch {
+      // ignore
+    } finally {
+      setAddrBusy(false);
+    }
+  };
+
+  const handleDeleteAddress = async (addrId: string) => {
+    const res = await authApi.deleteAddress(addrId);
+    if (res.success && res.data) {
+      updateUser(res.data);
+      setAddrMsg("Đã xóa địa chỉ thành công!");
+    }
+  };
+
+  const handleSetDefaultAddress = async (addrId: string) => {
+    const res = await authApi.setDefaultAddress(addrId);
+    if (res.success && res.data) {
+      updateUser(res.data);
+      setAddrMsg("Đã đặt làm địa chỉ mặc định!");
+    }
+  };
 
   return (
     <PageShell>
@@ -1923,60 +2406,485 @@ function AccountPage() {
           </button>
         </div>
         <div className="mt-10 grid gap-8 lg:grid-cols-[240px_1fr]">
-          <aside className="card h-fit p-2">
-            <div className="rounded-lg bg-agarwood-50 px-4 py-3 text-sm font-medium text-agarwood-800">
-              Đơn hàng của tôi
-            </div>
-            <div className="px-4 py-3 text-sm text-charcoal-400">
-              Thông tin cá nhân
-            </div>
-            <div className="px-4 py-3 text-sm text-charcoal-400">
-              Sổ địa chỉ
-            </div>
-          </aside>
-          <section>
-            <h2 className="font-serif text-2xl text-agarwood-800">
-              Lịch sử đơn hàng
-            </h2>
-            <div className="mt-5 space-y-3">
-              {orders.length === 0 ? (
-                <p className="text-sm text-charcoal-300">
-                  Bạn chưa có đơn hàng nào.
-                </p>
-              ) : (
-                orders.map((order) => (
-                  <Link
-                    key={order.id}
-                    to={`/tai-khoan/don-hang/${order.orderCode}`}
-                    className="card flex flex-wrap items-center justify-between gap-4 p-4 transition-shadow hover:shadow-md"
-                  >
-                    <div>
-                      <p className="font-medium text-agarwood-800">
-                        {order.orderCode}
-                      </p>
-                      <p className="mt-1 text-xs text-charcoal-300">
-                        {formatDateTime(order.createdAt)} · {order.items.length}{" "}
-                        sản phẩm
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-5">
-                      <span className="text-sm font-medium text-agarwood-700">
-                        {formatVND(order.total)}
-                      </span>
-                      <StatusBadge
-                        label={
-                          ORDER_STATUS_LABELS[order.status] || order.status
-                        }
-                        colorClass={
-                          ORDER_STATUS_COLORS[order.status] ||
-                          "bg-agarwood-100 text-agarwood-700"
-                        }
-                      />
-                    </div>
-                  </Link>
-                ))
+          {/* Sidebar Tabs */}
+          <aside className="card h-fit p-2 space-y-1">
+            <button
+              type="button"
+              onClick={() => setTab("orders")}
+              className={`w-full text-left rounded-lg px-4 py-3 text-sm transition-colors flex items-center gap-2.5 ${
+                tab === "orders"
+                  ? "bg-agarwood-100 font-semibold text-agarwood-900"
+                  : "text-charcoal-400 hover:text-agarwood-800 hover:bg-agarwood-50/70"
+              }`}
+            >
+              <ShoppingBag className="h-4 w-4" />
+              <span>Đơn hàng của tôi</span>
+              {orders.length > 0 && (
+                <span className="ml-auto rounded-full bg-agarwood-200 px-2 py-0.5 text-[11px] font-bold text-agarwood-800">
+                  {orders.length}
+                </span>
               )}
-            </div>
+            </button>
+            <button
+              type="button"
+              onClick={() => setTab("profile")}
+              className={`w-full text-left rounded-lg px-4 py-3 text-sm transition-colors flex items-center gap-2.5 ${
+                tab === "profile"
+                  ? "bg-agarwood-100 font-semibold text-agarwood-900"
+                  : "text-charcoal-400 hover:text-agarwood-800 hover:bg-agarwood-50/70"
+              }`}
+            >
+              <UserIcon className="h-4 w-4" />
+              <span>Thông tin cá nhân</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setTab("addresses")}
+              className={`w-full text-left rounded-lg px-4 py-3 text-sm transition-colors flex items-center gap-2.5 ${
+                tab === "addresses"
+                  ? "bg-agarwood-100 font-semibold text-agarwood-900"
+                  : "text-charcoal-400 hover:text-agarwood-800 hover:bg-agarwood-50/70"
+              }`}
+            >
+              <MapPin className="h-4 w-4" />
+              <span>Sổ địa chỉ</span>
+              {user.addresses && user.addresses.length > 0 && (
+                <span className="ml-auto rounded-full bg-agarwood-100 px-2 py-0.5 text-[11px] font-bold text-charcoal-400">
+                  {user.addresses.length}
+                </span>
+              )}
+            </button>
+          </aside>
+
+          {/* Tab Content */}
+          <section className="space-y-6">
+            {/* 1. Tab: Thông tin cá nhân */}
+            {tab === "profile" && (
+              <div className="space-y-8">
+                {/* Thông tin hồ sơ */}
+                <div className="card p-6 sm:p-8">
+                  <div className="border-b border-agarwood-100 pb-4 mb-6">
+                    <h2 className="font-serif text-2xl text-agarwood-800">
+                      Hồ sơ cá nhân
+                    </h2>
+                    <p className="mt-1 text-xs text-charcoal-400">
+                      Cập nhật thông tin họ tên và số điện thoại liên hệ của bạn.
+                    </p>
+                  </div>
+
+                  {profileMsg && (
+                    <div className="mb-5 flex items-center gap-2 rounded-lg bg-success-light/40 border border-success/30 p-3 text-xs text-success-dark">
+                      <CheckCircle2 className="h-4 w-4 text-success shrink-0" />
+                      <span>{profileMsg}</span>
+                    </div>
+                  )}
+
+                  {profileErr && (
+                    <div className="mb-5 rounded-lg bg-error-light p-3 text-xs text-error-dark">
+                      {profileErr}
+                    </div>
+                  )}
+
+                  <form onSubmit={handleUpdateProfile} className="space-y-4">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <label className="block">
+                        <span className="label-base">Họ và tên</span>
+                        <input
+                          required
+                          className="input-base"
+                          value={profileForm.fullName}
+                          onChange={(e) =>
+                            setProfileForm({ ...profileForm, fullName: e.target.value })
+                          }
+                          placeholder="Nguyễn Văn A"
+                        />
+                      </label>
+
+                      <label className="block">
+                        <span className="label-base">Số điện thoại</span>
+                        <input
+                          required
+                          className="input-base"
+                          value={profileForm.phone}
+                          onChange={(e) =>
+                            setProfileForm({ ...profileForm, phone: e.target.value })
+                          }
+                          placeholder="0901234567"
+                          maxLength={10}
+                        />
+                      </label>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <label className="block">
+                        <span className="label-base">Email đăng nhập</span>
+                        <div className="relative">
+                          <input
+                            disabled
+                            className="input-base bg-charcoal-50/70 text-charcoal-400 cursor-not-allowed"
+                            value={user.email}
+                          />
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center gap-1 text-[11px] font-medium text-success">
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            Đã xác thực
+                          </span>
+                        </div>
+                      </label>
+
+                      <label className="block">
+                        <span className="label-base">Vai trò tài khoản</span>
+                        <div className="flex h-10 items-center">
+                          <span className="badge bg-agarwood-800 text-cream px-3 py-1 font-mono text-xs">
+                            {user.role}
+                          </span>
+                          <span className="ml-3 text-xs text-charcoal-400">
+                            {user.role === "CUSTOMER"
+                              ? "Khách hàng thân thiết"
+                              : user.role === "ADMIN"
+                                ? "Quản trị viên"
+                                : user.role === "STAFF_WAREHOUSE"
+                                  ? "Nhân viên Kho"
+                                  : "Nhân viên CSKH"}
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+
+                    <div className="pt-2">
+                      <button
+                        type="submit"
+                        disabled={profileBusy}
+                        className="btn-primary"
+                      >
+                        {profileBusy ? "Đang lưu..." : "Lưu thay đổi"}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Đổi mật khẩu */}
+                <div className="card p-6 sm:p-8">
+                  <div className="border-b border-agarwood-100 pb-4 mb-6">
+                    <h2 className="font-serif text-2xl text-agarwood-800 flex items-center gap-2">
+                      <Lock className="h-5 w-5 text-agarwood-600" />
+                      Đổi mật khẩu
+                    </h2>
+                    <p className="mt-1 text-xs text-charcoal-400">
+                      Để bảo vệ tài khoản, hãy sử dụng mật khẩu mạnh từ 6 đến 24 ký tự.
+                    </p>
+                  </div>
+
+                  {pwdMsg && (
+                    <div className="mb-5 flex items-center gap-2 rounded-lg bg-success-light/40 border border-success/30 p-3 text-xs text-success-dark">
+                      <CheckCircle2 className="h-4 w-4 text-success shrink-0" />
+                      <span>{pwdMsg}</span>
+                    </div>
+                  )}
+
+                  {pwdErr && (
+                    <div className="mb-5 rounded-lg bg-error-light p-3 text-xs text-error-dark">
+                      {pwdErr}
+                    </div>
+                  )}
+
+                  <form onSubmit={handleChangePassword} className="space-y-4 max-w-md">
+                    <label className="block">
+                      <span className="label-base">Mật khẩu hiện tại</span>
+                      <input
+                        required
+                        type="password"
+                        className="input-base"
+                        value={pwdForm.currentPassword}
+                        onChange={(e) =>
+                          setPwdForm({ ...pwdForm, currentPassword: e.target.value })
+                        }
+                        placeholder="Nhập mật khẩu đang dùng"
+                      />
+                    </label>
+
+                    <label className="block">
+                      <span className="label-base">Mật khẩu mới</span>
+                      <input
+                        required
+                        type="password"
+                        className="input-base"
+                        value={pwdForm.newPassword}
+                        onChange={(e) =>
+                          setPwdForm({ ...pwdForm, newPassword: e.target.value })
+                        }
+                        placeholder="Từ 6 đến 24 ký tự"
+                      />
+                    </label>
+
+                    <label className="block">
+                      <span className="label-base">Xác nhận mật khẩu mới</span>
+                      <input
+                        required
+                        type="password"
+                        className="input-base"
+                        value={pwdForm.confirmPassword}
+                        onChange={(e) =>
+                          setPwdForm({ ...pwdForm, confirmPassword: e.target.value })
+                        }
+                        placeholder="Nhập lại mật khẩu mới"
+                      />
+                    </label>
+
+                    <div className="pt-2">
+                      <button
+                        type="submit"
+                        disabled={pwdBusy}
+                        className="btn-primary"
+                      >
+                        {pwdBusy ? "Đang xử lý..." : "Cập nhật mật khẩu"}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+
+            {/* 2. Tab: Đơn hàng của tôi */}
+            {tab === "orders" && (
+              <div className="card p-6 sm:p-8">
+                <div className="border-b border-agarwood-100 pb-4 mb-6">
+                  <h2 className="font-serif text-2xl text-agarwood-800">
+                    Lịch sử đơn hàng
+                  </h2>
+                  <p className="mt-1 text-xs text-charcoal-400">
+                    Theo dõi hành trình và trạng thái các đơn hàng bạn đã đặt.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {orders.length === 0 ? (
+                    <div className="py-8 text-center text-sm text-charcoal-400">
+                      <ShoppingBag className="mx-auto h-12 w-12 text-agarwood-200 mb-3" />
+                      <p className="font-medium text-agarwood-800">Bạn chưa có đơn hàng nào</p>
+                      <p className="text-xs text-charcoal-300 mt-1">
+                        Hãy chọn cho mình mùi hương thanh khiết để bắt đầu.
+                      </p>
+                      <Link to="/san-pham" className="btn-primary mt-4 inline-flex items-center gap-2">
+                        Khám phá sản phẩm <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  ) : (
+                    orders.map((order) => (
+                      <Link
+                        key={order.id}
+                        to={`/tai-khoan/don-hang/${order.orderCode}`}
+                        className="card flex flex-wrap items-center justify-between gap-4 p-4 transition-all hover:border-agarwood-300 hover:shadow-md"
+                      >
+                        <div>
+                          <p className="font-semibold text-agarwood-900">
+                            {order.orderCode}
+                          </p>
+                          <p className="mt-1 text-xs text-charcoal-400">
+                            {formatDateTime(order.createdAt)} · {order.items.length} sản phẩm
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-5">
+                          <span className="text-sm font-semibold text-agarwood-800">
+                            {formatVND(order.total)}
+                          </span>
+                          <StatusBadge
+                            label={ORDER_STATUS_LABELS[order.status] || order.status}
+                            colorClass={
+                              ORDER_STATUS_COLORS[order.status] ||
+                              "bg-agarwood-100 text-agarwood-700"
+                            }
+                          />
+                        </div>
+                      </Link>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* 3. Tab: Sổ địa chỉ */}
+            {tab === "addresses" && (
+              <div className="card p-6 sm:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-agarwood-100 pb-4 mb-6">
+                  <div>
+                    <h2 className="font-serif text-2xl text-agarwood-800">
+                      Sổ địa chỉ nhận hàng
+                    </h2>
+                    <p className="mt-1 text-xs text-charcoal-400">
+                      Quản lý địa chỉ giao hàng để điền thông tin nhanh khi thanh toán.
+                    </p>
+                  </div>
+                  {!showAddAddress && (
+                    <button
+                      type="button"
+                      onClick={() => setShowAddAddress(true)}
+                      className="btn-primary inline-flex items-center gap-1.5 text-xs py-2 px-3.5"
+                    >
+                      <Plus className="h-4 w-4" />
+                      Thêm địa chỉ mới
+                    </button>
+                  )}
+                </div>
+
+                {addrMsg && (
+                  <div className="mb-5 flex items-center gap-2 rounded-lg bg-success-light/40 border border-success/30 p-3 text-xs text-success-dark">
+                    <CheckCircle2 className="h-4 w-4 text-success shrink-0" />
+                    <span>{addrMsg}</span>
+                  </div>
+                )}
+
+                {/* Form thêm địa chỉ */}
+                {showAddAddress && (
+                  <form
+                    onSubmit={handleAddAddress}
+                    className="mb-8 rounded-2xl border border-agarwood-200 bg-agarwood-50/50 p-5 space-y-4 animate-fade-in"
+                  >
+                    <h3 className="font-semibold text-sm text-agarwood-800">
+                      Thêm địa chỉ giao hàng mới
+                    </h3>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <label className="block">
+                        <span className="label-base">Họ và tên người nhận</span>
+                        <input
+                          required
+                          className="input-base bg-white"
+                          value={newAddr.fullName}
+                          onChange={(e) =>
+                            setNewAddr({ ...newAddr, fullName: e.target.value })
+                          }
+                          placeholder="Nguyễn Văn A"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className="label-base">Số điện thoại</span>
+                        <input
+                          required
+                          className="input-base bg-white"
+                          value={newAddr.phone}
+                          onChange={(e) =>
+                            setNewAddr({ ...newAddr, phone: e.target.value })
+                          }
+                          placeholder="0901234567"
+                          maxLength={10}
+                        />
+                      </label>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <label className="block">
+                        <span className="label-base">Tỉnh / Thành phố</span>
+                        <input
+                          required
+                          className="input-base bg-white"
+                          value={newAddr.province}
+                          onChange={(e) =>
+                            setNewAddr({ ...newAddr, province: e.target.value })
+                          }
+                          placeholder="Hà Nội / TP. Hồ Chí Minh"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className="label-base">Quận / Huyện / Phường</span>
+                        <input
+                          required
+                          className="input-base bg-white"
+                          value={newAddr.ward}
+                          onChange={(e) =>
+                            setNewAddr({ ...newAddr, ward: e.target.value })
+                          }
+                          placeholder="Phường Bến Nghé, Quận 1"
+                        />
+                      </label>
+                    </div>
+
+                    <label className="block">
+                      <span className="label-base">Địa chỉ chi tiết (Số nhà, đường)</span>
+                      <input
+                        required
+                        className="input-base bg-white"
+                        value={newAddr.detail}
+                        onChange={(e) =>
+                          setNewAddr({ ...newAddr, detail: e.target.value })
+                        }
+                        placeholder="Số 12 Lý Tự Trọng, Tòa nhà A"
+                      />
+                    </label>
+
+                    <div className="flex items-center gap-3 pt-2">
+                      <button
+                        type="submit"
+                        disabled={addrBusy}
+                        className="btn-primary text-xs py-2 px-4"
+                      >
+                        {addrBusy ? "Đang lưu..." : "Lưu địa chỉ"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddAddress(false)}
+                        className="btn-outline text-xs py-2 px-4"
+                      >
+                        Hủy
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {/* Danh sách địa chỉ */}
+                <div className="space-y-3">
+                  {!user.addresses || user.addresses.length === 0 ? (
+                    <p className="text-center py-6 text-xs text-charcoal-400">
+                      Bạn chưa lưu địa chỉ nào. Bấm nút "Thêm địa chỉ mới" để thêm.
+                    </p>
+                  ) : (
+                    user.addresses.map((addr) => (
+                      <div
+                        key={addr.id}
+                        className="rounded-xl border border-agarwood-100 p-4 transition-all hover:border-agarwood-300 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white"
+                      >
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-sm text-agarwood-900">
+                              {addr.fullName}
+                            </span>
+                            <span className="text-xs text-charcoal-400">
+                              ({addr.phone})
+                            </span>
+                            {addr.isDefault && (
+                              <span className="rounded bg-agarwood-100 px-2 py-0.5 text-[10px] font-bold text-agarwood-800">
+                                Mặc định
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-charcoal-500">
+                            {addr.detail}, {addr.ward}, {addr.province}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-3 shrink-0 pt-2 sm:pt-0">
+                          {!addr.isDefault && (
+                            <button
+                              type="button"
+                              onClick={() => handleSetDefaultAddress(addr.id)}
+                              className="text-xs text-agarwood-700 hover:underline"
+                            >
+                              Đặt làm mặc định
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteAddress(addr.id)}
+                            className="text-xs text-error hover:underline flex items-center gap-1"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                            Xóa
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </section>
         </div>
       </div>
@@ -2197,7 +3105,14 @@ function AppRoutes() {
 
       {/* 3. Giỏ hàng & Thanh toán */}
       <Route path={ROUTES.CART} element={<CartPage />} />
-      <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
+      <Route
+        path={ROUTES.CHECKOUT}
+        element={
+          <ProtectedRoute>
+            <CheckoutPage />
+          </ProtectedRoute>
+        }
+      />
 
       {/* 4. Xác thực & Tài khoản */}
       <Route path={ROUTES.AUTH} element={<AuthPage initialMode="login" />} />

@@ -42,6 +42,9 @@ export const orderApi = {
     const orderCode = generateOrderCode();
     const now = new Date().toISOString();
     const user = JSON.parse(localStorage.getItem('moctram_user') || '{}');
+    if (!user || !user.id) {
+      return fail('Quý khách vui lòng đăng nhập hoặc tạo tài khoản để hoàn tất đặt hàng.');
+    }
 
     const order: Order = {
       id: generateId('order'),
@@ -96,6 +99,9 @@ export const orderApi = {
   async getMyOrders(): Promise<ApiResult<Order[]>> {
     await randomDelay();
     const user = JSON.parse(localStorage.getItem('moctram_user') || '{}');
+    if (!user || !user.id) {
+      return fail('Vui lòng đăng nhập để xem danh sách đơn hàng của bạn.');
+    }
     const myOrders = orders.filter((o) => o.userId === user.id).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     return ok(myOrders);
   },
@@ -138,6 +144,9 @@ export const orderApi = {
   async createReturnRequest(data: { orderId: string; orderCode: string; reason: string; resolution: string; description: string; attachments: string[] }): Promise<ApiResult<ReturnRequest>> {
     await randomDelay();
     const user = JSON.parse(localStorage.getItem('moctram_user') || '{}');
+    if (!user || !user.id) {
+      return fail('Vui lòng đăng nhập để tạo yêu cầu đổi trả.');
+    }
     const ret: ReturnRequest = {
       id: generateId('ret'),
       requestCode: `RT${new Date().toISOString().slice(2, 10).replace(/-/g, '')}${Math.random().toString(36).slice(2, 4).toUpperCase()}`,
