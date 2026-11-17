@@ -36,7 +36,7 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
 export function SkeletonCard() {
   return (
     <div className="card overflow-hidden">
-      <div className="aspect-[4/3] skeleton" />
+      <div className="aspect-[3/2] skeleton" />
       <div className="p-4 space-y-3">
         <div className="h-4 skeleton w-3/4" />
         <div className="h-3 skeleton w-1/2" />

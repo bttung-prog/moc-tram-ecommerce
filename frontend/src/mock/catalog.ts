@@ -3,8 +3,8 @@ import type { Category, Origin, AgarwoodType, AgarwoodGrade } from '@/types';
 export const categories: Category[] = [
   // Level 0 — top-level groups
   { id: 'cat-burn', name: 'Trầm hương đốt', slug: 'tram-huong-dot', parentId: null, icon: 'Flame' },
-  { id: 'cat-tool', name: 'Dụng cụ thưởng trầm', slug: 'dung-cu-thuong-tram', parentId: null, icon: 'Ornament' },
-  { id: 'cat-zen', name: 'Không gian Thiền & Trà', slug: 'khong-gian-thien-tra', parentId: null, icon: 'Flower2' },
+  { id: 'cat-bracelet', name: 'Vòng tay trầm hương', slug: 'vong-tay-tram-huong', parentId: null, icon: 'Gem' },
+  { id: 'cat-tool', name: 'Dụng cụ thưởng trầm', slug: 'dung-cu-thuong-tram', parentId: null, icon: 'Sparkles' },
 
   // Subcategories — Trầm hương đốt
   { id: 'cat-nhang-nu', name: 'Nhang nụ', slug: 'nhang-nu', parentId: 'cat-burn' },
@@ -13,20 +13,21 @@ export const categories: Category[] = [
   { id: 'cat-bot-tram', name: 'Bột trầm', slug: 'bot-tram', parentId: 'cat-burn' },
   { id: 'cat-tram-mieng', name: 'Trầm miếng xông', slug: 'tram-mieng-xong', parentId: 'cat-burn' },
 
+  // Subcategories — Vòng tay trầm hương
+  { id: 'cat-vong-108', name: 'Chuỗi 108 hạt', slug: 'chuoi-108-hat', parentId: 'cat-bracelet' },
+  { id: 'cat-vong-don', name: 'Vòng đơn hạt tròn', slug: 'vong-don-hat-tron', parentId: 'cat-bracelet' },
+  { id: 'cat-vong-truc', name: 'Vòng trầm đốt trúc', slug: 'vong-tram-dot-truc', parentId: 'cat-bracelet' },
+
   // Subcategories — Dụng cụ thưởng trầm
   { id: 'cat-lu-xong', name: 'Lư xông gốm/đồng', slug: 'lu-xong', parentId: 'cat-tool' },
   { id: 'cat-thac-khoi', name: 'Thác khói trầm hương', slug: 'thac-khoi', parentId: 'cat-tool' },
-  { id: 'cat-may-xong', name: 'Máy xông trầm điện', slug: 'may-xong-tram', parentId: 'cat-tool' },
-
-  // Subcategories — Không gian Thiền & Trà
-  { id: 'cat-bo-doan', name: 'Bồ đoàn / Tọa cụ', slug: 'bo-doan', parentId: 'cat-zen' },
-  { id: 'cat-qua-tra', name: 'Bộ dụng cụ pha trà', slug: 'bo-dung-cu-pha-tra', parentId: 'cat-zen' },
-  { id: 'cat-chuoi-tram', name: 'Chuỗi hạt trầm hương', slug: 'chuoi-hat-tram-huong', parentId: 'cat-zen' },
 ];
 
 export const origins: Origin[] = [
-  { id: 'origin-kh', name: 'Khánh Hòa', region: 'Nam Trung Bộ' },
+  { id: 'origin-hk', name: 'Hương Khê (Hà Tĩnh)', region: 'Bắc Trung Bộ' },
+  { id: 'origin-ht', name: 'Hà Tĩnh', region: 'Bắc Trung Bộ' },
   { id: 'origin-qn', name: 'Quảng Nam', region: 'Nam Trung Bộ' },
+  { id: 'origin-kh', name: 'Khánh Hòa', region: 'Nam Trung Bộ' },
 ];
 
 export const agarwoodTypes: AgarwoodType[] = [

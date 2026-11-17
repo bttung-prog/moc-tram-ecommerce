@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Danh sách định tuyến URL chuẩn cho dự án TMĐT Mộc Trầm
  */
 export const ROUTES = {
@@ -9,6 +9,7 @@ export const ROUTES = {
   CART: '/gio-hang',
   CHECKOUT: '/thanh-toan',
   AUTH: '/dang-nhap',
+  REGISTER: '/dang-ky',
   ORDER_LOOKUP: '/tra-cuu-don-hang',
   ORDER_LOOKUP_CODE: '/tra-cuu-don-hang/:orderCode',
   ABOUT: '/gioi-thieu',

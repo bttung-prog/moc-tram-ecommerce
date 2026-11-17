@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Search, ShoppingBag, User, Menu, X, Phone } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { APP_CONFIG } from '@/constants/enums';
@@ -29,25 +29,14 @@ export function Header() {
 
   const navLinks = [
     { label: 'Trầm hương đốt', path: '/san-pham/tram-huong-dot' },
+    { label: 'Vòng tay trầm hương', path: '/san-pham/vong-tay-tram-huong' },
     { label: 'Dụng cụ thưởng trầm', path: '/san-pham/dung-cu-thuong-tram' },
-    { label: 'Thiền & Trà', path: '/san-pham/khong-gian-thien-tra' },
     { label: 'Cẩm nang', path: '/cam-nang' },
     { label: 'Về Mộc Trầm', path: '/gioi-thieu' },
   ];
 
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-ivory/95 backdrop-blur-md shadow-sm' : 'bg-ivory'}`}>
-      {/* Top bar */}
-      <div className="border-b border-agarwood-100 bg-agarwood-800 text-cream">
-        <div className="container-content flex items-center justify-between py-1.5 text-xs">
-          <span className="hidden sm:block">Miễn phí vận chuyển cho đơn từ 500.000 ₫</span>
-          <a href={`tel:${APP_CONFIG.supportPhone}`} className="flex items-center gap-1.5 hover:text-agarwood-200 transition-colors">
-            <Phone className="h-3.5 w-3.5" />
-            <span>{APP_CONFIG.supportPhone}</span>
-          </a>
-        </div>
-      </div>
-
       {/* Main header */}
       <div className="container-content py-4">
         <div className="flex items-center justify-between gap-4">

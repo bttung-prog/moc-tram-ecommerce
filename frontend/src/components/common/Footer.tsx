@@ -12,8 +12,8 @@ export function Footer() {
 
   const navLinks = [
     { label: 'Trầm hương đốt', path: '/san-pham/tram-huong-dot' },
+    { label: 'Vòng tay trầm hương', path: '/san-pham/vong-tay-tram-huong' },
     { label: 'Dụng cụ thưởng trầm', path: '/san-pham/dung-cu-thuong-tram' },
-    { label: 'Thiền & Trà', path: '/san-pham/khong-gian-thien-tra' },
     { label: 'Cẩm nang', path: '/cam-nang' },
     { label: 'Tra cứu đơn hàng', path: '/tra-cuu-don-hang' },
     { label: 'Báo giá B2B', path: '/bao-gia-b2b' },
