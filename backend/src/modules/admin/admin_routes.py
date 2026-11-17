@@ -3,8 +3,11 @@ from fastapi import APIRouter, Depends
 from constants.roles import ROLES
 from middlewares.authorize_dependency import authorize
 from modules.admin import admin_controller
+from modules.dashboard.dashboard_routes import dashboard_router
 
 admin_router = APIRouter()
+
+admin_router.include_router(dashboard_router, prefix="/dashboard")
 
 admin_router.add_api_route(
     "/users/search",

@@ -99,7 +99,11 @@ export const productApi = {
 
   async getProductBySlug(slug: string): Promise<ApiResult<Product>> {
     await randomDelay();
-    const product = products.find((p) => p.slug === slug);
+    const product = products.find(
+      (p) =>
+        p.slug === slug ||
+        (slug === "lu-xong-gom-bat-trang-men-ran-co" && p.id === "prod-006")
+    );
     if (!product) return fail('Không tìm thấy sản phẩm');
     return ok(product);
   },
