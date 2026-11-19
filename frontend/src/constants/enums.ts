@@ -370,7 +370,7 @@ export const APP_CONFIG = {
   businessAddress: '60 đường Phan Chu Trinh, Phường Gia Định, TP. Hồ Chí Minh',
   businessTaxCode: '0301234567',
   freeShipThreshold: 500000,
-  shippingFee: 35000,
+  shippingFee: 30000,
 };
 
 // Use mock data by default

@@ -1,15 +1,11 @@
-import type { ApiResult, CartItem } from '@/types';
-import { randomDelay } from '@/utils/helpers';
+import type { ApiResult, CartItem } from "@/types";
+import { randomDelay } from "@/utils/helpers";
 
-const CART_KEY = 'moctram_cart';
-const SESSION_KEY = 'moctram_session_token';
+const CART_KEY = "moctram_cart";
+const SESSION_KEY = "moctram_session_token";
 
-function ok<T>(data: T, message = 'Thành công'): ApiResult<T> {
+function ok<T>(data: T, message = "Thành công"): ApiResult<T> {
   return { success: true, data, message };
-}
-
-function fail(message: string): ApiResult<never> {
-  return { success: false, data: null, message };
 }
 
 function getCart(): CartItem[] {
@@ -36,7 +32,9 @@ export const cartApi = {
     return ok(getCart());
   },
 
-  async addToCart(item: Omit<CartItem, 'quantity'> & { quantity: number }): Promise<ApiResult<CartItem[]>> {
+  async addToCart(
+    item: Omit<CartItem, "quantity"> & { quantity: number },
+  ): Promise<ApiResult<CartItem[]>> {
     await randomDelay();
     const cart = getCart();
     const existing = cart.find((i) => i.skuId === item.skuId);
@@ -46,10 +44,13 @@ export const cartApi = {
       cart.push(item);
     }
     saveCart(cart);
-    return ok(cart, 'Đã thêm vào giỏ hàng');
+    return ok(cart, "Đã thêm vào giỏ hàng");
   },
 
-  async updateQuantity(skuId: string, quantity: number): Promise<ApiResult<CartItem[]>> {
+  async updateQuantity(
+    skuId: string,
+    quantity: number,
+  ): Promise<ApiResult<CartItem[]>> {
     await randomDelay(100, 200);
     const cart = getCart();
     const item = cart.find((i) => i.skuId === skuId);
@@ -69,12 +70,12 @@ export const cartApi = {
     await randomDelay(100, 200);
     const cart = getCart().filter((i) => i.skuId !== skuId);
     saveCart(cart);
-    return ok(cart, 'Đã xóa sản phẩm');
+    return ok(cart, "Đã xóa sản phẩm");
   },
 
   async clearCart(): Promise<ApiResult<null>> {
     saveCart([]);
-    return ok(null, 'Đã xóa giỏ hàng');
+    return ok(null, "Đã xóa giỏ hàng");
   },
 
   async mergeCart(): Promise<ApiResult<CartItem[]>> {
@@ -84,10 +85,22 @@ export const cartApi = {
   },
 
   // Server calculates totals (mock simulates server-side calc)
-  async getCartTotals(items: CartItem[]): Promise<ApiResult<{ subtotal: number; shippingFee: number; discount: number; total: number }>> {
+  async getCartTotals(items: CartItem[]): Promise<
+    ApiResult<{
+      subtotal: number;
+      shippingFee: number;
+      discount: number;
+      total: number;
+    }>
+  > {
     await randomDelay(100, 200);
     const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    const shippingFee = subtotal >= 500000 ? 0 : 35000;
-    return ok({ subtotal, shippingFee, discount: 0, total: subtotal + shippingFee });
+    const shippingFee = items.length > 0 ? 30000 : 0;
+    return ok({
+      subtotal,
+      shippingFee,
+      discount: 0,
+      total: subtotal + shippingFee,
+    });
   },
 };
