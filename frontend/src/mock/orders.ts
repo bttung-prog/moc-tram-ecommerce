@@ -721,8 +721,8 @@ export const orders: Order[] = [
     shippingFullName: "Nguyễn Thị An",
     shippingPhone: "0901234567",
     shippingProvince: "TP. Hồ Chí Minh",
-    shippingWard: "Phường Bến Nghé",
-    shippingDetail: "Mua trực tiếp tại Showroom 12 Lý Tự Trọng",
+    shippingWard: "Phường Gia Định",
+    shippingDetail: "Mua trực tiếp tại Showroom 60 đường Phan Chu Trinh",
     items: [
       {
         id: "oi-012",
@@ -1204,7 +1204,7 @@ Sản phẩm dễ vỡ (lư gốm, thác khói) được đóng xốp chống s�
 
 Email: lienhe@moctram.vn
 Điện thoại: 1900 6750
-Tại showroom: 12 Lý Tự Trọng, Phường Bến Nghé, TP. HCM`,
+Tại showroom: 60 đường Phan Chu Trinh, Phường Gia Định, TP. Hồ Chí Minh`,
     createdAt: "2025-06-01T00:00:00Z",
   },
 ];
