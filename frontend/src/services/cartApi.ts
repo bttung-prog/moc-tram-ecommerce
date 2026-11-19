@@ -95,7 +95,7 @@ export const cartApi = {
   > {
     await randomDelay(100, 200);
     const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    const shippingFee = items.length > 0 ? 30000 : 0;
+    const shippingFee = items.length === 0 || subtotal >= 500000 ? 0 : 30000;
     return ok({
       subtotal,
       shippingFee,
