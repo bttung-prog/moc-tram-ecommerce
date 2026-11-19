@@ -35,8 +35,6 @@ import {
   CreditCard,
   QrCode,
   User as UserIcon,
-  Warehouse,
-  Headphones,
   Lock,
   Plus,
   Trash2,
