@@ -1,6 +1,7 @@
 import type { ApiResult, Order, ReturnRequest } from "@/types";
 import { randomDelay, generateId, generateOrderCode } from "@/utils/helpers";
 import { orders, returnRequests } from "@/mock/orders";
+import { APP_CONFIG } from "@/constants/enums";
 
 function ok<T>(data: T, message = "Thành công"): ApiResult<T> {
   return { success: true, data, message };
@@ -47,7 +48,8 @@ export const orderApi = {
       (sum, i) => sum + i.price * i.quantity,
       0,
     );
-    const shippingFee = 30000;
+    const shippingFee =
+      subtotal >= APP_CONFIG.freeShipThreshold ? 0 : APP_CONFIG.shippingFee;
     let discount = 0;
     if (data.couponCode === "TRAM100" && subtotal >= 1000000) discount = 100000;
     if (data.couponCode === "MOCTRAM10" && subtotal >= 300000)
