@@ -29,7 +29,6 @@ import {
   Search,
   ShieldCheck,
   ShoppingBag,
-  Sparkles,
   Truck,
   X,
   Compass,
@@ -47,6 +46,7 @@ import { Footer } from "@/components/common/Footer";
 import { ProductCard } from "@/components/product/ProductCard";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { AdminDashboardPage } from "@/pages/admin/AdminDashboardPage";
+import { WarehousePage } from "@/pages/admin/WarehousePage";
 import { AdminPlaceholderPage } from "@/pages/admin/AdminPlaceholderPage";
 import {
   Breadcrumb,
@@ -1032,16 +1032,12 @@ function CheckoutPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  if (!user) {
-    return <Navigate to="/dang-nhap?redirect=/thanh-toan" replace />;
-  }
-
   const [form, setForm] = useState({
-    shippingFullName: user.fullName || "",
-    shippingPhone: user.phone || "",
-    shippingProvince: user.addresses?.[0]?.province || "Hồ Chí Minh",
-    shippingWard: user.addresses?.[0]?.ward || "Phường Bến Nghé, Quận 1",
-    shippingDetail: user.addresses?.[0]?.detail || "",
+    shippingFullName: user?.fullName || "",
+    shippingPhone: user?.phone || "",
+    shippingProvince: user?.addresses?.[0]?.province || "Hồ Chí Minh",
+    shippingWard: user?.addresses?.[0]?.ward || "Phường Bến Nghé, Quận 1",
+    shippingDetail: user?.addresses?.[0]?.detail || "",
     paymentMethod: "COD" as "COD" | "VIETQR" | "PAYPAL",
     note: "",
     couponCode: "",
@@ -1057,6 +1053,27 @@ function CheckoutPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
+  // Sync user info into form when user is authenticated/loaded
+  useEffect(() => {
+    if (user) {
+      setForm((prev) => ({
+        ...prev,
+        shippingFullName: prev.shippingFullName || user.fullName || "",
+        shippingPhone: prev.shippingPhone || user.phone || "",
+        shippingProvince:
+          prev.shippingProvince ||
+          user.addresses?.[0]?.province ||
+          "Hồ Chí Minh",
+        shippingWard:
+          prev.shippingWard ||
+          user.addresses?.[0]?.ward ||
+          "Phường Bến Nghé, Quận 1",
+        shippingDetail:
+          prev.shippingDetail || user.addresses?.[0]?.detail || "",
+      }));
+    }
+  }, [user]);
+
   useEffect(() => {
     import("@/services/cartApi").then(({ cartApi }) =>
       cartApi
@@ -1064,6 +1081,10 @@ function CheckoutPage() {
         .then((r) => r.success && r.data && setTotals(r.data)),
     );
   }, [items]);
+
+  if (!user) {
+    return <Navigate to="/dang-nhap?redirect=/thanh-toan" replace />;
+  }
 
   if (items.length === 0) {
     return (
@@ -3341,7 +3362,7 @@ function AppRoutes() {
       >
         <Route index element={<AdminDashboardPage />} />
         <Route path="san-pham" element={<AdminPlaceholderPage />} />
-        <Route path="kho" element={<AdminPlaceholderPage />} />
+        <Route path="kho" element={<WarehousePage />} />
         <Route path="don-hang" element={<AdminPlaceholderPage />} />
         <Route path="thanh-toan" element={<AdminPlaceholderPage />} />
         <Route path="van-chuyen" element={<AdminPlaceholderPage />} />
