@@ -351,7 +351,7 @@ export const ORDER_TIMELINE_STEPS_COD = [
 
 // Showroom locations
 export const SHOWROOMS = [
-  { id: 'sr-hcm', name: 'Showroom TP. HCM', address: '12 Lý Tự Trọng, Phường Bến Nghé, TP. HCM', phone: '0283 829 4567' },
+  { id: 'sr-hcm', name: 'Showroom TP. HCM', address: '60 đường Phan Chu Trinh, Phường Gia Định, TP. Hồ Chí Minh', phone: '0283 829 4567' },
   { id: 'sr-hn', name: 'Showroom Hà Nội', address: '88 Trần Nhân Tông, Phường Cẩm Châu, Hà Nội', phone: '0243 722 1188' },
   { id: 'sr-dn', name: 'Showroom Đà Nẵng', address: '56 Bạch Đằng, Phường Hải Châu, Đà Nẵng', phone: '0236 388 9966' },
 ];
@@ -367,7 +367,7 @@ export const APP_CONFIG = {
   supportPhone: '1900 6750',
   supportEmail: 'lienhe@moctram.vn',
   businessName: 'Công ty TNHH Mộc Trầm',
-  businessAddress: '12 Lý Tự Trọng, Phường Bến Nghé, TP. HCM',
+  businessAddress: '60 đường Phan Chu Trinh, Phường Gia Định, TP. Hồ Chí Minh',
   businessTaxCode: '0301234567',
   freeShipThreshold: 500000,
   shippingFee: 35000,
